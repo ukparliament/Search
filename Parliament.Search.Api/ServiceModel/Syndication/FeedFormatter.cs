@@ -22,11 +22,13 @@ namespace Parliament.ServiceModel.Syndication
     {
         private const string atom = "application/atom+xml";
         private const string rss = "application/rss+xml";
-
+        private const string xml = "text/xml";
+        
         public FeedFormatter() : base()
         {
             this.MediaTypeMappings.Add(new RequestHeaderMapping("Accept", atom, StringComparison.Ordinal, false, new MediaTypeHeaderValue(atom)));
             this.MediaTypeMappings.Add(new RequestHeaderMapping("Accept", rss, StringComparison.Ordinal, false, new MediaTypeHeaderValue(rss)));
+            this.MediaTypeMappings.Add(new RequestHeaderMapping("Accept", xml, StringComparison.Ordinal, false, new MediaTypeHeaderValue(xml)));
         }
 
         public override bool CanReadType(Type type)
@@ -51,7 +53,8 @@ namespace Parliament.ServiceModel.Syndication
         {
             var writeMethods = new Dictionary<string, Action<XmlWriter>>() {
                 { FeedFormatter.atom, feed.SaveAsAtom10 },
-                { FeedFormatter.rss, feed.SaveAsRss20 }
+                { FeedFormatter.rss, feed.SaveAsRss20 },
+                { FeedFormatter.xml, feed.SaveAsAtom10 }
             };
 
             var writeMethod = writeMethods[mediaType];

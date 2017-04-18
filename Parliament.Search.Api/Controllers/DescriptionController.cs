@@ -11,8 +11,8 @@
         {
             var description = new Description
             {
-                ShortName = "os test",
-                DescriptionText = "test for os"
+                ShortName = "parliament.uk",
+                DescriptionText = "tUK Parliament website"
             };
 
             var route = this.Url.Route(
