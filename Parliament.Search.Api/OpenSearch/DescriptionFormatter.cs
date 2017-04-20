@@ -13,7 +13,6 @@ namespace Parliament.OpenSearch
     using System.Net.Http.Formatting;
     using System.Threading.Tasks;
     using System.Xml.Serialization;
-    using System.Xml.Serialization;
 
     public class DescriptionFormatter : MediaTypeFormatter
     {
