@@ -1,4 +1,4 @@
-﻿// TODO: Move to library
+﻿// TODO: Move to library?
 
 // Based on http://www.strathweb.com/2012/04/rss-atom-mediatypeformatter-for-asp-net-webapi/
 

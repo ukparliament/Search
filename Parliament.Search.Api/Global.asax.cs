@@ -1,17 +1,12 @@
-﻿using Microsoft.ApplicationInsights.Extensibility;
-using Parliament.OpenSearch;
-using Parliament.ServiceModel.Syndication;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Web;
-using System.Web.Http;
-using System.Web.Security;
-using System.Web.SessionState;
-
-namespace WebApplication1
+﻿namespace WebApplication1
 {
+    using Microsoft.ApplicationInsights.Extensibility;
+    using Parliament.OpenSearch;
+    using Parliament.ServiceModel.Syndication;
+    using System;
+    using System.Configuration;
+    using System.Web.Http;
+
     public class Global : System.Web.HttpApplication
     {
 
