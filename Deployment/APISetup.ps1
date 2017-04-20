@@ -8,9 +8,6 @@ Creates endpoints to access GraphDB.
 .PARAMETER ClusterResourceGroupName
 Name of the Resource Group where the cluster is.
 
-.PARAMETER APIManagementName
-Name of the API Management.
-
 .PARAMETER SearchAPIName
 Name of the Search API.
 
