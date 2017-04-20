@@ -1,4 +1,4 @@
-﻿// TODO: Move to library
+﻿// TODO: Move to library?
 
 // Based on http://www.strathweb.com/2012/04/rss-atom-mediatypeformatter-for-asp-net-webapi/
 
@@ -12,7 +12,6 @@ namespace Parliament.OpenSearch
     using System.Net.Http;
     using System.Net.Http.Formatting;
     using System.Threading.Tasks;
-    using System.Xml.Serialization;
     using System.Xml.Serialization;
 
     public class DescriptionFormatter : MediaTypeFormatter

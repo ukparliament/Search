@@ -12,7 +12,7 @@
             var description = new Description
             {
                 ShortName = "parliament.uk",
-                DescriptionText = "tUK Parliament website"
+                DescriptionText = "UK Parliament website"
             };
 
             var route = this.Url.Route(
@@ -21,7 +21,8 @@
                 {
                     controller = "search",
                     q = "{searchTerms}",
-                    start = "{startPage?}"
+                    start = "{startPage?}",
+                    pagesize = "{count?}"
                 });
 
             var templateUri = new Uri(this.Request.RequestUri, new Uri(HttpUtility.UrlDecode(route), UriKind.Relative));

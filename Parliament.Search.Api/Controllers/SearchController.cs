@@ -4,7 +4,6 @@
     using Google.Apis.Customsearch.v1.Data;
     using Google.Apis.Services;
     using Microsoft.ApplicationInsights;
-    using Microsoft.ApplicationInsights.Extensibility;
     using OpenSearch;
     using System;
     using System.Collections.Generic;
@@ -15,7 +14,6 @@
 
     public class SearchController : ApiController
     {
-        // TODO: search terms with spaces caused 500
         public Feed Get([FromUri(Name = "q")]string searchTerms)
         {
             return Get(searchTerms, 1);
@@ -23,14 +21,21 @@
 
         public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex)
         {
+            return Get(searchTerms, startIndex, 10);
+        }
+
+        public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex, [FromUri(Name = "pagesize")]int count)
+        {
+ 
             var feed = SearchController.ConvertResults(
                 SearchController.Query(
                     searchTerms,
-                    startIndex));
+                    startIndex,
+                    count));
 
             var telemetry = new TelemetryClient();
 
-            telemetry.TrackMetric("TotalResults", feed.TotalResults, new Dictionary<string, string> { { "searchTerms", searchTerms }, { "startIndex", startIndex.ToString() } });
+            telemetry.TrackMetric("TotalResults", feed.TotalResults, new Dictionary<string, string> { { "searchTerms", searchTerms }, { "startIndex", startIndex.ToString() }, { "count", count.ToString() } });
 
             return feed;
         }
@@ -78,10 +83,12 @@
             return newItem;
         }
 
-        private static Search Query(string searchTerms, int startIndex)
+        private static Search Query(string searchTerms, int startIndex, int count)
         {
-
-
+            if (count > 10)
+            {
+                throw new ArgumentOutOfRangeException("count", count, "Allowed values are 1 to 10 inclusive.");
+            }
 
             var initializer = new BaseClientService.Initializer();
             initializer.ApiKey = ConfigurationManager.AppSettings["GoogleApiKey"];
@@ -90,14 +97,11 @@
             {
                 var listRequest = service.Cse.List(searchTerms);
                 listRequest.Start = startIndex;
-
+                listRequest.Num = count;
                 listRequest.Cx = ConfigurationManager.AppSettings["GoogleEngineId"];
 
                 return listRequest.Execute();
             }
         }
     }
-
-
-
 }
