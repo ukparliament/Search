@@ -22,7 +22,7 @@ Param(
 
 $ErrorActionPreference = "Stop"
 
-$productTitle="Search"
+$productTitle="Parliament - Search API"
 
 function Log([Parameter(Mandatory=$true)][string]$LogText){
     Write-Host ("{0} - {1}" -f (Get-Date -Format "HH:mm:ss.fff"), $LogText)
@@ -38,7 +38,7 @@ Log "Check if product already installed"
 $product=(Get-AzureRmApiManagementProduct -Context $management | Where-Object Title -Match $productTitle)
 if ($product -eq $null){
     Log "Access for Search API"
-    $product=New-AzureRmApiManagementProduct -Context $management -Title "Parliament - Search API" -Description "For parliament use only." -ApprovalRequired $true -SubscriptionsLimit 1
+    $product=New-AzureRmApiManagementProduct -Context $management -Title $productTitle -Description "For parliament use only." -ApprovalRequired $true -SubscriptionsLimit 1
     $api=New-AzureRmApiManagementApi -Context $management -Name "Search" -Description "All routes on Search API" -ServiceUrl "https://$SearchAPIName.azurewebsites.net/" -Protocols @("https") -Path "/search"
     New-AzureRmApiManagementOperation -Context $management -ApiId $api.ApiId -Name "Search (description)" -Method "GET" -UrlTemplate "/description"
     
@@ -55,8 +55,8 @@ if ($product -eq $null){
             Required=$false
         }
     )
-    New-AzureRmApiManagementOperation -Context $management -ApiId $api.ApiId -Name "Search" -Method "GET" -UrlTemplate "/" -Request $request
-    
+    $operation=New-AzureRmApiManagementOperation -Context $management -ApiId $api.ApiId -Name "Search" -Method "GET" -UrlTemplate "/" -Request $request
+    Set-AzureRmApiManagementPolicy -Context $management -ApiId $api.ApiId -OperationId $operation.OperationId -Policy '<policies><inbound><base /><rewrite-uri template="search" /></inbound><backend><base /></backend><outbound><base /></outbound><on-error><base /></on-error></policies>'
     Add-AzureRmApiManagementApiToProduct -Context $management -ProductId $product.ProductId -ApiId $api.ApiId
 }
 
