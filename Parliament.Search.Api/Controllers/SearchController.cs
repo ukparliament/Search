@@ -26,12 +26,28 @@
 
         public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex, [FromUri(Name = "pagesize")]int count)
         {
- 
-            var feed = SearchController.ConvertResults(
-                SearchController.Query(
+            
+            List<Search> searchList = new List<Search>();
+
+            while (count >= 10)
+            {
+                searchList.Add(SearchController.Query(
+                    searchTerms,
+                    startIndex,
+                    10));
+                startIndex += 10;
+                count -= 10;
+            }
+
+            if (count > 0)
+            {
+                searchList.Add(SearchController.Query(
                     searchTerms,
                     startIndex,
                     count));
+            }
+
+            var feed = SearchController.ConvertResults(searchList);
 
             var telemetry = new TelemetryClient();
 
@@ -40,27 +56,42 @@
             return feed;
         }
 
-        private static Feed ConvertResults(Search search)
+        private static Feed ConvertResults(List<Search> searchList)
         {
-            var request = search.Queries["request"].Single();
 
-            var result = new Feed
+            var items = new List<SyndicationItem>();
+
+            var result = new Feed();
+
+            foreach (Search search in searchList)
             {
-                Items = search.Items.Select(ConvertItem),
-                TotalResults = (int)search.SearchInformation.TotalResults,
-                StartIndex = (int)request.StartIndex
-            };
+                if (result.TotalResults == 0)
+                {
+                    result.TotalResults = (int)search.SearchInformation.TotalResults;
+                    result.StartIndex = search.Queries["request"].SingleOrDefault().StartIndex??0;
+                    result.Queries.Add(new OpenSearch.Query
+                    {
+                        Role = "request",
+                        SearchTerms = search.Queries["request"].SingleOrDefault().SearchTerms
+
+                    });
+
+                }
+                if (search.Items != null)
+                {
+                    items.AddRange(search.Items.Select(ConvertItem));
+                }
+            }
+
+
+            result.Items = items;
+
 
             result.Authors.Add(new SyndicationPerson
             {
                 Name = "parliament.uk"
             });
 
-            result.Queries.Add(new OpenSearch.Query
-            {
-                Role = "request",
-                SearchTerms = request.SearchTerms
-            });
 
             return result;
         }
@@ -85,9 +116,9 @@
 
         private static Search Query(string searchTerms, int startIndex, int count)
         {
-            if (count > 10)
+            if (startIndex <= 0)
             {
-                throw new ArgumentOutOfRangeException("count", count, "Allowed values are 1 to 10 inclusive.");
+                throw new ArgumentOutOfRangeException("startIndex", startIndex, "Allowed values are >=1.");
             }
 
             var initializer = new BaseClientService.Initializer();
