@@ -54,16 +54,15 @@ if ($product -eq $null){
             Type="number"
             Required=$false
         }
+        New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementParameter -Property @{
+            Name="pagesize"
+            Type="number"
+            Required=$false
+        }
     )
     $operation=New-AzureRmApiManagementOperation -Context $management -ApiId $api.ApiId -Name "Search" -Method "GET" -UrlTemplate "/" -Request $request
     Set-AzureRmApiManagementPolicy -Context $management -ApiId $api.ApiId -OperationId $operation.OperationId -Policy '<policies><inbound><base /><rewrite-uri template="search" /></inbound><backend><base /></backend><outbound><base /></outbound><on-error><base /></on-error></policies>'
     Add-AzureRmApiManagementApiToProduct -Context $management -ProductId $product.ProductId -ApiId $api.ApiId
 }
-
-Log "Retrives subscription"
-$subscription=Get-AzureRmApiManagementSubscription -Context $management -ProductId $product.ProductId
-
-Log "Setting variables to use during deployment"
-Write-Host "##vso[task.setvariable variable=APIManagementIP]$($apiManagement.StaticIPs[0])"
 
 Log "Job well done!"
