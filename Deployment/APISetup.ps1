@@ -65,4 +65,6 @@ if ($product -eq $null){
     Add-AzureRmApiManagementApiToProduct -Context $management -ProductId $product.ProductId -ApiId $api.ApiId
 }
 
+Write-Host "##vso[task.setvariable variable=APIManagementIP]$($apiManagement.StaticIPs[0])"
+
 Log "Job well done!"
