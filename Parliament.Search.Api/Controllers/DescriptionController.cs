@@ -33,6 +33,36 @@
                 Template = templateUri.ToString()
             });
 
+            description.Urls.Add(new Url
+            {
+                TypeName = "application/rss+xml",
+                Template = templateUri.ToString()
+            });
+
+            description.Urls.Add(new Url
+            {
+                TypeName = "application/json",
+                Template = templateUri.ToString()
+            });
+
+            description.Urls.Add(new Url
+            {
+                TypeName = "text/json",
+                Template = templateUri.ToString()
+            });
+
+            description.Urls.Add(new Url
+            {
+                TypeName = "text/xml",
+                Template = templateUri.ToString()
+            });
+
+            description.Urls.Add(new Url
+            {
+                TypeName = "application/xml",
+                Template = templateUri.ToString()
+            });
+
             return description;
         }
     }
