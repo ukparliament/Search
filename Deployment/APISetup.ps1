@@ -40,8 +40,8 @@ if ($product -eq $null){
     Log "Access for Search API"
     $product=New-AzureRmApiManagementProduct -Context $management -Title $productTitle -Description "For parliament use only." -ApprovalRequired $true -SubscriptionsLimit 1
     $api=New-AzureRmApiManagementApi -Context $management -Name "Search" -Description "All routes on Search API" -ServiceUrl "https://$SearchAPIName.azurewebsites.net/" -Protocols @("https") -Path "/search"
-    New-AzureRmApiManagementOperation -Context $management -ApiId $api.ApiId -Name "Search (description)" -Method "GET" -UrlTemplate "/description"
-    
+    $operation=New-AzureRmApiManagementOperation -Context $management -ApiId $api.ApiId -Name "Search (description)" -Method "GET" -UrlTemplate "/description"
+    Set-AzureRmApiManagementPolicy -Context $management -ApiId $api.ApiId -OperationId $operation.OperationId -Policy ('<policies><inbound><base/></inbound><backend><base/></backend><outbound><base/><find-and-replace from="{0}.azurewebsites.net" to="{1}.azure-api.net"/></outbound></policies>' -f $SearchAPIName, $apiManagement.Name)
     $request=New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementRequest
     $request.QueryParameters=@(
         New-Object -TypeName Microsoft.Azure.Commands.ApiManagement.ServiceManagement.Models.PsApiManagementParameter -Property @{
