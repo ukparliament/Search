@@ -37,10 +37,8 @@
             }
 
             var maxAllowed = 10;
-
             var searchList = new List<Search>();
-
-            var firstSearchResult = Query(searchTerms, startIndex, maxAllowed);
+            var firstSearchResult = Query(searchTerms, startIndex, Math.Min(maxAllowed, pageSize));
             var totalResults = (int)firstSearchResult.SearchInformation.TotalResults;
             var maxResults = Math.Min(pageSize, totalResults);
 
@@ -48,7 +46,7 @@
 
             if (pageSize > maxAllowed)
             {
-                for (int i = maxAllowed + startIndex; i < maxResults; i += maxAllowed)
+                for (int i = maxAllowed + startIndex; i <= maxResults; i += maxAllowed)
                 {
                     int remainder = maxResults - i + 1;
                     if (remainder < maxAllowed)
@@ -83,6 +81,10 @@
 
             foreach (Search search in searchList)
             {
+                if (result.TotalResults == 0)
+                {
+                    result.TotalResults = (int)search.SearchInformation.TotalResults;
+                }
                 if (search.Items != null)
                 {
                     items.AddRange(search.Items.Select(ConvertItem));
@@ -91,7 +93,6 @@
 
             result.Items = items;
             result.StartIndex = startIndex;
-            result.TotalResults = result.Items.Count();
 
             result.Authors.Add(new SyndicationPerson
             {
