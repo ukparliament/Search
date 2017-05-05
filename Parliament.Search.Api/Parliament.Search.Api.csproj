@@ -137,6 +137,7 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Parameters.xml" />
     <Content Include="Secrets.config" />
     <None Include="Properties\PublishProfiles\parliament-search-api - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\parliament-search-api - Web Deploy.pubxml" />
