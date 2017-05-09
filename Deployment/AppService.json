@@ -26,6 +26,18 @@
                 "description": "Value of the Application Insights instrumentation key."
             }
         },
+        "googleApiKey":{
+            "type": "string",
+            "metadata": {
+                "description": "Value of the Google API key."
+            }
+        },
+        "googleEngineId":{
+            "type": "string",
+            "metadata": {
+                "description": "Value of the Google engine Id."
+            }
+        },
         "subscriptionKey":{
             "type": "string",
             "metadata": {
@@ -119,7 +131,8 @@
                         "ApplicationInsightsInstrumentationKey": "[parameters('applicationInsightsInstrumentationKey')]",
                         "SparqlEndpoint": "[parameters('sparqlEndpoint')]",
                         "SubscriptionKey": "[parameters('subscriptionKey')]",
-                        "GoogleApiKey"
+                        "GoogleApiKey":"[parameters('googleApiKey')]",
+                        "GoogleEngineId":"[parameters('googleEngineId')]"
                     }
                 }
             ],
