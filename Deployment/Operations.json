@@ -90,7 +90,7 @@
             "location": "[resourceGroup().location]",
             "tags": {
                 "[concat('hidden-link:/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name,'/providers/microsoft.insights/components/',parameters('applicationInsightsName'))]": "Resource",
-                "[concat('hidden-link:/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name,'/providers/microsoft.insights/webtests/',variables('pingFixedQueryName'))]": "Resource",
+                "[concat('hidden-link:/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name,'/providers/microsoft.insights/webtests/',variables('pingSearchName'))]": "Resource",
                 "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
                 "Department": "Data & Search",
                 "Environment": "[parameters('environment')]",
