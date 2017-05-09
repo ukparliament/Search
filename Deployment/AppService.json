@@ -118,7 +118,8 @@
                         "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
                         "ApplicationInsightsInstrumentationKey": "[parameters('applicationInsightsInstrumentationKey')]",
                         "SparqlEndpoint": "[parameters('sparqlEndpoint')]",
-                        "SubscriptionKey": "[parameters('subscriptionKey')]"
+                        "SubscriptionKey": "[parameters('subscriptionKey')]",
+                        "GoogleApiKey"
                     }
                 }
             ],
