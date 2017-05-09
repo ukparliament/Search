@@ -65,6 +65,11 @@ if ($product -eq $null){
     Add-AzureRmApiManagementApiToProduct -Context $management -ProductId $product.ProductId -ApiId $api.ApiId
 }
 
+Log "Retrives subscription"
+$subscription=Get-AzureRmApiManagementSubscription -Context $management -ProductId $product.ProductId
+
+Log "Setting variables to use during deployment"
+Write-Host "##vso[task.setvariable variable=SubscriptionKey]$($subscription.PrimaryKey)"
 Write-Host "##vso[task.setvariable variable=APIManagementIP]$($apiManagement.StaticIPs[0])"
 
 Log "Job well done!"
