@@ -28,8 +28,12 @@ function Log([Parameter(Mandatory=$true)][string]$LogText){
 Log "Getting Instrumentation Key"
 $properties=Get-AzureRmResource -ResourceGroupName $OperationsResourceGroupName -ResourceName $ApplicationInsightsName -ExpandProperties | Select-Object Properties -ExpandProperty Properties
 
+Log "Retrives API Management"
+$apiManagement=Get-AzureRmApiManagement -ResourceGroupName $APIResourceGroupName
+
 Log "Setting variables to use during deployment"
 Log "Instrumentation Key: $($properties.InstrumentationKey)"
 Write-Host "##vso[task.setvariable variable=ApplicationInsightsInstrumentationKey]$($properties.InstrumentationKey)"
+Write-Host "##vso[task.setvariable variable=APIManagementIP]$($apiManagement.StaticIPs[0])"
 
 Log "Job wel done!"
