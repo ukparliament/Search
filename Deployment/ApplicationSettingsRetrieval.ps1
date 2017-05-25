@@ -17,6 +17,7 @@ This script is for use as a part of deployment in VSTS only.
 
 Param(
     [Parameter(Mandatory=$true)] [string] $OperationsResourceGroupName,
+	[Parameter(Mandatory=$true)] [string] $APIResourceGroupName,
     [Parameter(Mandatory=$true)] [string] $ApplicationInsightsName
 )
 $ErrorActionPreference = "Stop"
