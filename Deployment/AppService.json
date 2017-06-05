@@ -1,134 +1,140 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
-    "contentVersion": "1.0.0.0",
-    "parameters": {
-        "searchAPIName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the API app."
-            }
-        },
-        "applicationPlanName": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the Application Insights."
-            }
-        },
-        "applicationInsightsInstrumentationKey":{
-            "type": "string",
-            "metadata": {
-                "description": "Value of the Application Insights instrumentation key."
-            }
-        },
-        "googleApiKey":{
-            "type": "string",
-            "metadata": {
-                "description": "Value of the Google API key."
-            }
-        },
-        "googleEngineId":{
-            "type": "string",
-            "metadata": {
-                "description": "Value of the Google engine Id."
-            }
-        },
-        "environment": {
-            "type": "string",
-            "metadata": {
-                "description": "Name of the environment that is being deployed to."
-            }
-        },
-        "releaseId": {
-            "type": "int",
-            "metadata": {
-                "description": "The identifier of the current release record."
-            }
-        }
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "searchAPIName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the API app."
+      }
     },
-    "variables": {},
-    "resources": [
+    "applicationPlanName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Application Insights."
+      }
+    },
+    "operationsResourceGroupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Resource Group where backup storage is."
+      }
+    },
+    "applicationInsightsName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Application Insights."
+      }
+    },
+    "googleApiKey": {
+      "type": "string",
+      "metadata": {
+        "description": "Value of the Google API key."
+      }
+    },
+    "googleEngineId": {
+      "type": "string",
+      "metadata": {
+        "description": "Value of the Google engine Id."
+      }
+    },
+    "environment": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the environment that is being deployed to."
+      }
+    },
+    "releaseId": {
+      "type": "int",
+      "metadata": {
+        "description": "The identifier of the current release record."
+      }
+    }
+  },
+  "variables": {},
+  "resources": [
+    {
+      "comments": "App plan",
+      "type": "Microsoft.Web/serverfarms",
+      "sku": {
+        "name": "B1",
+        "tier": "Basic",
+        "size": "B1",
+        "family": "B",
+        "capacity": 1
+      },
+      "kind": "app",
+      "name": "[parameters('applicationPlanName')]",
+      "apiVersion": "2015-08-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Department": "Data & Search",
+        "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
+        "Environment": "[parameters('environment')]",
+        "ReleaseId": "[parameters('releaseId')]",
+        "Type": "App plan"
+      },
+      "dependsOn": []
+    },
+    {
+      "comments": "Web API app",
+      "type": "Microsoft.Web/sites",
+      "kind": "api",
+      "name": "[parameters('searchAPIName')]",
+      "apiVersion": "2015-08-01",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "Department": "Data & Search",
+        "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
+        "Environment": "[parameters('environment')]",
+        "ReleaseId": "[parameters('releaseId')]",
+        "Type": "API app"
+      },
+      "properties": {
+        "name": "[parameters('searchAPIName')]",
+        "hostNames": [
+          "[concat(parameters('searchAPIName'),'.azurewebsites.net')]"
+        ],
+        "enabledHostNames": [
+          "[concat(parameters('searchAPIName'),'.azurewebsites.net')]",
+          "[concat(parameters('searchAPIName'),'.scm.azurewebsites.net')]"
+        ],
+        "hostNameSslStates": [
+          {
+            "name": "[concat(parameters('searchAPIName'),'.azurewebsites.net')]",
+            "sslState": 0,
+            "thumbprint": null,
+            "ipBasedSslState": 0
+          },
+          {
+            "name": "[concat(parameters('searchAPIName'),'.scm.azurewebsites.net')]",
+            "sslState": 0,
+            "thumbprint": null,
+            "ipBasedSslState": 0
+          }
+        ],
+        "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
+      },
+      "resources": [
         {
-            "comments": "App plan",
-            "type": "Microsoft.Web/serverfarms",
-            "sku": {
-                "name": "B1",
-                "tier": "Basic",
-                "size": "B1",
-                "family": "B",
-                "capacity": 1
-            },
-            "kind": "app",
-            "name": "[parameters('applicationPlanName')]",
-            "apiVersion": "2015-08-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "Department": "Data & Search",
-                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
-                "Environment": "[parameters('environment')]",
-                "ReleaseId": "[parameters('releaseId')]",
-                "Type": "App plan"
-            },
-            "dependsOn": []
-        },
-        {
-            "comments": "Web API app",
-            "type": "Microsoft.Web/sites",
-            "kind": "api",
-            "name": "[parameters('searchAPIName')]",
-            "apiVersion": "2015-08-01",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "Department": "Data & Search",
-                "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
-                "Environment": "[parameters('environment')]",
-                "ReleaseId": "[parameters('releaseId')]",
-                "Type": "API app"
-            },
-            "properties": {
-                "name": "[parameters('searchAPIName')]",
-                "hostNames": [
-                    "[concat(parameters('searchAPIName'),'.azurewebsites.net')]"
-                ],
-                "enabledHostNames": [
-                    "[concat(parameters('searchAPIName'),'.azurewebsites.net')]",
-                    "[concat(parameters('searchAPIName'),'.scm.azurewebsites.net')]"
-                ],
-                "hostNameSslStates": [
-                    {
-                        "name": "[concat(parameters('searchAPIName'),'.azurewebsites.net')]",
-                        "sslState": 0,
-                        "thumbprint": null,
-                        "ipBasedSslState": 0
-                    },
-                    {
-                        "name": "[concat(parameters('searchAPIName'),'.scm.azurewebsites.net')]",
-                        "sslState": 0,
-                        "thumbprint": null,
-                        "ipBasedSslState": 0
-                    }
-                ],
-                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
-            },
-            "resources": [
-                {
-                    "comments": "Application settings to be used by the App",
-                    "apiVersion": "2015-08-01",
-                    "name": "appsettings",
-                    "type": "config",
-                    "dependsOn": [
-                        "[resourceId('Microsoft.Web/sites', parameters('searchAPIName'))]"
-                    ],
-                    "properties": {
-                        "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
-                        "ApplicationInsightsInstrumentationKey": "[parameters('applicationInsightsInstrumentationKey')]",
-                        "GoogleApiKey":"[parameters('googleApiKey')]",
-                        "GoogleEngineId":"[parameters('googleEngineId')]"
-                    }
-                }
-            ],
-            "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
-            ]
+          "comments": "Application settings to be used by the App",
+          "apiVersion": "2015-08-01",
+          "name": "appsettings",
+          "type": "config",
+          "dependsOn": [
+            "[resourceId('Microsoft.Web/sites', parameters('searchAPIName'))]"
+          ],
+          "properties": {
+            "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
+            "ApplicationInsightsInstrumentationKey": "[reference(resourceId(subscription().subscriptionId,parameters('operationsResourceGroupName'),'Microsoft.Insights/Components',parameters('applicationInsightsName')),'2014-04-01').InstrumentationKey]",
+            "GoogleApiKey": "[parameters('googleApiKey')]",
+            "GoogleEngineId": "[parameters('googleEngineId')]"
+          }
         }
-    ]
+      ],
+      "dependsOn": [
+        "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
+      ]
+    }
+  ]
 }
