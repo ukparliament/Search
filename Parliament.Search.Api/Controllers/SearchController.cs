@@ -137,13 +137,24 @@
 
             using (var service = new CustomsearchService(initializer))
             {
-
                 var listRequest = service.Cse.List(searchTerms);
                 listRequest.Start = startIndex;
                 listRequest.Num = pageSize;
                 listRequest.Cx = ConfigurationManager.AppSettings["GoogleEngineId"];
-
-                return listRequest.Execute();
+                Search response = null;
+                var telemetry = new TelemetryClient();
+                var timer = System.Diagnostics.Stopwatch.StartNew();
+                var startTime = DateTime.UtcNow;
+                try
+                {
+                    response = listRequest.Execute();                    
+                }
+                finally
+                {
+                    timer.Stop();
+                    telemetry.TrackDependency("Google CSE", searchTerms, startTime, timer.Elapsed, response!=null);
+                }
+                return response;
             }
         }
     }
