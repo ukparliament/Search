@@ -15,7 +15,7 @@
 
         public object GetService(Type serviceType)
         {
-            if (DependencyResolver.UseMockEngine())
+            if (DependencyResolver.UseMockEngine)
             {
                 if (serviceType == typeof(SearchController))
                 {
@@ -31,11 +31,14 @@
             return Enumerable.Empty<object>();
         }
 
-        private static bool UseMockEngine()
+        private static bool UseMockEngine
         {
-            bool.TryParse(ConfigurationManager.AppSettings["UseMockEngine"], out bool result);
+            get
+            {
+                bool.TryParse(ConfigurationManager.AppSettings["UseMockEngine"], out bool result);
 
-            return result;
+                return result;
+            }
         }
     }
 }
