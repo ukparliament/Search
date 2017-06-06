@@ -161,6 +161,10 @@
     <Compile Include="AIExceptionLogger.cs" />
     <Compile Include="Controllers\AutodiscoveryController.cs" />
     <Compile Include="Controllers\DescriptionController.cs" />
+    <Compile Include="DependencyResolver.cs" />
+    <Compile Include="MockEngine.cs" />
+    <Compile Include="Engine.cs" />
+    <Compile Include="IEngine.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

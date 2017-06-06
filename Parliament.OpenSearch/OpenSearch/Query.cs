@@ -1,5 +1,6 @@
 ﻿namespace Parliament.Search.OpenSearch
 {
+    using Newtonsoft.Json;
     using System;
     using System.Globalization;
     using System.Xml.Serialization;
@@ -23,6 +24,7 @@
         /// Contains a string identifying how the search client should interpret the search request defined by this Query element.
         /// </summary>
         [XmlAttribute("role")]
+        [JsonProperty("role")]
         //public Role Role { get; set; }
         public string Role { get; set; }
 
@@ -30,6 +32,7 @@
         /// Contains a human-readable plain text string describing the search request.
         /// </summary>
         [XmlAttribute("title")]
+        [JsonProperty("title")]
         public string Title
         {
             get
@@ -52,6 +55,7 @@
         /// Contains the expected number of results to be found if the search request were made.
         /// </summary>
         [XmlIgnore]
+        [JsonIgnore]
         public int? TotalResults
         {
             get
@@ -73,6 +77,7 @@
         /// Contains the value representing the "searchTerms" as an OpenSearch 1.1 parameter.
         /// </summary>
         [XmlAttribute("searchTerms")]
+        [JsonProperty("searchTerms")]
         public string SearchTerms
         {
             get
@@ -94,6 +99,7 @@
         /// Contains the value representing the "count" as a OpenSearch 1.1 parameter.
         /// </summary>
         [XmlIgnore]
+        [JsonIgnore]
         public int? Count
         {
             get
@@ -115,6 +121,7 @@
         /// Contains the value representing the "startIndex" as an OpenSearch 1.1 parameter.
         /// </summary>
         [XmlIgnore]
+        [JsonIgnore]
         public int? StartIndex
         {
             get
@@ -137,6 +144,7 @@
         /// Contains the value representing the "startPage" as an OpenSearch 1.1 parameter.
         /// </summary>
         [XmlIgnore]
+        [JsonIgnore]
         public int? StartPage
         {
             get
@@ -154,6 +162,7 @@
         /// </summary>
         /// <remarks>An OpenSearch description document should include one "Language" element for each language that the search engine supports. If the search engine also supports queries for any arbitrary language then the OpenSearch description document should include a Language element with a value of "*". The "language" template parameter in the OpenSearch URL template can be used to allow the search client to choose among the available languages.</remarks>
         [XmlIgnore]
+        [JsonIgnore]
         public CultureInfo Language
         {
             get
@@ -169,6 +178,7 @@
         #region Serialization overrides
 
         [XmlAttribute("totalResults")]
+        [JsonProperty("totalResults")]
         public int SerializationTotalResults
         {
             get
@@ -182,6 +192,7 @@
         }
 
         [XmlAttribute("count")]
+        [JsonProperty("count")]
         public int SerializationCount
         {
             get
@@ -195,6 +206,7 @@
         }
 
         [XmlAttribute("startIndex")]
+        [JsonProperty("startIndex")]
         public int SerializationStartIndex
         {
             get
@@ -208,6 +220,7 @@
         }
 
         [XmlAttribute("startPage")]
+        [JsonProperty("startPage")]
         public int SerializationStartPage
         {
             get
@@ -221,6 +234,7 @@
         }
 
         [XmlElement("language")]
+        [JsonProperty("language")]
         [Obsolete("Used for serialization only")]
         public string SerializationLanguages
         {
