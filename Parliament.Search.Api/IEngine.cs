@@ -2,7 +2,7 @@
 {
     using Parliament.Search.OpenSearch;
 
-    internal interface IEngine
+    public interface IEngine
     {
         Feed Search(string searchTerms, int startIndex, int pageSize);
     }
