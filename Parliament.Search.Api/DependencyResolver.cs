@@ -1,5 +1,6 @@
 ﻿namespace Parliament.Search.Api
 {
+    using BingProvider;
     using Parliament.Search.Api.Controllers;
     using System;
     using System.Collections.Generic;
@@ -15,11 +16,18 @@
 
         public object GetService(Type serviceType)
         {
-            if (DependencyResolver.UseMockEngine)
+            if (serviceType == typeof(SearchController))
             {
-                if (serviceType == typeof(SearchController))
+                bool.TryParse(ConfigurationManager.AppSettings["UseMockEngine"], out bool useMockEngine);
+                if (useMockEngine)
                 {
                     return new SearchController(new MockEngine());
+                }
+
+                bool.TryParse(ConfigurationManager.AppSettings["UseBingEngine"], out bool useBingEngine);
+                if (useBingEngine)
+                {
+                    return new SearchController(new BingEngine());
                 }
             }
 
@@ -29,16 +37,6 @@
         public IEnumerable<object> GetServices(Type serviceType)
         {
             return Enumerable.Empty<object>();
-        }
-
-        private static bool UseMockEngine
-        {
-            get
-            {
-                bool.TryParse(ConfigurationManager.AppSettings["UseMockEngine"], out bool result);
-
-                return result;
-            }
         }
     }
 }

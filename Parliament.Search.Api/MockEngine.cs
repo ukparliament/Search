@@ -1,5 +1,6 @@
 ﻿namespace Parliament.Search.Api
 {
+    using Library;
     using Parliament.Search.OpenSearch;
     using System;
     using System.Linq;

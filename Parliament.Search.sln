@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.6
+VisualStudioVersion = 15.0.26430.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DFF16828-53C9-4AF2-A5D8-B89612968331}"
 	ProjectSection(SolutionItems) = preProject
@@ -18,6 +18,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 		Deployment\AppService.json = Deployment\AppService.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingProvider", "BingProvider\BingProvider.csproj", "{440707D9-384E-497E-8C8A-20A9BD1AD728}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library", "Library\Library.csproj", "{14A1A36C-961F-4748-8FCE-7AC866C0A624}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +36,14 @@ Global
 		{04640464-34D1-4A09-886F-FC1D97EB2D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04640464-34D1-4A09-886F-FC1D97EB2D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04640464-34D1-4A09-886F-FC1D97EB2D0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{440707D9-384E-497E-8C8A-20A9BD1AD728}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{440707D9-384E-497E-8C8A-20A9BD1AD728}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{440707D9-384E-497E-8C8A-20A9BD1AD728}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{440707D9-384E-497E-8C8A-20A9BD1AD728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14A1A36C-961F-4748-8FCE-7AC866C0A624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14A1A36C-961F-4748-8FCE-7AC866C0A624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14A1A36C-961F-4748-8FCE-7AC866C0A624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14A1A36C-961F-4748-8FCE-7AC866C0A624}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

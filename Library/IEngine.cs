@@ -1,4 +1,4 @@
-﻿namespace Parliament.Search.Api
+﻿namespace Library
 {
     using Parliament.Search.OpenSearch;
 

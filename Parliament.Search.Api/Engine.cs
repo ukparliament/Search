@@ -10,6 +10,7 @@
     using Google.Apis.Customsearch.v1.Data;
     using System.ServiceModel.Syndication;
     using System.Linq;
+    using Library;
 
     internal class Engine : IEngine
     {

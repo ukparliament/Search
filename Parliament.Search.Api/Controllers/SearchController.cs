@@ -1,5 +1,6 @@
 ﻿namespace Parliament.Search.Api.Controllers
 {
+    using Library;
     using OpenSearch;
     using System.Web.Http;
 
