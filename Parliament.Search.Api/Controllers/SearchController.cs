@@ -15,17 +15,7 @@
             this.engine = engine;
         }
 
-        public Feed Get([FromUri(Name = "q")]string searchTerms)
-        {
-            return Get(searchTerms, 1);
-        }
-
-        public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex)
-        {
-            return Get(searchTerms, startIndex, 10);
-        }
-
-        public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex, [FromUri(Name = "pagesize")]int pageSize)
+        public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "pagesize")]int pageSize = 10)
         {
             return this.engine.Search(searchTerms, startIndex, pageSize);
         }

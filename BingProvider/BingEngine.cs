@@ -3,88 +3,74 @@
     using Library;
     using Newtonsoft.Json;
     using Parliament.Search.OpenSearch;
-    using System;
-    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Net.Http;
     using System.ServiceModel.Syndication;
-    using System.Threading.Tasks;
+    using System.Configuration;
 
     public class BingEngine : IEngine
     {
         public Feed Search(string searchTerms, int startIndex, int pageSize)
         {
+            var bingResponse = BingEngine.QueryBing(searchTerms, startIndex, pageSize);
+            var feed = BingEngine.ConvertToOpenSearch(bingResponse);
+
+            return feed;
+        }
+
+        private static Feed ConvertToOpenSearch(BingResponse bingResponse)
+        {
+            return new Feed
+            {
+                TotalResults = bingResponse.WebPages.TotalEstimatedMatches,
+                Items = bingResponse.WebPages.Values.Select(value =>
+                {
+                    var item = new SyndicationItem
+                    {
+                        Title = new TextSyndicationContent(value.Name),
+                        Summary = new TextSyndicationContent(value.Snippet, TextSyndicationContentKind.Html)
+                    };
+
+                    item.Links.Add(new SyndicationLink
+                    {
+                        Title = value.DisplayUrl.ToString(),
+                        Uri = value.Uri,
+                        RelationshipType = "alternate"
+                    });
+
+                    return item;
+                })
+            };
+        }
+
+        private static BingResponse QueryBing(string searchTerms, int startIndex, int pageSize)
+        {
             var serializer = new JsonSerializer();
+            var query = new BingQuery
+            {
+                Site = "parliament.uk",
+                QueryString = searchTerms,
+                Offset = startIndex,
+                Count = pageSize
+            };
+
+            var bingApiKey = ConfigurationManager.AppSettings["BingApiKey"];
 
             using (var client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", "edf33cb32e144f0a99ce8cbd610b44b3");
-                using (var stream = client.GetStreamAsync($"https://api.cognitive.microsoft.com/bing/v5.0/search?q=site:parliament.uk+{searchTerms}").Result)
+                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", bingApiKey);
+                using (var stream = client.GetStreamAsync(query).Result)
                 {
                     using (var textReader = new StreamReader(stream))
                     {
                         using (var jsonReader = new JsonTextReader(textReader))
                         {
-                            var result = serializer.Deserialize<BingResponse>(jsonReader);
-
-
-                            var feed = new Feed
-                            {
-                                TotalResults = result.WebPages.TotalEstimatedMatches
-                            };
-
-
-                            feed.Items = result.WebPages.Values.Select(v =>
-                            {
-                                var item = new SyndicationItem
-                                {
-                                    Title = new TextSyndicationContent(v.Name),
-                                    Summary = new TextSyndicationContent(v.Snippet, TextSyndicationContentKind.Html)
-                                };
-
-                                item.Links.Add(new SyndicationLink
-                                {
-                                    Uri = v.DisplayUrl,
-                                    RelationshipType = "alternate"
-                                });
-
-                                return item;
-                            });
-
-                            return feed;
+                            return serializer.Deserialize<BingResponse>(jsonReader);
                         }
                     }
                 }
-
             }
         }
-    }
-
-    public class BingResponse
-    {
-        [JsonProperty("webPages")]
-        public WebPages WebPages { get; set; }
-    }
-
-    public class WebPages
-    {
-        [JsonProperty("totalEstimatedMatches")]
-        public int TotalEstimatedMatches { get; set; }
-
-        [JsonProperty("value")]
-        public IList<Value> Values { get; set; }
-    }
-
-    public class Value
-    {
-        [JsonProperty("displayUrl")]
-        public Uri DisplayUrl { get; set; }
-
-        [JsonProperty("name")]
-        public string Name { get; set; }
-
-        [JsonProperty("snippet")]
-        public string Snippet { get; set; }
     }
 }
