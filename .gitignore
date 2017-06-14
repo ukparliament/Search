@@ -5,4 +5,4 @@ bin
 obj
 Secrets.config
 *.csproj.user
-Properties
+Properties/PublishProfiles
