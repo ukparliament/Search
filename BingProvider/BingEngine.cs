@@ -14,34 +14,52 @@
         public Feed Search(string searchTerms, int startIndex, int pageSize)
         {
             var bingResponse = BingEngine.QueryBing(searchTerms, startIndex, pageSize);
-            var feed = BingEngine.ConvertToOpenSearch(bingResponse);
+            var feed = BingEngine.ConvertToOpenSearch(bingResponse, searchTerms, startIndex, pageSize);
 
             return feed;
         }
 
-        private static Feed ConvertToOpenSearch(BingResponse bingResponse)
+        private static Feed ConvertToOpenSearch(BingResponse bingResponse, string searchTerms, int startIndex, int pageSize)
         {
-            return new Feed
+            var result = new Feed()
             {
+                Title = new TextSyndicationContent(string.Format("Parliament.uk: {0}", searchTerms)),
                 TotalResults = bingResponse.WebPages.TotalEstimatedMatches,
+                StartIndex = startIndex,
                 Items = bingResponse.WebPages.Values.Select(value =>
                 {
                     var item = new SyndicationItem
                     {
                         Title = new TextSyndicationContent(value.Name),
-                        Summary = new TextSyndicationContent(value.Snippet, TextSyndicationContentKind.Html)
+                        Content = new TextSyndicationContent(value.Snippet, TextSyndicationContentKind.Html),
+                        LastUpdatedTime = new System.DateTimeOffset(value.DateLastCrawled)
                     };
 
                     item.Links.Add(new SyndicationLink
                     {
                         Title = value.DisplayUrl.ToString(),
-                        Uri = value.Uri,
-                        RelationshipType = "alternate"
+                        Uri = value.Uri
                     });
 
                     return item;
                 })
             };
+
+            result.Authors.Add(new SyndicationPerson
+            {
+                Name = "Parliament.uk"
+            });
+
+            result.Queries.Add(new Parliament.Search.OpenSearch.Query
+            {
+                Role = "request",
+                SearchTerms = searchTerms,
+                StartIndex = startIndex,
+                Count = pageSize,
+                TotalResults = result.TotalResults
+            });
+
+            return result;
         }
 
         private static BingResponse QueryBing(string searchTerms, int startIndex, int pageSize)

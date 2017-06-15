@@ -28,5 +28,8 @@
 
         [JsonProperty("snippet")]
         public string Snippet { get; set; }
+
+        [JsonProperty("dateLastCrawled")]
+        public DateTime DateLastCrawled { get; set; }
     }
 }
