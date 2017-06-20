@@ -1,4 +1,4 @@
-﻿namespace Parliament.Search.Api
+﻿namespace GoogleProvider
 {
     using System;
     using Parliament.Search.OpenSearch;
@@ -12,9 +12,9 @@
     using System.Linq;
     using Library;
 
-    internal class Engine : IEngine
+    public class GoogleEngine : IEngine
     {
-        public Feed Search(string searchTerms, int startIndex, int pageSize)
+        public Feed Search(string searchTerms, int startIndex, int count)
         {
 
             if (startIndex <= 0)
@@ -22,49 +22,49 @@
                 throw new ArgumentOutOfRangeException("startIndex", startIndex, "Allowed values are >=1.");
             }
 
-            if (pageSize > 100 | pageSize < 1)
+            if (count > 100 | count < 1)
             {
-                throw new ArgumentOutOfRangeException("pageSize", pageSize, "Allowed values are 1-100 inclusive.");
+                throw new ArgumentOutOfRangeException("count", count, "Allowed values are 1-100 inclusive.");
             }
 
             var maxAllowed = 10;
             var searchList = new List<Search>();
-            var firstSearchResult = Query(searchTerms, startIndex, Math.Min(maxAllowed, pageSize));
+            var firstSearchResult = Query(searchTerms, startIndex, Math.Min(maxAllowed, count));
             var totalResults = (int)firstSearchResult.SearchInformation.TotalResults;
-            var maxResults = Math.Min(pageSize, totalResults);
+            var maxResults = Math.Min(count, totalResults);
 
             searchList.Add(firstSearchResult);
 
-            if (pageSize > maxAllowed)
+            if (count > maxAllowed)
             {
                 for (int i = maxAllowed + startIndex; i <= maxResults; i += maxAllowed)
                 {
                     int remainder = maxResults - i + 1;
                     if (remainder < maxAllowed)
                     {
-                        searchList.Add(Engine.Query(searchTerms, i, remainder));
+                        searchList.Add(GoogleEngine.Query(searchTerms, i, remainder));
                     }
                     else
                     {
-                        searchList.Add(Engine.Query(searchTerms, i, maxAllowed));
+                        searchList.Add(GoogleEngine.Query(searchTerms, i, maxAllowed));
                     }
                 }
             }
 
-            var feed = Engine.ConvertResults(searchList, searchTerms, startIndex, pageSize);
+            var feed = GoogleEngine.ConvertResults(searchList, searchTerms, startIndex, count);
 
             var telemetry = new TelemetryClient();
 
             telemetry.TrackMetric("TotalResults", feed.TotalResults, new Dictionary<string, string> {
                 { "searchTerms", searchTerms },
                 { "startIndex", startIndex.ToString() },
-                { "pageSize", pageSize.ToString() }
+                { "count", count.ToString() }
             });
 
             return feed;
         }
 
-        private static Search Query(string searchTerms, int startIndex, int pageSize)
+        private static Search Query(string searchTerms, int startIndex, int count)
         {
 
             var initializer = new BaseClientService.Initializer();
@@ -74,7 +74,7 @@
             {
                 var listRequest = service.Cse.List(searchTerms);
                 listRequest.Start = startIndex;
-                listRequest.Num = pageSize;
+                listRequest.Num = count;
                 listRequest.Cx = ConfigurationManager.AppSettings["GoogleEngineId"];
                 Search response = null;
                 var telemetry = new TelemetryClient();
@@ -93,7 +93,7 @@
             }
         }
 
-        private static Feed ConvertResults(IEnumerable<Search> searchList, string searchTerms, int startIndex, int pageSize)
+        private static Feed ConvertResults(IEnumerable<Search> searchList, string searchTerms, int startIndex, int count)
         {
             var result = new Feed();
 
@@ -119,12 +119,12 @@
                 Name = "parliament.uk"
             });
 
-            result.Queries.Add(new OpenSearch.Query
+            result.Queries.Add(new Parliament.Search.OpenSearch.Query
             {
                 Role = "request",
                 SearchTerms = searchTerms,
                 StartIndex = startIndex,
-                Count = pageSize,
+                Count = count,
                 TotalResults = result.TotalResults
             });
 

@@ -8,16 +8,14 @@
     {
         private readonly IEngine engine;
 
-        public SearchController() : this(new Engine()) { }
-
         public SearchController(IEngine engine)
         {
             this.engine = engine;
         }
 
-        public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "pagesize")]int pageSize = 10)
+        public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "count")]int count = 10)
         {
-            return this.engine.Search(searchTerms, startIndex, pageSize);
+            return this.engine.Search(searchTerms, startIndex, count);
         }
     }
 }

@@ -11,15 +11,15 @@
 
     public class BingEngine : IEngine
     {
-        public Feed Search(string searchTerms, int startIndex, int pageSize)
+        public Feed Search(string searchTerms, int startIndex, int count)
         {
-            var bingResponse = BingEngine.QueryBing(searchTerms, startIndex, pageSize);
-            var feed = BingEngine.ConvertToOpenSearch(bingResponse, searchTerms, startIndex, pageSize);
+            var bingResponse = BingEngine.QueryBing(searchTerms, startIndex, count);
+            var feed = BingEngine.ConvertToOpenSearch(bingResponse, searchTerms, startIndex, count);
 
             return feed;
         }
 
-        private static Feed ConvertToOpenSearch(BingResponse bingResponse, string searchTerms, int startIndex, int pageSize)
+        private static Feed ConvertToOpenSearch(BingResponse bingResponse, string searchTerms, int startIndex, int count)
         {
             var result = new Feed()
             {
@@ -55,7 +55,7 @@
                 Role = "request",
                 SearchTerms = searchTerms,
                 StartIndex = startIndex,
-                Count = pageSize,
+                Count = count,
                 TotalResults = result.TotalResults
             });
 
@@ -69,7 +69,7 @@
             {
                 Site = "parliament.uk",
                 QueryString = searchTerms,
-                Offset = startIndex,
+                Offset = startIndex - 1,
                 Count = pageSize
             };
 

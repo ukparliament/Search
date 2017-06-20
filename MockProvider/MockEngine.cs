@@ -1,4 +1,4 @@
-﻿namespace Parliament.Search.Api
+﻿namespace MockProvider
 {
     using Library;
     using Parliament.Search.OpenSearch;
@@ -6,9 +6,9 @@
     using System.Linq;
     using System.ServiceModel.Syndication;
 
-    internal class MockEngine : IEngine
+    public class MockEngine : IEngine
     {
-        public Feed Search(string searchTerms, int startIndex, int pageSize)
+        public Feed Search(string searchTerms, int startIndex, int count)
         {
             var random = new Random();
 
@@ -24,16 +24,16 @@
                 Name = "parliament.uk"
             });
 
-            result.Queries.Add(new OpenSearch.Query
+            result.Queries.Add(new Parliament.Search.OpenSearch.Query
             {
                 Role = "request",
                 SearchTerms = searchTerms,
                 StartIndex = startIndex,
-                Count = pageSize,
+                Count = count,
                 TotalResults = result.TotalResults
             });
 
-            result.Items = Enumerable.Range(0, random.Next(pageSize)).Select(index =>
+            result.Items = Enumerable.Range(0, random.Next(count)).Select(index =>
             {
                 var item = new SyndicationItem
                 {
