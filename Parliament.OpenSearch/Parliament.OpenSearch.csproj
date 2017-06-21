@@ -45,7 +45,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OpenSearch\Response.cs" />
     <Compile Include="OpenSearch\StartIndex.cs" />
+    <Compile Include="OpenSearch\ItemsPerPage.cs" />
     <Compile Include="OpenSearch\TotalResults.cs" />
     <Compile Include="OpenSearch\Url.cs" />
     <Compile Include="OpenSearch\Description.cs" />

@@ -4,6 +4,6 @@
 
     public interface IEngine
     {
-        Feed Search(string searchTerms, int startIndex, int pageSize);
+        Feed Search(string searchTerms, int startIndex, int count);
     }
 }

@@ -13,6 +13,7 @@
         private Collection<Query> queries;
         private int totalResults;
         private int startIndex;
+        private int itemsPerPage;
 
         public Collection<Query> Queries
         {
@@ -64,6 +65,18 @@
             }
         }
 
+        public int ItemsPerPage
+        {
+            get
+            {
+                return this.itemsPerPage;
+            }
+            set
+            {
+                this.itemsPerPage = value;
+            }
+        }
+
         protected override bool TryParseElement(XmlReader reader, string version)
         {
             if (reader.NamespaceURI == Constants.NamespaceUri)
@@ -72,7 +85,8 @@
                         { "Url", Tuple.Create<Type, Action<object>>(typeof(Url), item => this.Urls.Add(item as Url)) },
                         { "Query", Tuple.Create<Type, Action<object>>(typeof(Query), item => this.Queries.Add(item as Query)) },
                         { "totalResults", Tuple.Create<Type, Action<object>>(typeof(TotalResults), item => this.totalResults = (item as TotalResults).Value) },
-                        { "startIndex", Tuple.Create<Type, Action<object>>(typeof(StartIndex), item => this.startIndex = (item as StartIndex).Value) }
+                        { "startIndex", Tuple.Create<Type, Action<object>>(typeof(StartIndex), item => this.startIndex = (item as StartIndex).Value) },
+                        { "itemsPerPage", Tuple.Create<Type, Action<object>>(typeof(ItemsPerPage), item => this.itemsPerPage = (item as ItemsPerPage).Value) }
                     };
 
                 if (mappings.ContainsKey(reader.LocalName))
@@ -97,7 +111,8 @@
                     Tuple.Create<Type, Action<XmlSerializer>>(typeof(Url), serializer => { foreach (var url in this.Urls) {serializer.Serialize(writer, url,Constants.Namespaces);}}),
                     Tuple.Create<Type, Action<XmlSerializer>>(typeof(Query), serializer => { foreach (var query in this.Queries) {serializer.Serialize(writer, query,Constants.Namespaces);}}),
                     Tuple.Create<Type, Action<XmlSerializer>>(typeof(TotalResults), serializer => serializer.Serialize(writer, new TotalResults() {Value = this.TotalResults},Constants.Namespaces)),
-                    Tuple.Create<Type, Action<XmlSerializer>>(typeof(StartIndex), serializer => serializer.Serialize(writer, new StartIndex() {Value = this.StartIndex},Constants.Namespaces))
+                    Tuple.Create<Type, Action<XmlSerializer>>(typeof(StartIndex), serializer => serializer.Serialize(writer, new StartIndex() {Value = this.StartIndex},Constants.Namespaces)),
+                    Tuple.Create<Type, Action<XmlSerializer>>(typeof(ItemsPerPage), serializer => serializer.Serialize(writer, new ItemsPerPage() {Value = this.ItemsPerPage},Constants.Namespaces))
                 };
 
             foreach (var mapping in mappings)

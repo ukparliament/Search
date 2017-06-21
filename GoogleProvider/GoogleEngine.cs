@@ -1,16 +1,16 @@
 ﻿namespace GoogleProvider
 {
-    using System;
-    using Parliament.Search.OpenSearch;
-    using System.Collections.Generic;
-    using Google.Apis.Services;
-    using System.Configuration;
     using Google.Apis.Customsearch.v1;
-    using Microsoft.ApplicationInsights;
     using Google.Apis.Customsearch.v1.Data;
-    using System.ServiceModel.Syndication;
-    using System.Linq;
+    using Google.Apis.Services;
     using Library;
+    using Microsoft.ApplicationInsights;
+    using Parliament.Search.OpenSearch;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
+    using System.ServiceModel.Syndication;
 
     public class GoogleEngine : IEngine
     {
@@ -29,7 +29,7 @@
 
             var maxAllowed = 10;
             var searchList = new List<Search>();
-            var firstSearchResult = Query(searchTerms, startIndex, Math.Min(maxAllowed, count));
+            var firstSearchResult = QueryGoogle(searchTerms, startIndex, Math.Min(maxAllowed, count));
             var totalResults = (int)firstSearchResult.SearchInformation.TotalResults;
             var maxResults = Math.Min(count, totalResults);
 
@@ -42,16 +42,16 @@
                     int remainder = maxResults - i + 1;
                     if (remainder < maxAllowed)
                     {
-                        searchList.Add(GoogleEngine.Query(searchTerms, i, remainder));
+                        searchList.Add(QueryGoogle(searchTerms, i, remainder));
                     }
                     else
                     {
-                        searchList.Add(GoogleEngine.Query(searchTerms, i, maxAllowed));
+                        searchList.Add(QueryGoogle(searchTerms, i, maxAllowed));
                     }
                 }
             }
 
-            var feed = GoogleEngine.ConvertResults(searchList, searchTerms, startIndex, count);
+            var feed = ConvertToOpenSearchResponse(searchList, searchTerms, startIndex, count);
 
             var telemetry = new TelemetryClient();
 
@@ -64,12 +64,13 @@
             return feed;
         }
 
-        private static Search Query(string searchTerms, int startIndex, int count)
+        private static Search QueryGoogle(string searchTerms, int startIndex, int count)
         {
 
-            var initializer = new BaseClientService.Initializer();
-            initializer.ApiKey = ConfigurationManager.AppSettings["GoogleApiKey"];
-
+            var initializer = new BaseClientService.Initializer()
+            {
+                ApiKey = ConfigurationManager.AppSettings["GoogleApiKey"]
+            };
             using (var service = new CustomsearchService(initializer))
             {
                 var listRequest = service.Cse.List(searchTerms);
@@ -93,60 +94,28 @@
             }
         }
 
-        private static Feed ConvertResults(IEnumerable<Search> searchList, string searchTerms, int startIndex, int count)
+        private static Feed ConvertToOpenSearchResponse(IEnumerable<Search> searchList, string searchTerms, int startIndex, int count)
         {
-            var result = new Feed();
+
+            var openSearchResponse = new Response();
 
             var items = new List<SyndicationItem>();
 
+            var totalResults = 0;
+
             foreach (Search search in searchList)
             {
-                if (result.TotalResults == 0)
+                if (totalResults == 0)
                 {
-                    result.TotalResults = (int)search.SearchInformation.TotalResults;
+                    totalResults = (int)search.SearchInformation.TotalResults;
                 }
                 if (search.Items != null)
                 {
-                    items.AddRange(search.Items.Select(ConvertItem));
+                    items.AddRange(search.Items.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Title, item.Snippet, item.DisplayLink, new Uri(item.Link))));
                 }
             }
 
-            result.Items = items;
-            result.StartIndex = startIndex;
-
-            result.Authors.Add(new SyndicationPerson
-            {
-                Name = "parliament.uk"
-            });
-
-            result.Queries.Add(new Parliament.Search.OpenSearch.Query
-            {
-                Role = "request",
-                SearchTerms = searchTerms,
-                StartIndex = startIndex,
-                Count = count,
-                TotalResults = result.TotalResults
-            });
-
-            return result;
-        }
-
-        private static SyndicationItem ConvertItem(Result item)
-        {
-            var newItem = new SyndicationItem
-            {
-                Title = new TextSyndicationContent(item.HtmlTitle, TextSyndicationContentKind.Html),
-                Summary = new TextSyndicationContent(item.HtmlSnippet, TextSyndicationContentKind.Html)
-            };
-
-            newItem.Links.Add(new SyndicationLink
-            {
-                Uri = new Uri(item.Link),
-                MediaType = item.Mime,
-                RelationshipType = "alternate"
-            });
-
-            return newItem;
+            return openSearchResponse.ConvertToOpenSearchResponse(items, totalResults, searchTerms, startIndex, count);
         }
     }
 }

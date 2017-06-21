@@ -1,8 +1,8 @@
-﻿using System.Xml;
-using System.Xml.Serialization;
-
-namespace Parliament.Search.OpenSearch
+﻿namespace Parliament.Search.OpenSearch
 {
+    using System.Xml;
+    using System.Xml.Serialization;
+
     public static class Constants
     {
         /// <summary>
