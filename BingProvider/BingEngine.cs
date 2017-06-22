@@ -3,19 +3,45 @@
     using Library;
     using Newtonsoft.Json;
     using Parliament.Search.OpenSearch;
+    using System;
+    using System.Collections.Generic;
     using System.Configuration;
     using System.IO;
     using System.Linq;
     using System.Net.Http;
+    using System.ServiceModel.Syndication;
 
     public class BingEngine : IEngine
     {
         public Feed Search(string searchTerms, int startIndex, int count)
         {
-            var bingResponse = QueryBing(searchTerms, startIndex, count);
-            var feed = ConvertToOpenSearchResponse(bingResponse, searchTerms, startIndex, count);
+            var openSearchResponse = new Response();
 
-            return feed;
+            var items = new List<SyndicationItem>();
+
+            var BingMaxResultsPerQuery = 50;
+
+            var result = QueryBing(searchTerms, startIndex, Math.Min(BingMaxResultsPerQuery, count));
+
+            var totalResults = result.WebPages.TotalEstimatedMatches;
+
+            items.AddRange(result.WebPages.Values.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), item.Uri)));
+
+            for (int nextIndex = startIndex + items.Count(); nextIndex <= totalResults && items.Count() < count; nextIndex += BingMaxResultsPerQuery)
+            {
+                var nextCount = Math.Min(BingMaxResultsPerQuery, count - items.Count());
+
+                var nextResult = QueryBing(searchTerms, nextIndex, nextCount);
+
+                if (nextResult.WebPages.Values.Count() == 0)
+                {
+                    break;
+                }
+                items.AddRange(nextResult.WebPages.Values.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), item.Uri)));
+
+            }
+
+            return openSearchResponse.ConvertToOpenSearchResponse(items, totalResults, searchTerms, startIndex, count);
         }
 
         private static BingResponse QueryBing(string searchTerms, int startIndex, int count)
@@ -45,16 +71,6 @@
                     }
                 }
             }
-        }
-
-        private static Feed ConvertToOpenSearchResponse(BingResponse bingResponse, string searchTerms, int startIndex, int count)
-        {
-
-            var openSearchResponse = new Response();
-
-            var items = bingResponse.WebPages.Values.Select(value => openSearchResponse.ConvertToSyndicationItem(value.Name, value.Snippet, value.DisplayUrl.ToString(), value.Uri));
-
-            return openSearchResponse.ConvertToOpenSearchResponse(items, bingResponse.WebPages.TotalEstimatedMatches, searchTerms, startIndex, count);
         }
     }
 }
