@@ -27,6 +27,16 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MockProvider", "MockProvide
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoogleProvider", "GoogleProvider\GoogleProvider.csproj", "{8FD7915D-BA91-42B0-9646-5A98B33F2F9D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{64567318-DB21-4E53-A439-A43930BAE713}"
+	ProjectSection(SolutionItems) = preProject
+		docs\index.md = docs\index.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{A55DC6C3-F40D-435B-A7C6-4B917AF7944E}"
+	ProjectSection(SolutionItems) = preProject
+		docs\testing\azure-service-plans.md = docs\testing\azure-service-plans.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,5 +73,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{34864B7C-AC48-497F-A77D-46446FE1868B} = {DFF16828-53C9-4AF2-A5D8-B89612968331}
+		{64567318-DB21-4E53-A439-A43930BAE713} = {DFF16828-53C9-4AF2-A5D8-B89612968331}
+		{A55DC6C3-F40D-435B-A7C6-4B917AF7944E} = {64567318-DB21-4E53-A439-A43930BAE713}
 	EndGlobalSection
 EndGlobal
