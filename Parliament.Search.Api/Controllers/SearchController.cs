@@ -16,19 +16,19 @@
             this.engine = engine;
         }
 
-        public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "count")]int count = 10)
+        public dynamic Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "count")]int count = 10)
         {
             if (searchTerms == null)
             {
-                throw new ArgumentNullException("q", "Search terms must be specified. ");
+                return BadRequest("The q query string parameter must be specified");
             }
             if (startIndex < 1)
             {
-                throw new ArgumentOutOfRangeException("start ", startIndex, "Allowed values are >=1. ");
+                return BadRequest("The startIndex query string parameter must be > 1");
             }
             if (count < 1 | count > 100)
             {
-                throw new ArgumentOutOfRangeException("count ", count, "Allowed values are 1-100 inclusive. ");
+                return BadRequest("The count query string parameter must be > 1 and < 100");
             }
 
             Feed response = null;

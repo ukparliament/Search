@@ -23,22 +23,27 @@
 
             var result = QueryBing(searchTerms, startIndex, Math.Min(BingMaxResultsPerQuery, count));
 
-            var totalResults = result.WebPages.TotalEstimatedMatches;
+            int totalResults = 0;
 
-            items.AddRange(result.WebPages.Values.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), item.Uri)));
-
-            for (int nextIndex = startIndex + items.Count(); nextIndex <= totalResults && items.Count() < count; nextIndex += BingMaxResultsPerQuery)
+            if (result.WebPages != null)
             {
-                var nextCount = Math.Min(BingMaxResultsPerQuery, count - items.Count());
+                totalResults = result.WebPages.TotalEstimatedMatches;
 
-                var nextResult = QueryBing(searchTerms, nextIndex, nextCount);
+                items.AddRange(result.WebPages.Values.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), item.Uri)));
 
-                if (nextResult.WebPages.Values.Count() == 0)
+                for (int nextIndex = startIndex + items.Count(); nextIndex <= totalResults && items.Count() < count; nextIndex += BingMaxResultsPerQuery)
                 {
-                    break;
-                }
-                items.AddRange(nextResult.WebPages.Values.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), item.Uri)));
+                    var nextCount = Math.Min(BingMaxResultsPerQuery, count - items.Count());
 
+                    var nextResult = QueryBing(searchTerms, nextIndex, nextCount);
+
+                    if (nextResult.WebPages.Values.Count() == 0)
+                    {
+                        break;
+                    }
+                    items.AddRange(nextResult.WebPages.Values.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), item.Uri)));
+
+                }
             }
 
             return openSearchResponse.ConvertToOpenSearchResponse(items, totalResults, searchTerms, startIndex, count);
