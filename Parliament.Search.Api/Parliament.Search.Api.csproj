@@ -44,18 +44,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.Apis, Version=1.27.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.27.0\lib\net45\Google.Apis.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Core, Version=1.27.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Core.1.27.0\lib\net45\Google.Apis.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.Customsearch.v1, Version=1.27.0.880, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.Customsearch.v1.1.27.0.880\lib\net45\Google.Apis.Customsearch.v1.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.Apis.PlatformServices, Version=1.27.0.0, Culture=neutral, PublicKeyToken=4b01fa6e34db77ab, processorArchitecture=MSIL">
-      <HintPath>..\packages\Google.Apis.1.27.0\lib\net45\Google.Apis.PlatformServices.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.7\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
     </Reference>
@@ -161,6 +149,7 @@
     <Compile Include="AIExceptionLogger.cs" />
     <Compile Include="Controllers\AutodiscoveryController.cs" />
     <Compile Include="Controllers\DescriptionController.cs" />
+    <Compile Include="DependencyResolver.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -171,6 +160,22 @@
     <Compile Include="ServiceModel\Syndication\FeedFormatter.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BingProvider\BingProvider.csproj">
+      <Project>{440707d9-384e-497e-8c8a-20a9bd1ad728}</Project>
+      <Name>BingProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GoogleProvider\GoogleProvider.csproj">
+      <Project>{8fd7915d-ba91-42b0-9646-5a98b33f2f9d}</Project>
+      <Name>GoogleProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Library\Library.csproj">
+      <Project>{14a1a36c-961f-4748-8fce-7ac866c0a624}</Project>
+      <Name>Library</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MockProvider\MockProvider.csproj">
+      <Project>{4318a422-2a0c-4f1a-98a9-87f52adae635}</Project>
+      <Name>MockProvider</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Parliament.OpenSearch\Parliament.OpenSearch.csproj">
       <Project>{05b2757c-37f6-4ddb-89d9-2e1ad653ee94}</Project>
       <Name>Parliament.OpenSearch</Name>

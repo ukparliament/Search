@@ -1,161 +1,59 @@
 ﻿namespace Parliament.Search.Api.Controllers
 {
-    using Google.Apis.Customsearch.v1;
-    using Google.Apis.Customsearch.v1.Data;
-    using Google.Apis.Services;
+    using Library;
     using Microsoft.ApplicationInsights;
     using OpenSearch;
     using System;
     using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
-    using System.ServiceModel.Syndication;
+    using System.Net.Http;
     using System.Web.Http;
 
     public class SearchController : ApiController
     {
-        public Feed Get([FromUri(Name = "q")]string searchTerms)
+        private readonly IEngine engine;
+
+        public SearchController(IEngine engine)
         {
-            return Get(searchTerms, 1);
+            this.engine = engine;
         }
 
-        public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex)
+        public IHttpActionResult Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "pagesize")]int count = 10)
         {
-            return Get(searchTerms, startIndex, 10);
-        }
-
-        public Feed Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex, [FromUri(Name = "pagesize")]int pageSize)
-        {
-            if (startIndex <= 0)
+            if (string.IsNullOrWhiteSpace(searchTerms))
             {
-                throw new ArgumentOutOfRangeException("startIndex", startIndex, "Allowed values are >=1.");
+                return this.BadRequest("The q query string parameter must be specified");
+            }
+            if (startIndex < 1)
+            {
+                return BadRequest("The startIndex query string parameter must be > 1");
+            }
+            if (count < 1 | count > 100)
+            {
+                return BadRequest("The pagesize query string parameter must be > 1 and < 100");
             }
 
-            if (pageSize > 100 | pageSize < 1)
-            {
-                throw new ArgumentOutOfRangeException("pageSize", pageSize, "Allowed values are 1-100 inclusive.");
-            }
-
-            var maxAllowed = 10;
-            var searchList = new List<Search>();
-            var firstSearchResult = Query(searchTerms, startIndex, Math.Min(maxAllowed, pageSize));
-            var totalResults = (int)firstSearchResult.SearchInformation.TotalResults;
-            var maxResults = Math.Min(pageSize, totalResults);
-
-            searchList.Add(firstSearchResult);
-
-            if (pageSize > maxAllowed)
-            {
-                for (int i = maxAllowed + startIndex; i <= maxResults; i += maxAllowed)
-                {
-                    int remainder = maxResults - i + 1;
-                    if (remainder < maxAllowed)
-                    {
-                        searchList.Add(SearchController.Query(searchTerms, i, remainder));
-                    }
-                    else
-                    {
-                        searchList.Add(SearchController.Query(searchTerms, i, maxAllowed));
-                    }
-                }
-            }
-
-            var feed = SearchController.ConvertResults(searchList, searchTerms, startIndex, pageSize);
+            Feed responseFeed = null;
 
             var telemetry = new TelemetryClient();
+            var timer = System.Diagnostics.Stopwatch.StartNew();
+            var startTime = DateTime.UtcNow;
+            try
+            {
+                responseFeed = engine.Search(searchTerms, startIndex, count);
+            }
+            finally
+            {
+                timer.Stop();
+                telemetry.TrackDependency(string.Format("Search Engine: {0}", engine.GetType().FullName), searchTerms, startTime, timer.Elapsed, responseFeed != null);
+            }
 
-            telemetry.TrackMetric("TotalResults", feed.TotalResults, new Dictionary<string, string> {
+            telemetry.TrackMetric("TotalResults", responseFeed.TotalResults, new Dictionary<string, string> {
                 { "searchTerms", searchTerms },
                 { "startIndex", startIndex.ToString() },
-                { "pageSize", pageSize.ToString() }
+                { "count", count.ToString() }
             });
-
-            return feed;
-        }
-
-        private static Feed ConvertResults(IEnumerable<Search> searchList, string searchTerms, int startIndex, int pageSize)
-        {
-            var result = new Feed();
-
-            var items = new List<SyndicationItem>();
-
-            foreach (Search search in searchList)
-            {
-                if (result.TotalResults == 0)
-                {
-                    result.TotalResults = (int)search.SearchInformation.TotalResults;
-                }
-                if (search.Items != null)
-                {
-                    items.AddRange(search.Items.Select(ConvertItem));
-                }
-            }
-
-            result.Items = items;
-            result.StartIndex = startIndex;
-
-            result.Authors.Add(new SyndicationPerson
-            {
-                Name = "parliament.uk"
-            });
-
-            result.Queries.Add(new OpenSearch.Query
-            {
-                Role = "request",
-                SearchTerms = searchTerms,
-                StartIndex = startIndex,
-                Count = pageSize,
-                TotalResults = result.TotalResults
-            });
-
-            return result;
-        }
-
-        private static SyndicationItem ConvertItem(Result item)
-        {
-            var newItem = new SyndicationItem
-            {
-                Title = new TextSyndicationContent(item.HtmlTitle, TextSyndicationContentKind.Html),
-                Summary = new TextSyndicationContent(item.HtmlSnippet, TextSyndicationContentKind.Html)
-            };
-
-            newItem.Links.Add(new SyndicationLink
-            {
-                Uri = new Uri(item.Link),
-                MediaType = item.Mime,
-                RelationshipType = "alternate"
-            });
-
-            return newItem;
-        }
-
-        private static Search Query(string searchTerms, int startIndex, int pageSize)
-        {
-
-            var initializer = new BaseClientService.Initializer();
-            initializer.ApiKey = ConfigurationManager.AppSettings["GoogleApiKey"];
-
-            using (var service = new CustomsearchService(initializer))
-            {
-                var listRequest = service.Cse.List(searchTerms);
-                listRequest.Start = startIndex;
-                listRequest.Num = pageSize;
-                listRequest.Cx = ConfigurationManager.AppSettings["GoogleEngineId"];
-                Search response = null;
-                var telemetry = new TelemetryClient();
-                var timer = System.Diagnostics.Stopwatch.StartNew();
-                var startTime = DateTime.UtcNow;
-                try
-                {
-                    response = listRequest.Execute();                    
-                }
-                finally
-                {
-                    timer.Stop();
-                    telemetry.TrackDependency("Google CSE", searchTerms, startTime, timer.Elapsed, response!=null);
-                }
-                return response;
-            }
+            
+            return ResponseMessage(Request.CreateResponse(responseFeed));
         }
     }
 }

@@ -22,7 +22,7 @@
                     controller = "search",
                     q = "{searchTerms}",
                     start = "{startPage?}",
-                    pagesize = "{count?}"
+                    count = "{count?}"
                 });
 
             var templateUri = new Uri(this.Request.RequestUri, new Uri(HttpUtility.UrlDecode(route), UriKind.Relative));

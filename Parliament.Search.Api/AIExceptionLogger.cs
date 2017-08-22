@@ -1,12 +1,8 @@
-﻿using Microsoft.ApplicationInsights;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Http.ExceptionHandling;
-
-namespace Parliament.Search.Api
+﻿namespace Parliament.Search.Api
 {
+    using Microsoft.ApplicationInsights;
+    using System.Web.Http.ExceptionHandling;
+
     public class AIExceptionLogger : ExceptionLogger
     {
         public override void Log(ExceptionLoggerContext context)
