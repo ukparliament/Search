@@ -18,11 +18,11 @@ The search API currently supports one combination of parameters (matching [param
 |------------------------|----------|-----------------------|---------|----------------------|
 | q                      | True     | string                |         | searchTerms          |
 | start                  | False    | int, min(1)           | 1       | startIndex           |
-| count                  | False    | int, min(1), max(100) | 10      | count                |
+| pagesize                  | False    | int, min(1), max(100) | 10      | count                |
 
-*n.b.* Corresponding [OpenSearch URL template](http://www.opensearch.org/Specifications/OpenSearch/1.1#OpenSearch_URL_template_syntax) query string "?q=\{searchTerms\}\&amp;start=\{startPage?\}\&amp;count=\{count?\}".
+*n.b.* Corresponding [OpenSearch URL template](http://www.opensearch.org/Specifications/OpenSearch/1.1#OpenSearch_URL_template_syntax) query string "?q=\{searchTerms\}\&amp;start=\{startPage?\}\&amp;pagesize=\{count?\}".
 
-*e.g.* Example query "/search?q=who+is+my+mp&start=1&count=10".
+*e.g.* Example query "/search?q=who+is+my+mp&start=1&pagesize=10".
 
 ### Headers
 
