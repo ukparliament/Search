@@ -12,11 +12,11 @@
 
             response.Content = new StringContent($@"<!DOCTYPE html>
 <html>
-    <head profile='http://a9.com/-/spec/opensearch/1.1/'>
-        <link title='os' type='application/opensearchdescription+xml' rel='search' href='{Url.Route("NamedController", new { controller = "description" })}' />
+    <head profile=""http://a9.com/-/spec/opensearch/1.1/"">
+        <link rel=""search"" type=""application/opensearchdescription+xml"" href=""{Url.Route("NamedController", new { controller = "description" })}"" title=""UK Parliament"" />
     </head>
     <body>Hello World</body>
-</html>");
+</html>", System.Text.Encoding.UTF8, "text/html");
             response.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
 
             return response;

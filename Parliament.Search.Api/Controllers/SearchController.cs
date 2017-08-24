@@ -17,7 +17,7 @@
             this.engine = engine;
         }
 
-        public IHttpActionResult Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "pagesize")]int count = 10)
+        public IHttpActionResult Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "count")]int count = 10)
         {
             if (string.IsNullOrWhiteSpace(searchTerms))
             {
@@ -29,7 +29,7 @@
             }
             if (count < 1 | count > 100)
             {
-                return BadRequest("The pagesize query string parameter must be > 1 and < 100");
+                return BadRequest("The count query string parameter must be > 1 and < 100");
             }
 
             Feed responseFeed = null;
