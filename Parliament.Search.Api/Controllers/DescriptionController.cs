@@ -2,6 +2,7 @@
 {
     using OpenSearch;
     using System;
+    using System.Configuration;
     using System.Web;
     using System.Web.Http;
 
@@ -12,7 +13,7 @@
             var description = new Description
             {
                 ShortName = "parliament.uk",
-                DescriptionText = "UK Parliament website"
+                DescriptionText = "UK Parliament"
             };
 
             var route = this.Url.Route(
@@ -25,7 +26,7 @@
                     count = "{count?}"
                 });
 
-            var templateUri = new Uri(this.Request.RequestUri, new Uri(HttpUtility.UrlDecode(route), UriKind.Relative));
+            var templateUri = new Uri(new Uri(ConfigurationManager.AppSettings["ApiManagementServiceUrl"]), new Uri(HttpUtility.UrlDecode(route), UriKind.Relative));
 
             description.Urls.Add(new Url
             {
