@@ -22,7 +22,7 @@
                 {
                     controller = "search",
                     q = "{searchTerms}",
-                    start = "{startPage?}",
+                    start = "{startIndex?}",
                     count = "{count?}"
                 });
 
