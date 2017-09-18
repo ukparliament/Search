@@ -38,10 +38,28 @@
         "description": "Value of the Google engine Id."
       }
     },
-    "environment": {
+    "useBingEngine": {
+      "type": "bool",
+      "metadata": {
+        "description": "Choice to use Bing search engine."
+      }
+    },
+    "useMockEngine": {
+      "type": "bool",
+      "metadata": {
+        "description": "Choice to use mock search engine."
+      }
+    },
+    "apiManagementServiceUrl": {
       "type": "string",
       "metadata": {
-        "description": "Name of the environment that is being deployed to."
+        "description": "Url of the API Management."
+      }
+    },
+    "bingSearchAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Bing search account."
       }
     },
     "releaseId": {
@@ -65,15 +83,28 @@
       },
       "kind": "app",
       "name": "[parameters('applicationPlanName')]",
-      "apiVersion": "2015-08-01",
+      "apiVersion": "2016-09-01",
       "location": "[resourceGroup().location]",
       "tags": {
-        "Department": "Data & Search",
-        "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
-        "Environment": "[parameters('environment')]",
-        "ReleaseId": "[parameters('releaseId')]",
-        "Type": "App plan"
+        "ReleaseId": "[parameters('releaseId')]"
       },
+      "dependsOn": []
+    },
+    {
+      "comments": "Bing search account",
+      "type": "Microsoft.CognitiveServices/accounts",
+      "sku": {
+        "name": "S2"
+      },
+      "kind": "Bing.Search",
+      "name": "[parameters('bingSearchAccountName')]",
+      "apiVersion": "2016-02-01-preview",
+      "location": "global",
+      "tags": {
+        "ReleaseId": "[parameters('releaseId')]"
+      },
+      "scale": null,
+      "properties": {},
       "dependsOn": []
     },
     {
@@ -81,14 +112,10 @@
       "type": "Microsoft.Web/sites",
       "kind": "api",
       "name": "[parameters('searchAPIName')]",
-      "apiVersion": "2015-08-01",
+      "apiVersion": "2016-08-01",
       "location": "[resourceGroup().location]",
       "tags": {
-        "Department": "Data & Search",
-        "34a4fc9c-8817-4c95-8e1b-76e27fbe2699": "f009d98d-028e-48bc-af57-944f3dd9a77c",
-        "Environment": "[parameters('environment')]",
-        "ReleaseId": "[parameters('releaseId')]",
-        "Type": "API app"
+        "ReleaseId": "[parameters('releaseId')]"
       },
       "properties": {
         "name": "[parameters('searchAPIName')]",
@@ -128,12 +155,17 @@
             "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
             "ApplicationInsightsInstrumentationKey": "[reference(resourceId(subscription().subscriptionId,parameters('operationsResourceGroupName'),'Microsoft.Insights/Components',parameters('applicationInsightsName')),'2014-04-01').InstrumentationKey]",
             "GoogleApiKey": "[parameters('googleApiKey')]",
-            "GoogleEngineId": "[parameters('googleEngineId')]"
+            "GoogleEngineId": "[parameters('googleEngineId')]",
+            "BingApiKey": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('bingSearchAccountName')),'2016-02-01-preview').keys[0].value]",
+            "UseBingEngine": "[parameters('useBingEngine')]",
+            "UseMockEngine": "[parameters('useMockEngine')]",
+            "ApiManagementServiceUrl": "[parameters('apiManagementServiceUrl')]"
           }
         }
       ],
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]",
+        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('bingSearchAccountName'))]"
       ]
     }
   ]
