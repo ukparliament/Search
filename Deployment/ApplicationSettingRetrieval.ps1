@@ -3,7 +3,7 @@
 Get settings for API app.
 
 .DESCRIPTION
-Retrieves value of API Management and sets task variable.
+Retrieves value of API Management IP and sets task variable.
 
 .PARAMETER APIResourceGroupName
 Name of the Resource Group where the API Management is.

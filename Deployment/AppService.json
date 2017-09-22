@@ -50,10 +50,10 @@
         "description": "Choice to use mock search engine."
       }
     },
-    "apiManagementServiceUrl": {
+    "apiManagementName": {
       "type": "string",
       "metadata": {
-        "description": "Url of the API Management."
+        "description": "Name of the API Management."
       }
     },
     "bingSearchAccountName": {
@@ -159,7 +159,7 @@
             "BingApiKey": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('bingSearchAccountName')),'2016-02-01-preview').key1]",
             "UseBingEngine": "[parameters('useBingEngine')]",
             "UseMockEngine": "[parameters('useMockEngine')]",
-            "ApiManagementServiceUrl": "[parameters('apiManagementServiceUrl')]"
+            "ApiManagementServiceUrl": "[concat('https://',parameters(apiManagementName),'.azure-api.net/')]"
           }
         }
       ],

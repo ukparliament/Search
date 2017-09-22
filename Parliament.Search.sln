@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+VisualStudioVersion = 15.0.26730.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DFF16828-53C9-4AF2-A5D8-B89612968331}"
 	ProjectSection(SolutionItems) = preProject
@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parliament.Search.Api", "Pa
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", "{34864B7C-AC48-497F-A77D-46446FE1868B}"
 	ProjectSection(SolutionItems) = preProject
-		Deployment\ApplicationSettingsRetrieval.ps1 = Deployment\ApplicationSettingsRetrieval.ps1
+		Deployment\ApplicationSettingRetrieval.ps1 = Deployment\ApplicationSettingRetrieval.ps1
 		Deployment\AppService.json = Deployment\AppService.json
 	EndProjectSection
 EndProject
@@ -75,5 +75,8 @@ Global
 		{34864B7C-AC48-497F-A77D-46446FE1868B} = {DFF16828-53C9-4AF2-A5D8-B89612968331}
 		{64567318-DB21-4E53-A439-A43930BAE713} = {DFF16828-53C9-4AF2-A5D8-B89612968331}
 		{A55DC6C3-F40D-435B-A7C6-4B917AF7944E} = {64567318-DB21-4E53-A439-A43930BAE713}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8ACC990A-F4E6-4F89-990E-27D14C67B166}
 	EndGlobalSection
 EndGlobal
