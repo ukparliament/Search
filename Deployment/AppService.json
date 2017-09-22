@@ -159,7 +159,7 @@
             "BingApiKey": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('bingSearchAccountName')),'2016-02-01-preview').key1]",
             "UseBingEngine": "[parameters('useBingEngine')]",
             "UseMockEngine": "[parameters('useMockEngine')]",
-            "ApiManagementServiceUrl": "[concat('https://',parameters(apiManagementName),'.azure-api.net/')]"
+            "ApiManagementServiceUrl": "[concat('https://',parameters('apiManagementName'),'.azure-api.net/')]"
           }
         }
       ],
