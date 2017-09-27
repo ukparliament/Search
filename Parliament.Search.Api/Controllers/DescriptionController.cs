@@ -26,7 +26,7 @@
                     count = "{count?}"
                 });
 
-            var templateUri = new Uri(new Uri(ConfigurationManager.AppSettings["ApiManagementServiceUrl"]), new Uri(HttpUtility.UrlDecode(route), UriKind.Relative));
+            var templateUri = new Uri(new Uri(ConfigurationManager.AppSettings["ApiManagementServiceUrl"]), HttpUtility.UrlDecode(route).ToString().TrimStart('/'));
 
             description.Urls.Add(new Url
             {
