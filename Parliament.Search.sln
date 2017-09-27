@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DFF16828-53C9-4AF2-A5D8-B89612968331}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 	ProjectSection(SolutionItems) = preProject
 		Deployment\ApplicationSettingRetrieval.ps1 = Deployment\ApplicationSettingRetrieval.ps1
 		Deployment\AppService.json = Deployment\AppService.json
+		Deployment\SearchAPISettings.ps1 = Deployment\SearchAPISettings.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BingProvider", "BingProvider\BingProvider.csproj", "{440707D9-384E-497E-8C8A-20A9BD1AD728}"
