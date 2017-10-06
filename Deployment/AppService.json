@@ -56,6 +56,12 @@
         "description": "Name of the Bing search account."
       }
     },
+    "apiManagementIP": {
+      "type": "string",
+      "metadata": {
+        "description": "IP address of the API Management."
+      }
+    },
     "releaseId": {
       "type": "int",
       "metadata": {
@@ -112,6 +118,13 @@
         "ReleaseId": "[parameters('releaseId')]"
       },
       "properties": {
+        "siteConfig": {
+          "ipSecurityRestrictions": [
+            {
+              "ipAddress": "[parameters('apiManagementIP')]"
+            }
+          ]
+        },
         "name": "[parameters('searchAPIName')]",
         "hostNames": [
           "[concat(parameters('searchAPIName'),'.azurewebsites.net')]"

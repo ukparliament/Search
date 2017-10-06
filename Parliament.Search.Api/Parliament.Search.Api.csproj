@@ -23,6 +23,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <ApplicationInsightsResourceId>/subscriptions/7bd651a8-fab6-4449-b3d2-e0d86dd0fb13/resourcegroups/search-api2/providers/microsoft.insights/components/search-api</ApplicationInsightsResourceId>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -129,7 +130,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Parameters.xml" />
     <Content Include="Secrets.config" />
     <None Include="Properties\PublishProfiles\parliament-search-api - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\parliament-search-api - Web Deploy.pubxml" />
