@@ -67,6 +67,7 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.3.0\lib\net46\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -133,6 +134,7 @@
     <Content Include="Secrets.config" />
     <None Include="Properties\PublishProfiles\parliament-search-api - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\parliament-search-api - Web Deploy.pubxml" />
+    <EmbeddedResource Include="Rules.tsv" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -157,6 +159,7 @@
     <Compile Include="Net\Http\Formatting\StaticMediaTypeMapping.cs" />
     <Compile Include="OpenSearch\DescriptionFormatter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.cs" />
     <Compile Include="ServiceModel\Syndication\FeedFormatter.cs" />
   </ItemGroup>
   <ItemGroup>

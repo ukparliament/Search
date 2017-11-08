@@ -9,6 +9,7 @@
     using System.Linq;
     using System.Net.Http;
     using System.ServiceModel.Syndication;
+    using System.Text.RegularExpressions;
     using System.Web.Http;
     using System.Xml.Linq;
 
@@ -72,25 +73,27 @@
 
         private static void ProcessItem(SyndicationItem item)
         {
-            var uri = item.BaseUri;
+            var uri = item.Links.SingleOrDefault().Uri;
             var hintsExtension = SearchController.ProcessUri(uri);
 
             item.ElementExtensions.Add(hintsExtension);
         }
 
-        private static object ProcessUri(Uri uri)
+        private static HintsWrapper ProcessUri(Uri uri)
         {
             return new HintsWrapper(
-                new[] {
-                    new Hint {
-                        Label = "hint1",
-                        Filter = "filter1" },
-                    new Hint {
-                        Label = "hint2",
-                        Filter = "filter2" }
-                }
+                Resources
+                .Rules
+                .Select(rule => new { Rule = rule, Match = Regex.Match(uri.AbsoluteUri, rule.Key) })
+                .Where(result => result.Match.Success)
+                .Select(result => new Hint
+                {
+                    Label = string.Format(result.Rule.Value, result.Match.Groups.Cast<Group>().Select(group => group.Value).ToArray()),
+                    Filter = result.Match.Groups["filter"].Value
+                })
             );
         }
+
     }
 
     class HintsWrapper : SyndicationElementExtension

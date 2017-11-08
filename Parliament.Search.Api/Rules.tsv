@@ -1,0 +1,1306 @@
+﻿# File-types
+\.pdf$	Type: PDF
+\.xlsx?$	Type: Excel
+\.pptx?$	Type: PowerPoint
+\.docx?$	Type: Word
+
+# Beta
+(?<filter>beta\.parliament\.uk)	Beta
+
+# Member pages
+(?<filter>www\.parliament\.uk/biographies)	Biography
+(?<filter>www\.parliament\.uk/biographies/lords)	Lords biography
+(?<filter>www\.parliament\.uk/biographies/commons)	Commons biography
+www\.parliament\.uk/biographies/.+/.+/(\d+)	PersonMnis: {1}
+
+# EDMs
+(?<filter>parliament\.uk/edm)	Early Day Motion
+(?<filter>parliament\.uk/edm/(\d{4}-\d{2}))	EDM session: {1}
+# The number after year can be member IDs (unsure where identifier comes from - business systems? NOT the same as MNIS Ids) or EDM IDs 
+# IDs are also only unique for each session.
+# IMO this is not a good search hint so its commented out - Raphael
+# parliament\.uk/edm/\d{4}-\d{2}/(\d+)	EDM Id: {1}
+# parliament\.uk/edm/\d{4}-\d{2}/(\d+)/(.+)	EDM by Member Id: {1} ({2})
+
+# PDS blog
+(?<filter>pds\.blog\.parliament\.uk)	Parliamentary Digital Service Blog
+(?<filter>pds\.blog\.parliament\.uk/(\d{4}))	Year: {1}
+(?<filter>pds\.blog\.parliament\.uk/(\d{4}/\d{2}))	Month: {1}
+
+# Archives blog
+(?<filter>archives\.blog\.parliament\.uk)	Archives blog
+(?<filter>archives\.blog\.parliament\.uk/(\d{4}))	Year: {1}
+(?<filter>archives\.blog\.parliament\.uk/(\d{4}/\d{2}))	Month: {1}
+
+# Other blogs
+(?<filter>committeesengagement\.blog\.parliament\.uk)	Select Committees Public Engagement blog
+(?<filter>commonsed\.blog\.parliament\.uk)	Education Committee blog
+(?<filter>blog\.data\.parliament\.uk)	Data and Search blog
+
+# Hansard
+(?<filter>hansard\.parliament\.uk)	Hansard
+(?<filter>hansard\.parliament\.uk/commons)	House of Commons
+(?<filter>hansard\.parliament\.uk/.+/(\d{4})-(\d{2})-(\d{2}))	Day: {3}-{2}-{1}
+hansard\.parliament\.uk/.+/\d{4}-\d{2}-\d{2}/debates/	Debate
+hansard\.parliament\.uk/.+/\d{4}-\d{2}-\d{2}/division/	Division
+(?<filter>hansard\.parliament\.uk/lords)	House of Lords
+hansard\.parliament\.uk/search/MemberContributions	Hansard contributions
+hansard\.parliament\.uk/search/MemberContributions.+house=Commons	Commons Hansard contributions
+hansard\.parliament\.uk/search/MemberContributions.+house=Lords	Lords Hansard contributions
+hansard\.parliament\.uk/search/MemberContributions.+memberId=(\d+)	PersonMnis: {1}
+hansard\.parliament\.uk/search/MemberContributions.+type=(\w+)	Hansard contribution type: {1}
+(?<filter>hansard\.parliament\.uk/pdf/commons)	Commons Hansard PDF
+hansard\.parliament\.uk/pdf/commons	Type: PDF
+(?<filter>hansard\.parliament\.uk/pdf/lords)	Lords Hansard PDF
+hansard\.parliament\.uk/pdf/lords	Type: PDF
+
+# Petitions
+(?<filter>petition\.parliament\.uk)	Petition
+(?<filter>petition\.parliament\.uk/archived/petitions)	Archived petition
+petition\.parliament\.uk/petitions/(\d+)	Petition Id: {1}
+petition\.parliament\.uk/archived/petitions/(\d+)	Petition Id: {1}
+
+# Research Briefings
+(?<filter>researchbriefings\.parliament\.uk)	Research Briefings
+(?<filter>researchbriefings\.files\.parliament\.uk)	Research Briefings
+(?<filter>researchbriefings\.files\.parliament\.uk/documents)	Research Briefings document
+researchbriefings\.files\.parliament\.uk/documents/(.+)/\1\.pdf	Document reference number: {1}
+researchbriefings\.files\.parliament\.uk/documents/(cdp.+)/\1.pdf	Commons Debate Pack
+researchbriefings\.files\.parliament\.uk/documents/(sn.+)/\1.pdf	Library Standard Note
+researchbriefings\.files\.parliament\.uk/documents/(cbp.+)/\1.pdf	Commons Briefing Paper
+researchbriefings\.files\.parliament\.uk/documents/(rp.+)/\1.pdf	Research Paper
+researchbriefings\.files\.parliament\.uk/documents/(POST-PN.+)/\1.pdf	POSTnote
+researchbriefings\.files\.parliament\.uk/documents/(POST-PB.+)/\1.pdf	POSTbrief
+researchbriefings\.files\.parliament\.uk/documents/(lif.+)/\1.pdf	Lords in Focus
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/cdp	Commons Debate Pack
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/sn	Library Standard Note
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/cbp	Commons Briefing Paper
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/rp	Research Paper
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/POST	Parliamentary Office of Science and Technology
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/POST-PN	POSTnote
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/POST-PB	POSTbrief
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/LIF	Lords in Focus
+
+#  Publications - General and misc
+(?<filter>publications\.parliament\.uk/pa/cm/)	House of Commons
+(?<filter>publications\.parliament\.uk/pa/ld/)	House of Lords
+(?<filter>publications\.parliament\.uk/pa/cm(\d{4})(\d{2}))	Commons publication from session: {1}-{2}
+(?<filter>publications\.parliament\.uk/pa/ld(\d{4})(\d{2}))	Lords publication from session: {1}-{2}
+publications\.parliament\.uk/.+/ldjudgmt	Lords Judgement
+publications\.parliament\.uk/.+/cmfutoral	Questions for Oral Answer on a future day
+publications\.parliament\.uk/.+/ldcomp	Companion to the Standing Orders
+
+# Publications - things under pa/cm/.. or pa/ld/..
+publications\.parliament\.uk/.+/cmwib	Weekly Information Bulletin
+publications\.parliament\.uk/.+/csession	Sessional Returns
+# Sessional diaries under documents/commons-committees
+publications\.parliament\.uk/.+/cmcode	Code of Conduct 
+publications\.parliament\.uk/.+/cmordbk1	Questions Book
+publications\.parliament\.uk/.+/cmordbk2	Questions Book 
+publications\.parliament\.uk/.+/cmquestionbook	Questions Book 
+publications\.parliament\.uk/.+/cmfbusi	Future Business 
+publications\.parliament\.uk/.+/listgovt	Officers and Staff 
+
+# This is specified to avoid clashing w ldcond the working group under ldselect
+publications\.parliament\.uk/pa/ld/ldcond/	Code of Conduct  
+publications\.parliament\.uk/.+/ldhandbk	Staff Handbook 
+publications\.parliament\.uk/.+/ldsess	Sessional Returns
+publications\.parliament\.uk/.+/ldorderpaper	Order paper
+publications\.parliament\.uk/.+/lduncorr	Uncorrected evidence
+
+# Annual reports are under briefings
+publications\.parliament\.uk/.+/ldbrief	Briefing/ Report
+publications\.parliament\.uk/.+/ldsess	Sessional papers  
+
+# Publications - Registers, APPGs
+publications\.parliament\.uk/pa/.+/ldreg	Register of Lords' Interests
+# Before 2008, Commons members register is under e.g. cm200708
+publications\.parliament\.uk/.+/cmregmem	Register of Commons Members' Financial Interests
+publications\.parliament\.uk/.+/cmallparty/(\d{2})(\d{2})(\d{2})	Register of All-Party Parliamentary Groups (as at {3}-{2}-{1})
+publications\.parliament\.uk/.+/cmjournl	Register of Journalists' Interests 
+publications\.parliament\.uk/.+/cmsecret	Register of Interests of Members' Secretaries and Research Assistants
+publications\.parliament\.uk/.+/cmpblist	Public bill list 
+publications\.parliament\.uk/.+/cmedm	Early Day Motions
+
+publications\.parliament\.uk/.+/cmallparty	All-Party Parliamentary Groups
+parliament\.uk/about/mps-and-lords/members/apg/	All-Party Parliamentary Groups
+parliament\.uk/documents/pcfs/all-party-groups	All-Party Parliamentary Groups
+
+# Publications - Standing Orders
+publications\.parliament\.uk/pa/.+/cmstords	Commons Standing Orders
+publications\.parliament\.uk/pa/.+/cmstords/soaddendum	Addendum to Standing Orders
+publications\.parliament\.uk/pa/.+/cmstords/soadd	Addendum to Standing Orders
+publications\.parliament\.uk/pa/.+/cmstords/add	Addendum to Standing Orders
+publications\.parliament\.uk/pa/.+/ldstords	Lords Standing Orders
+
+#  Publications - Committees 
+publications\.parliament\.uk/.+/cmselect	Commons Select Committee
+publications\.parliament\.uk/.+/jtselect	Joint Select Committee
+publications\.parliament\.uk/.+/ldselect	Lords Select Committee
+
+#  Publications - CM
+
+# If there are previous shortnames, I've included both where possible (BIS, privileges) and the newer name if a new directory wasn't created (MCS, finance and services, PACAC) etc
+publications\.parliament\.uk/.+/cmadmin	Administration Committee
+publications\.parliament\.uk/.+/cmbackben	Backbench Business Committee
+publications\.parliament\.uk/.+/cmbeis	Business, Energy and Industrial Strategy Committee
+publications\.parliament\.uk/.+/cmcomloc	Communities and Local Government Committee
+publications\.parliament\.uk/.+/cmdfence	Defense Committee
+publications\.parliament\.uk/.+/cmcumeds	Digital, Culture, Media and Sport Committee
+publications\.parliament\.uk/.+/cmeduc	Education Committee
+publications\.parliament\.uk/.+/cmenergy	Energy Committee
+publications\.parliament\.uk/.+/cmenvaud	Environmental Audit Committee
+publications\.parliament\.uk/.+/cmenvfru	Environment, Food and Rural Affairs Committee
+publications\.parliament\.uk/.+/cmese	Sub-Committee on Education, Skills and the Economy
+publications\.parliament\.uk/.+/cmeuleg	European Scrutiny Committee
+publications\.parliament\.uk/.+/cmexeu	Exiting the European Union Committee
+publications\.parliament\.uk/.+/cmfinserv	Finance Committee
+publications\.parliament\.uk/.+/cmfaff	Foreign Affairs Committee
+publications\.parliament\.uk/.+/cmhealth	Health Committee
+publications\.parliament\.uk/.+/cmhaff	Home Affairs Committee
+publications\.parliament\.uk/.+/cmintdev	International Development Committee
+publications\.parliament\.uk/.+/cmintrade	International Trade Committee
+publications\.parliament\.uk/.+/cmjust	Justice Committee
+publications\.parliament\.uk/.+/cmliaisn	Liaison Committee 
+publications\.parliament\.uk/.+/cmniaf	Northern Ireland Affairs Committee
+publications\.parliament\.uk/.+/cmpetitions	Petitions Committee
+publications\.parliament\.uk/.+/cmstnprv	Standards and Privileges Committee
+publications\.parliament\.uk/.+/cmprivi	Privileges Committee
+publications\.parliament\.uk/.+/cmproced	Procedure Committee
+publications\.parliament\.uk/.+/cmpubacc	Public Accounts Committee
+publications\.parliament\.uk/.+/cmpubadm	Public Administration and Constitutional Affairs Committee
+publications\.parliament\.uk/.+/cmdelreg	Regulatory Reform Committee
+publications\.parliament\.uk/.+/cmdereg	Regulatory Reform Committee
+publications\.parliament\.uk/.+/cmsctech	Sciene and Technology Committee
+publications\.parliament\.uk/.+/cmscotaf	Scottish Affairs Committee
+publications\.parliament\.uk/.+/cmstandards	Standards Committee
+publications\.parliament\.uk/.+/cmstatin	Committee on Statutory Instruments
+publications\.parliament\.uk/.+/cmeduski	Sub-Committee on Education, Skills and the Economy
+publications\.parliament\.uk/.+/cmtrans	Transport Committee
+publications\.parliament\.uk/.+/cmtreasy	Treasury Committee
+publications\.parliament\.uk/.+/cmwelaf	Welsh Affairs Committee
+publications\.parliament\.uk/.+/cmwomeq	Women and Equalities Committee
+publications\.parliament\.uk/.+/cmworpen	Work and Pensions Committee
+
+# Not on current website.
+# Some are old shortnames for current committees, some are former/ discharged committees.
+# Note there may be more than 1 shortname for the same committee (e.g. Transport, Public Accounts, BIS). The old ones are below.
+publications\.parliament\.uk/.+/cmbis	Business, Innovation and Skills Committee
+publications\.parliament\.uk/.+/cmhs2	High Speed Rail (London - West Midlands) Bill Select Committee 
+publications\.parliament\.uk/.+/cmpac	Public Accounts Committee
+publications\.parliament\.uk/.+/cmpriv	Privileges Committee
+publications\.parliament\.uk/.+/cmmodern	Committee on Modernisation of the House of Commons
+publications\.parliament\.uk/.+/cmquad	Committees on Arms Export Controls
+publications\.parliament\.uk/.+/cmcomstan	Parliamentary Commissioner for Standards
+publications\.parliament\.uk/.+/cmcomm	Parliamentary Commissioner for Standards
+publications\.parliament\.uk/.+/cmcross	Crossrail Bill Committee
+publications\.parliament\.uk/.+/cmgovern	Commons Governance Committee
+publications\.parliament\.uk/.+/cmodpm	Office of the Deputy Prime Minister
+publications\.parliament\.uk/.+/cmtlgr	Committee on Transport, Local Government and the Regions
+publications\.parliament\.uk/.+/cmchilsch	Children, Schools and Families Committee
+publications\.parliament\.uk/.+/cmtran/	Transport Committee
+publications\.parliament\.uk/.+/cmtrdind	Trade and Industry Committee
+publications\.parliament\.uk/.+/cmlcd	Committee on the Lord Chancellor's Department 
+publications\.parliament\.uk/.+/cmeduemp	Committee on Education and Employment
+publications\.parliament\.uk/.+/cmarmed	Committee on Armed Forces
+publications\.parliament\.uk/.+/cmadopt	Committee on Adoption and Children Bill
+publications\.parliament\.uk/.+/cmmemest	Members Estimate Committee
+publications\.parliament\.uk/.+/cmenvtra	Environment, Transport and Regional Affairs Committee
+publications\.parliament\.uk/.+/cmmemex	Members Expenses Committee
+
+publications\.parliament\.uk/.+/cmlonreg	London Regional Committee
+publications\.parliament\.uk/.+/cmneast	North East Regional Committee
+publications\.parliament\.uk/.+/cmnwest	North West Regional Committee
+publications\.parliament\.uk/.+/cmwestmid	West Midlands Regional Committee
+publications\.parliament\.uk/.+/cmeastmid	East Midlands Regional Committee
+publications\.parliament\.uk/.+/cmseast	South East Regional Committee
+publications\.parliament\.uk/.+/cmswest	South West Regional Committee
+publications\.parliament\.uk/.+/cmswest	Yorkshire and the Humber Regional Committee
+
+publications\.parliament\.uk/.+/cmpublic	Public Bill Committee
+
+publications\.parliament\.uk/.+/cmgeneral	General Committee Debates (Commons)
+publications\.parliament\.uk/.+/cmgeneral/deleg1	Delegated Legislation Committee
+publications\.parliament\.uk/.+/cmgeneral/euro	European Committee
+publications\.parliament\.uk/.+/cmgeneral/welshg	Welsh Grand Committee
+
+publications\.parliament\.uk/.+/cmstand\/	Standing Committee Debates
+publications\.parliament\.uk/.+/cmstand/nirelg	Northern Ireland Grand Committee
+
+#  Publications - JT
+
+publications\.parliament\.uk/.+/jtconsol	Joint Committee on Consolidation Bills
+publications\.parliament\.uk/.+/jtrights	Joint Committee on Human Rights
+publications\.parliament\.uk/.+/jtnatsec	Joint Committee on the National Security Strategy
+publications\.parliament\.uk/.+/jtpow	Joint Committee on the Palace of Westminster
+publications\.parliament\.uk/.+/jtstatin	Joint Committee on Statutory Instruments
+
+# not on current website, shortnames potentially no longer in use
+publications\.parliament\.uk/.+/jtconv	Joint Committee on Conventions
+publications\.parliament\.uk/.+/jtpriv	Joint Committee on Parliamentary Privilege
+publications\.parliament\.uk/.+/jtecc	Ecclesiastical Committee
+publications\.parliament\.uk/.+/jtchar	Joint Committee on the Draft Charities Bill
+publications\.parliament\.uk/.+/jtinvpowers	Joint Committee on the Draft Investigatory Powers Bill
+publications\.parliament\.uk/.+/jtdcc	Joint Committee on Draft Civil Contingencies Bill
+publications\.parliament\.uk/.+/jtlawbil	Joint Committee on Tax Law Rewrite Bills
+publications\.parliament\.uk/.+/jtdraftvoting	Joint Committee on the Draft Voting Eligibility (Prisoners) Bill 
+publications\.parliament\.uk/.+/jtbribe	Joint Committee on the Draft Bribery Bill
+publications\.parliament\.uk/.+/jtcorr	Joint Committee on the Draft Corruption Bill 
+publications\.parliament\.uk/.+/jtdisab	Joint Committee on the Draft Disability Discrimination Bill
+publications\.parliament\.uk/.+/jtpcbs	Parliamentary Commission on Banking Standards
+publications\.parliament\.uk/.+/jtmarine	Joint Committee on the Draft Marine Bill 
+publications\.parliament\.uk/.+/jtconren	Joint Committee on the Draft Constitutional Renewal Bill
+publications\.parliament\.uk/.+/jtdraftterror	Joint Committee on the Draft Enhanced Terrorism Prevention and Investigation Measures Bill 
+publications\.parliament\.uk/.+/jtdraftdereg	Joint Committee on the Draft Deregulation Bill 
+publications\.parliament\.uk/.+/jtembryos	Joint Committee on the Human Tissue and Embryos (Draft) Bill  
+publications\.parliament\.uk/.+/jtdefam	Joint Committee on the Draft Defamation Bill 
+publications\.parliament\.uk/.+/jtcare	Joint Committee on the Draft Care and Support Bill 
+publications\.parliament\.uk/.+/jtdraftfin	Joint Committee on the Draft Financial Services Bill 
+publications\.parliament\.uk/.+/jtdmi	Joint Committee on the Draft Mental Incapacity Bill 
+publications\.parliament\.uk/.+/jtslavery	Joint Committee on the Draft Modern Slavery Bill 
+publications\.parliament\.uk/.+/jtgamb	Joint Committee on the Draft Gambling Bill 
+publications\.parliament\.uk/.+/jtregc	Joint Committee on the Draft Gambling Bill (Regional Casinos)
+publications\.parliament\.uk/.+/jtlegal	Joint Committee on the Draft Legal Services Bill 
+publications\.parliament\.uk/.+/jtclimate	Joint Committee on the Draft Climate Change Bill 
+publications\.parliament\.uk/.+/jtdraftref	Joint Committee on the Draft House of Lords Reform Bill 
+publications\.parliament\.uk/.+/jtment	Joint Committee on the Draft Mental Health Bill 
+publications\.parliament\.uk/.+/jtdraftcomuni	Joint Committee on the Draft Communications Data Bill 
+publications\.parliament\.uk/.+/jtcom	Joint Committee on the Draft Communications Bill 
+publications\.parliament\.uk/.+/jtdetent	Joint Committee on the Draft Detention of Terrorist Suspects (Temporary Extension) Bill 
+
+
+#  Publications - LD
+
+publications\.parliament\.uk/.+/ldaccwks	Administration and Works Committee
+publications\.parliament\.uk/.+/ldcomuni	Communications Committee
+publications\.parliament\.uk/.+/ldconst	Constitution Committee
+publications\.parliament\.uk/.+/lddelreg	Delegated Powers and Regulatory Reform Committee
+publications\.parliament\.uk/.+/ldeconaf	Economic Affairs Committee (and Finance Bill Sub-Committee)
+# Finance Bill had its own shortname but now is listed under econaf
+publications\.parliament\.uk/.+/ldeucom	European Union Committee (and Subcommittees)
+publications\.parliament\.uk/.+/ldhouse	House Committee
+publications\.parliament\.uk/.+/ldhs2	High Speed Rail (London - West Midlands) Bill Select Committee
+publications\.parliament\.uk/.+/ldhybrid	Hybrid Instruments Committee
+publications\.parliament\.uk/.+/ldinfo	Information Committee
+publications\.parliament\.uk/.+/ldintrel	International Relations Committee
+publications\.parliament\.uk/.+/ldliaison	Liason Committee
+publications\.parliament\.uk/.+/ldprivi	Lords' Conduct Committee, Privileges and Conduct Committee
+publications\.parliament\.uk/.+/ldproced	Procedure Committee
+publications\.parliament\.uk/.+/ldfresh	Refreshment Committee
+publications\.parliament\.uk/.+/ldsctech	Science and Technology Committee
+publications\.parliament\.uk/.+/ldsecleg	Secondary Legislation Committee
+publications\.parliament\.uk/.+/ldcomsel	Selection Committee
+
+# No longer maintained. Some are old shortnames for current committees, some are former committees.
+# Note there may be more than 1 shortname for the same committee (e.g. Liaison, Communication). The old ones are below.
+publications\.parliament\.uk/.+/ldchar	Charities Committee
+publications\.parliament\.uk/.+/ldmentalcap	Select Committee on the Mental Capacity Act 2005
+publications\.parliament\.uk/.+/ldadopt	Select Committee on Adoption Legislation
+publications\.parliament\.uk/.+/ldnhssus	Committee on the Long-term Sustainability of the NHS
+publications\.parliament\.uk/.+/ldchin	Committee to review Chinook ZD 576 crash
+publications\.parliament\.uk/.+/lddigital	Committee on Digital Skills
+publications\.parliament\.uk/.+/ldasdy	Committee on Assisted Dying for the Terminally Ill Bill
+publications\.parliament\.uk/.+/ldcomm	Communications Committee
+publications\.parliament\.uk/.+/ldliaison	Liason Committee
+publications\.parliament\.uk/.+/ldprohse	Procedure Committee
+publications\.parliament\.uk/.+/ldleader	Leader's Group on Governance
+publications\.parliament\.uk/.+/ldlicact	Licensing Act 2003 Committee
+publications\.parliament\.uk/.+/ldcond	Standards of Conduct in the House of Lords (working group)
+publications\.parliament\.uk/.+/ldbuilt	National Policy for the Built Environment Committee
+publications\.parliament\.uk/.+/ldcref	Select Committee on Constitutional Reform Bill 
+publications\.parliament\.uk/.+/ldintergov	Select Committee on Intergovernmental Organisations
+publications\.parliament\.uk/.+/ldpublic	Select Committee on Public Service and Demographic Change 
+publications\.parliament\.uk/.+/ldsocmob	Social Mobility Committee 
+publications\.parliament\.uk/.+/ldfoinfo	Committee on Draft Freedom of Information Bill
+
+publications\.parliament\.uk/.+/ldindex	Volume Index to Lords Debates
+
+# Publications - Bills
+# N.B. Having two filterable "Bills" label exhibiting different behavior may cause confusion
+(?<filter>publications\.parliament\.uk/pa/bills)	Bills
+publications\.parliament\.uk/pa/bills/Public-Bill-List	Public bill list
+publications\.parliament\.uk/pa/bills/pblist	Public bill list
+publications\.parliament\.uk/pa/bills/cbill/(\d{4})-(\d{4})/	Commons Bill: {1}-{2}
+publications\.parliament\.uk/pa/bills/lbill/(\d{4})-(\d{4})/	Lords Bill: {1}-{2}
+publications\.parliament\.uk/.+/cmbills	Commons Bills
+publications\.parliament\.uk/.+/ldbills	Lords Bills
+publications\.parliament\.uk/.+/pabills	Public Bills
+publications\.parliament\.uk/.+/privbill	Private Bills 
+# Capture two formats of dates since formatting is inconsistent
+publications\.parliament\.uk/.+/privbill/(\d{2})(\d{2})/	Session: {1}-{2} 
+publications\.parliament\.uk/.+/privbill/(\d{4})(\d{2})/	Session: {1}-{2} 
+publications\.parliament\.uk/.+/privbill	Private Bills 
+publications\.parliament\.uk/pa/pabills/(\d{4})(\d{2})	Bills: {1}-{2}
+
+# Services - Bills
+(?<filter>services\.parliament\.uk/bills)	Bills
+(?<filter>services\.parliament\.uk/bills/(\d{4})-(\d{2}))	Bills from session: {1}-{2}
+services\.parliament\.uk/bills/.+/.+/stages	Bill stages
+services\.parliament\.uk/bills/.+/.+/documents	Bill documents
+
+# Publications - Hansard
+publications\.parliament\.uk/.+/cmhansrd	Commons Hansard
+publications\.parliament\.uk/.+/ldhansrd	Lords Hansard
+publications\.parliament\.uk/.+/cmhansrd/.+/halltext	Commons Hansard transcript (Westminster Hall)
+publications\.parliament\.uk/.+/cmhansrd/.+/debtext	Commons Hansard transcript (Debating chambers)
+
+# Publications - Research
+publications\.parliament\.uk/business/.+/research	Research publications
+
+# Publications - Business papers  
+publications\.parliament\.uk/.+/cmagenda	Commons Business paper
+publications\.parliament\.uk/.+/cmagenda/op(\d{2})(\d{2})(\d{2})	Order Paper: {3}-{2}-{1}
+publications\.parliament\.uk/.+/cmagenda/fb(\d{2})(\d{2})(\d{2})	Future Business for {3}-{2}-{1}
+publications\.parliament\.uk/.+/cmagenda/an(\d{2})(\d{2})(\d{2})	Announcements for {3}-{2}-{1}
+publications\.parliament\.uk/.+/cmagenda/sa(\d{2})(\d{2})(\d{2})\.	Summary Agenda for {3}-{2}-{1}
+publications\.parliament\.uk/.+/cmagenda/sa(\d{1})(\d{2})(\d{2})\.	Summary Agenda for {3}-{2}-0{1}
+publications\.parliament\.uk/.+/cmagenda/pmbpaper(\d{2})(\d{2})(\d{2})	Private Members Bill Paper for {3}-{2}-{1}
+publications\.parliament\.uk/.+/cmagenda/ob(\d{2})(\d{2})(\d{2})	Order of Business: {3}-{2}-{1}
+publications\.parliament\.uk/.+/ld\d{6}/minutes	Lords Minutes 
+publications\.parliament\.uk/.+/ld\d{6}/minutes/.+/ldordpap	Lords Order Paper
+publications\.parliament\.uk/pa/ld/ldordpap	Lords Order Paper
+
+publications\.parliament\.uk/.+/cmsilist	Statutory Instruments list
+publications\.parliament\.uk/.+/cmvote/(\d{2})(\d{2})(\d{2})	Votes and Proceedings for {3}-{2}-{1}
+publications\.parliament\.uk/.+/cmvote/(\d{1})(\d{2})(\d{2})v	Votes and Proceedings for {3}-{2}-0{1}
+publications\.parliament\.uk/.+/cmvote/(\d{1})(\d{2})(\d{2})v	Votes and Proceedings for {3}-{2}-0{1}
+publications\.parliament\.uk/.+/cmvote/vp(\d{2})(\d{2})(\d{2})	Votes and Proceedings for {3}-{2}-{1}
+# Not to be confused with cmjournl, register of journalists' interests
+publications\.parliament\.uk/.+/cmjournal	Commons Journal
+publications\.parliament\.uk/.+/cmjournal/([^/]+)/	Number: {1}
+publications\.parliament\.uk/.+/cmpribus	Private Business
+publications\.parliament\.uk/.+/cmpribus/pb(\d{2})(\d{2})(\d{2})\.	For {3}-{2}-{1}
+publications\.parliament\.uk/.+/cmpribus/pb(\d{2})(\d{2})(\d{2})day	For {3}-{2}-{1}
+publications\.parliament\.uk/.+/cmpribus/pb(\d{2})(\d{2})(\d{2})giv	Notices deposited on {3}-{2}-{1}
+publications\.parliament\.uk/.+/cmpribus/PB_EM(\d{2})(\d{2})(\d{2})	Explanatory Memorandum for {3}-{2}-{1}
+
+
+# Committee sites and misc information, including some publications
+(?<filter>parliament\.uk/business/committees)	Committee
+parliament\.uk/business/committees/committees-a-z/commons-select	Commons Select 
+parliament\.uk/business/committees/committees-a-z/lords-select	Lords Select 
+parliament\.uk/business/committees/committees-a-z/joint-select	Joint Select 
+parliament\.uk/business/committees/committees-a-z/former-committees	Former 
+parliament\.uk/business/committees/committees-a-z/other-committees	Other 
+# Being more cautious here to avoid capturing committees from a level up
+parliament\.uk/business/committees/.+/role	Role of Committee
+parliament\.uk/business/committees/.+/diversity-(\d{2})-(\d{2})	Diversity of witnesses: {1}-{2}
+parliament\.uk/business/committees/.+/membership	Membership 
+parliament\.uk/business/committees/.+/news/	News
+parliament\.uk/business/committees/.+/news-parliament-(\d{4})	From: {1}
+parliament\.uk/business/committees/.+/publications	Publications
+parliament\.uk/business/committees/.+/formal-minutes	Formal minutes
+parliament\.uk/business/committees/.+/contact-us	Contacts
+parliament\.uk/business/committees/.+/blog	Blog
+parliament\.uk/business/committees/.+/other-work	Other work
+parliament\.uk/business/committees/.+/timeline	Timeline
+parliament\.uk/business/committees/.+/inquiries	Inquiry
+parliament\.uk/business/committees/.+/inquiries/parliament-(\d{4})	Inquiry from Parliament {1}
+parliament\.uk/business/publications/committees	Committee publication
+parliament\.uk/business/publications/committees/recent-reports	Recent report
+parliament\.uk/business/publications/committees/select-committee-publications	Select committee
+
+# Commons Select 
+parliament\.uk/business/committees/committees-a-z/commons-select/administration-committee	Administration Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/armed-forces-bill-committee-2015	Armed Forces Bill Select Committee 2015
+parliament\.uk/business/committees/committees-a-z/commons-select/backbench-business-committee	Backbench Business Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/business-energy-industrial-strategy	Business, Energy and Industrial Strategy Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/communities-and-local-government-committee	Communities and Local Government Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/defence-committee	Defence Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/defence-committee/defencesubcommittee	Defence Sub-Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/digital-culture-media-and-sport-committee	Digital, Culture, Media and Sport Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/education-committee	Education Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/environment-food-and-rural-affairs-committee	Environment, Food and Rural Affairs Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/environment-food-and-rural-affairs-committee/environment-food-and-rural-affairs-sub-committee	Environment, Food and Rural Affairs Sub-Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/environmental-audit-committee	Environmental Audit Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/european-scrutiny-committee	European Scrutiny Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/exiting-the-european-union-committee	Exiting the European Union Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/finance-committee	Finance Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/foreign-affairs-committee	Foreign Affairs Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/health-committee	Health Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/high-speed-rail-london-west-midlands-bill-select-committee-commons	High Speed Rail (London - West Midlands) Bill Select Committee 
+parliament\.uk/business/committees/committees-a-z/commons-select/home-affairs-committee	Home Affairs Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/international-development-committee	International Development Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/international-trade-committee	International Trade Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/justice-committee	Justice Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/liaison-committee	Liaison Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/members-expenses	Members' Expenses Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/northern-ireland-affairs-committee	Northern Ireland Affairs Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/petitions-committee	Petitions Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/privileges	Privileges Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/procedure-committee	Procedure Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/public-accounts-committee	Public Accounts Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/public-administration-and-constitutional-affairs-committee	Public Administration and Constitutional Affairs Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/regulatory-reform-committee	Regulatory Reform Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/science-and-technology-committee	Science and Technolgy Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/scottish-affairs-committee	Scottish Affairs Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/scrutinyunit	Scrutiny Unit 
+parliament\.uk/business/committees/committees-a-z/commons-select/committee-of-selection-commons	Selection Committee 
+parliament\.uk/business/committees/committees-a-z/commons-select/standards	Standards Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/standards/standards-review-sub-committee	Standards Review Sub-Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/standing-orders	Standing Orders (Private Bills) Committee 
+parliament\.uk/business/committees/committees-a-z/commons-select/statutory-instruments-committee	Statutory Instruments Committee 
+parliament\.uk/business/committees/committees-a-z/commons-select/education-skills-and-economy	Sub-Committee on Education, Skills and the Economy
+parliament\.uk/business/committees/committees-a-z/commons-select/international-development-committee/sub-committee-on-the-work-of-the-independent-commission-for-aid-impact1/	Sub-Committee on the Work of the Independent Commission for Aid Impact
+parliament\.uk/business/committees/committees-a-z/commons-select/transport-committee	Transport Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/treasury-committee	Treasury Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/welsh-affairs-committee	Welsh Affairs Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/women-and-equalities-committee	Women and Equalities Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/work-and-pensions-committee	Work and Pensions Committee
+
+# Lords Select
+parliament\.uk/business/committees/committees-a-z/lords-select/ai-committee	Artificial Intelligence Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/charities-committe	Select Committee on Charities 
+parliament\.uk/business/committees/committees-a-z/lords-select/citizenship-civic-engagement	Citizenship and Civic Engagement Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/communications-committee	Communications Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/constitution-committee	Constitution Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/delegated-powers-and-regulatory-reform-committee	Delegated Powers and Regulatory Reform Commitee
+parliament\.uk/business/committees/committees-a-z/lords-select/economic-affairs-committee	Economic Affairs Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/economic-affairs-finance-bill-sub-committee	Economic Affairs Finance Bill Sub-Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-energy-environment-subcommittee	EU Energy and Environment Sub-Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-external-affairs-subcommittee	EU External Affairs Sub-Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-financial-affairs-subcommittee	EU Financial Affairs Sub-Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-home-affairs-subcommittee	EU Home Affairs Sub-Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-internal-market-subcommittee	EU Internal Market Sub-Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-justice-subcommittee	EU Justice Sub-Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-select-committee	EU Select Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/finance-committee	Finance Committee 
+parliament\.uk/business/committees/committees-a-z/lords-select/financial-exclusion	Financial Exclusion Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/high-speed-rail-london-west-midlands-bill-select-committee-lords	High Speed Rail (London - West Midlands) Bill Select Committee 
+parliament\.uk/business/committees/committees-a-z/lords-select/house-of-lords-commission	House of Lords Commission
+parliament\.uk/business/committees/committees-a-z/lords-select/hybrid-instruments-committee	Hybrid Instruments Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/ip-unjustified-threats-bill	Intellectual Property (Unjustified Threats) Bill Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/international-relations-committee	International Relations Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/liaison-committee	Liaison Committee (Lords)
+parliament\.uk/business/committees/committees-a-z/lords-select/licensing-act-2003	Licensing Act 2003 Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/nhs-sustainability-committee	Long-Term Sustainability of the NHS Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/sub-committee-on-lords-conduct	Lords' Conduct Sub-Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/built-environment	National Policy for the Built Environment Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/nerc-act-committee	NERC Act 2006 Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/political-polling-digital-media	Political Polling and Digital Media Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/privileges-committee-for-privileges	Committee for Privileges and Conduct
+parliament\.uk/business/committees/committees-a-z/lords-select/procedure-committee	Procedure Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/science-and-technology-committee	Science and Technology Committee 
+parliament\.uk/business/committees/committees-a-z/lords-select/science-and-technology-sub-committee-i	Science and Technology Sub-Committee I 
+parliament\.uk/business/committees/committees-a-z/lords-select/secondary-legislation-scrutiny-committee	Secondary Legislation Scrutiny Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/committeeofselection	Committee of Selection
+parliament\.uk/business/committees/committees-a-z/lords-select/services-committee	Services Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/social-mobility	Social Mobility Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/standing-orders	Standing Orders (Private Bills) Committee 
+
+# Joint Select
+parliament\.uk/business/committees/committees-a-z/joint-select/consolidation-committee	Joint Committee on Consolidation Bills
+parliament\.uk/business/committees/committees-a-z/joint-select/human-rights-committee	Joint Committee on Human Rights
+parliament\.uk/business/committees/committees-a-z/joint-select/national-security-strategy	Joint Committee on the National Security Strategy
+parliament\.uk/business/committees/committees-a-z/joint-select/joint-committee-on-the-palace-of-westminster	Joint Committee on the Palace of Westminster
+parliament\.uk/business/committees/committees-a-z/joint-select/statutory-instruments	Joint Committee on Statutory Instruments
+
+# Other committees
+parliament\.uk/business/committees/committees-a-z/other-committees/committee-on-arms-export-controls	Committee on Arms Export Controls
+parliament\.uk/business/committees/committees-a-z/other-committees/house-of-lords-audit	House of Lords Audit Committee
+parliament\.uk/business/committees/committees-a-z/other-committees/reference-group-representation-inclusion	Commons Reference Group on Representation and Inclusion  
+parliament\.uk/business/committees/committees-a-z/other-committees/court-of-referees	Court of Referees
+parliament\.uk/business/publications/hansard/commons/gc-debates/delegated-legislation-committee	Delegated Legislation Committee
+parliament\.uk/business/committees/committees-a-z/other-committees/ecclesiastical-committee	Ecclesiastical Committee
+parliament\.uk/business/committees/committees-a-z/other-committees/estimate-audit-committees	Adminstration Estimate Audit and Members Estimate Audit Committee
+parliament\.uk/business/publications/hansard/commons/gc-debates/european-committee	European Committee
+parliament\.uk/business/committees/committees-a-z/other-committees/house-of-commons-commission	House of Commons Commission
+parliament\.uk/business/committees/committees-a-z/other-committees/leaders-group-governance	Leader's Group on Governance
+parliament\.uk/business/committees/committees-a-z/other-committees/size-of-house-committee	Lords Speaker's committee on the size of the House
+parliament\.uk/business/committees/committees-a-z/other-committees/members-estimate	Members Estimate Committee
+parliament\.uk/business/publications/hansard/commons/gc-debates/northern-ireland-grand-committee	Northern Ireland Grand Committee
+parliament\.uk/business/committees/committees-a-z/other-committees/panel-of-chairs	Panel of Chairs
+parliament\.uk/business/committees/committees-a-z/other-committees/public-accounts-commission	Public Accounts Commission
+parliament\.uk/business/committees/committees-a-z/other-committees/speakers-committee-for-the-independent-parliamentary-standards-authority	Speaker's Committee for the Independent Parliamentary Standards Authority
+parliament\.uk/business/committees/committees-a-z/other-committees/speakers-committee-on-the-electoral-commission	Committee on Standards in Public Life
+parliament\.uk/business/publications/hansard/commons/gc-debates/welsh-grand-committees	Welsh Grand Committee
+parliament\.uk/business/committees/committees-a-z/other-committees/works-of-art	Speaker's Advisory Committee on Works of Art 
+parliament\.uk/business/committees/committees-a-z/other-committees/lords-works-of-art	Works of Art Advisory Panel (Lords)
+
+# Former committees
+parliament\.uk/business/committees/committees-a-z/joint-select/able-marine-energy-park-development-consent-order-2014	Able Marine Energy Park Development Consent Order 2014 Joint Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/accommodation-and-works-committee-	Accommodation and Works Committee 
+parliament\.uk/business/committees/committees-a-z/lords-select/administration-and-works-committee	Administration and Works Committee (Lords)
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/administration-committee-2	Administration Committee (Commons Former Committee)
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/adoption--children-bill-	Adoption & Children Bill 
+parliament\.uk/business/committees/committees-a-z/lords-select/adoption-legislation-committee	Adoption Legislation Select Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/committee-on-members-allowances	Advisory Panel on Members' Allowances 
+parliament\.uk/business/committees/committees-a-z/lords-select/affordable-childcare	Affordable Childcare Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/agriculture-committee-	Agriculture Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/animals-in-scientific-procedures	Animals in Scientific Procedures
+parliament\.uk/business/committees/committees-a-z/lords-select/arcticcom	Arctic Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/armed-forces-bill	Armed Forces Bill 2005-06
+parliament\.uk/business/committees/committees-a-z/commons-select/armed-forces-bill-committee	Armed Forces Bill 2010-11
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/assisted-dying-for-the-terminally-ill-bill	Assisted Dying for the Terminally Ill Bill
+parliament\.uk/business/committees/committees-a-z/joint-select/professional-standards-in-the-banking-industry	Banking Standards 
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/barnett-formula	Barnett Formula Select Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/bbc-charter-review-	BBC Charter Review
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/bribery-bill-	Bribery Bill 
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/broadcasting	Broadcasting 
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/business-and-enterprise-committee-	Business and Enterprise Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/catering-committee-	Catering Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/ceremony-of-introduction	Ceremony of Introduction
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/children-schools-and-families-committee-	Children, Schools and Families Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/chinook-zd-576	Chinook ZD 576
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/privilege-police-searches-on-the-parliamentary-estate	Committee on Issue of Privilege (Police Searches on the Parliamentary Estate)
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/constitutional-affairs-committee-	Constitutional Affairs Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/constitutional-reform-bill	Constitutional Reform Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/joint-committee-on-conventions	Conventions on the relationship between the two Houses of Parliament 
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/crossrail-bill--	Crossrail Bill (Commons Former Committee)
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/crossrail-bill	Crossrail Bill (Lords Former Committee)
+parliament\.uk/business/committees/committees-a-z/lords-select/digital-skills-committee	Digital Skills Committee
+parliament\.uk/business/committees/committees-a-z/joint-select/draft-care-and-support-bill	Draft Care and Support Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-charities-bill	Draft Charities Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-children-contact--adoption-bill	Draft Children (Contact) & Adoption Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-civil-contingencies-bill	Draft Civil Contingencies Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-climate-change-bill	Draft Climate Change Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-communications-bill	Draft Communications Bill
+parliament\.uk/business/committees/committees-a-z/joint-select/draft-communications-bill	Draft Communications Data Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-constitutional-renewal-bill	Draft Constitutional Renewal Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-corruption-bill-	Draft Corruption Bill 
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-defamation-bill1	Draft Defamation Bill
+parliament\.uk/business/committees/committees-a-z/joint-select/draft-deregulation-bill	Draft Deregulation Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/joint-committee-on-the-draft-detention-of-terrorist-suspects-temporary-extension-bills	Draft Detention of Terrorist Suspects (Temporary Extension) Bills
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-disability-discrimination-bill	Draft Disability Discrimination Bill
+parliament\.uk/business/committees/committees-a-z/joint-select/terrorism-prevention-and-investigation-measures-bill	Draft Enhanced Terrorism Prevention and Investigation Measures Bill
+parliament\.uk/business/committees/committees-a-z/joint-select/draft-financial-services-bill	Draft Financial Services Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/draft-freedom-of-information-bill	Draft Freedom of Information Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-gambling-bill-regional-casinos	Draft Gambling Bill (Regional Casinos)
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-house-of-lords-reform-bill	Draft House of Lords Reform Bill 
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-human-tissue-and-embryos-bill-	Draft Human Tissue and Embryos Bill 
+parliament\.uk/business/committees/committees-a-z/joint-select/draft-investigatory-powers-bill	Draft Investigatory Powers Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-legal-services-bill	Draft Legal Services Bill
+parliament\.uk/business/committees/committees-a-z/commons-select/draft-local-audit-bill-ad-hoc-committee	Draft Local Audit Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-marine-bill	Draft Marine Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-mental-health-bill	Draft Mental Health Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/draft-mental-incapacity-bill	Draft Mental Incapacity Bill
+parliament\.uk/business/committees/committees-a-z/joint-select/draft-modern-slavery-bill	Draft Modern Slavery Bill
+parliament\.uk/business/committees/committees-a-z/joint-select/draft-protection-of-charities-bill	Draft Protection of Charities Bill
+parliament\.uk/business/committees/committees-a-z/joint-select/draft-voting-eligibility-prisoners-bill	Draft Voting Eligibility (Prisoners) Bill
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/east-midlands-committee	East Midlands Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/east-of-england-committee	East of England Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/education-and-employment-committee-	Education and Employment Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/education-and-skills-committee-	Education and Skills Committee 
+parliament\.uk/business/committees/committees-a-z/commons-select/energy-and-climate-change-committee	Energy and Climate Change Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/environment-transport-and-regional-affairs-committee-	Environment, Transport and Regional Affairs Committee 
+parliament\.uk/business/committees/committees-a-z/lords-select/equality-act-2010-and-disability	Equality Act 2010 and Disability Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-environment-and-agriculture-sub-committee-d	EU Agriculture, Fisheries, Environment and Energy Sub-Committee (Sub-Committee D)
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-economic-and-financial-affairs-and-international-trade-sub-committee-a	EU Economic and Financial Affairs Sub-Committee (Sub-Committee A)
+parliament\.uk/business/committees/committees-a-z/lords-select/eu---foreign-affairs-defence-and-development-policy-sub-committee-c	EU External Affairs Sub-Committee (Sub-Committee C)
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-home-affairs-sub-committee-f-	EU Home Affairs, Health and Education Sub-Committee (Sub-Committee F)
+parliament\.uk/business/committees/committees-a-z/lords-select/eu---internal-market-sub-committee-b	EU Internal Market, Infrastructure and Employment Sub-Committee (Sub-Committee B)
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-law-and-institutions-sub-committee-e	EU Justice, Institutions and Consumer Protection Sub-Committee (Sub-Committee E)
+parliament\.uk/business/committees/committees-a-z/lords-select/eu-social-policy-and-consumer-affairs-sub-committee-g	EU Social Policies and Consumer Protection (Sub-Committee G)
+parliament\.uk/business/committees/committees-a-z/lords-select/extradition-law	Extradition Law Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/finance-and-services-committee	Finance and Services Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/hiv-select-committee	HIV and AIDS in the UK Select Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/house-committee	House Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/house-of-commons-governance-committee	House of Commons Governance Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/house-of-lords-offices	House of Lords Offices
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/house-of-lords-reform	House of Lords Reform
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/information-committee-	Information Committee (Commons Former Committee)
+parliament\.uk/business/committees/committees-a-z/lords-select/information-committee	Information Committee (Lords)
+parliament\.uk/business/committees/committees-a-z/lords-select/inheritance-and-trustees-powers-bill	Inheritance and Trustees' Powers Bill [HL] Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/innovation-universities-science-and-skills-committee	Innovation, Universities, Science and Skills Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/inquiries-act-2005	Inquiries Act 2005 Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/intergovernmental-organisations	Intergovernmental Organisations
+parliament\.uk/business/committees/committees-a-z/other-committees/leaders-group-on-members-leaving-the-house	Leader's Group on Members Leaving the House 
+parliament\.uk/business/committees/committees-a-z/other-committees/leaders-group	Leader’s Group on the Working Practices of the House of Lords
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/london-committee	London Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/lord-chancellors-department-committee-	Lord Chancellor's Department Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/management-and-services-in-the-house-of-lords	Management and Services in the House of Lords
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/members-allowances-committee	Members' Allowances Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/mental-capacity-act-2005	Mental Capacity Act 2005 Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/merits-of-statutory-instruments-committee	Merits of Statutory Instruments Committee
+parliament\.uk/business/committees/committees-archive/select-committee-on-modernisation-of-the-house-of-commons	Modernisation Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/monetary-policy-committee-of-the-bank-of-england	Monetary Policy Committee of the Bank of England
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/north-east-committee	North East Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/north-west-committee	North West Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/office-of-deputy-prime-minister	Office of Deputy Prime Minister: Housing, Planning, Local Government and the Regions Committee 
+parliament\.uk/business/committees/committees-a-z/lords-select/olympic-paralympic-legacy	Olympic and Paralympic Legacy Committee
+parliament\.uk/business/committees/committees-a-z/joint-select/jcpp	Parliamentary Privilege
+parliament\.uk/business/committees/committees-a-z/other-committees/partnerships-prosecution-scotland	Partnerships (Prosecution) (Scotland) Bill [HL] 
+parliament\.uk/business/committees/committees-a-z/lords-select/personal-service-companies	Personal Service Companies Committee
+parliament\.uk/business/committees/committees-a-z/commons-select/political-and-constitutional-reform-committee	Political and Constitutional Reform Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/privacy-and-superinjunctions	Privacy and Injunctions
+parliament\.uk/business/committees/committees-a-z/commons-select/public-administration-select-committee	Public Administration Select Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/public-service	Public Service
+parliament\.uk/business/committees/committees-a-z/lords-select/public-services-committee	Public Service and Demographic Change Select Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/quadripartite-committee-	Quadripartite Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/reform-of-the-house-of-commons-committee-	Reform of the House of Commons Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/refreshment-committee	Refreshment Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/regulators	Regulators
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/religious-offences-in-england-and-wales	Religious Offences in England and Wales
+parliament\.uk/business/committees/committees-a-z/joint-select/joint-committee-rookery-south	Rookery South (Resource Recovery Facility) Order 2011
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/science-and-technology-committee-	Science and Technology Committee (Commons Former Committee)
+parliament\.uk/business/committees/committees-a-z/other-committees/joint-committee-on-security	Security (Joint Committee)
+parliament\.uk/business/committees/committees-a-z/lords-select/sexual-violence-in-conflict	Sexual Violence in Conflict Committee
+parliament\.uk/business/committees/committees-a-z/lords-select/small-medium-enterprises-committee	Small and Medium Sized Enterprises Select Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/social-security-committee-	Social Security Committee 
+parliament\.uk/business/committees/committees-a-z/lords-select/soft-power-and-the-uks-influence	Soft Power and the UK’s Influence Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/south-east-committee	South East Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/south-west-committee	South West Committee
+parliament\.uk/business/committees/committees-a-z/other-committees/speakers-conference-on-parliamentary-representation	Speaker's Conference on Parliamentary Representation
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/speakership-of-the-house	Speakership of the House
+parliament\.uk/business/committees/committees-a-z/lords-select/insurance-bill	Special Public Bill Committee on the Insurance Bill [HL]
+parliament\.uk/business/committees/committees-a-z/commons-select/standards-and-privileges-committee	Standards and Privileges Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/standards-of-conduct-in-the-house-of-lords-working-group	Standards of Conduct in the House of Lords (working group)
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/stem-cell-research-committee	Stem Cell Research Committee
+parliament\.uk/business/committees/committees-a-z/joint-select/tax-law-rewrite-bills	Tax Law Rewrite Bills
+parliament\.uk/business/committees/committees-a-z/former-committees/joint-select/tax-simplification	Tax Simplification
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/trade-and-industry-committee-	Trade and Industry Committee 
+parliament\.uk/business/committees/committees-a-z/lords-select/trade-union-party-funding	Trade Union and Party Funding Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/trade-and-industry-committee-1	Transport, Local Government and the Regions Committee 
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/west-midlands-committee	West Midlands Committee
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/select-committee-on-the-west-northamptonshire-development-corporation-area-and-constitution-order-2004	West Northamptonshire Development Corporation (Area and Constitution) Order 2004
+parliament\.uk/business/committees/committees-a-z/former-committees/lords-select/working-practices-of-the-house-group	Working practices of the House (group)
+parliament\.uk/business/committees/committees-a-z/former-committees/commons-select/yorkshire-and-the-humber	Yorkshire and The Humber
+
+(?<filter>parliament\.uk/documents/commons/)	House of Commons
+parliament\.uk/documents/commons/Scrutiny	Scrutiny Unit
+(?<filter>parliament\.uk/documents/lords/)	House of Lords
+(?<filter>parliament\.uk/documents/lords-information-office)	Lords Information Office document
+(?<filter>parliament\.uk/documents/commons-information-office)	Commons Information Office document
+parliament\.uk/documents/commons-information-office/Public-Bill-list	Public Bill List 
+# No Lords vote/ table office, commons subdomains inconsistent date patterns
+(?<filter>parliament\.uk/documents/commons-vote-office)	Commons Vote Office document
+(?<filter>parliament\.uk/documents/commons-table-office)	Commons Table Office document
+(?<filter>parliament\.uk/documents/commons-finance-office)	Commons Finance Office document
+(?<filter>parliament\.uk/documents/lords-finance-office)	Lords Finance Office document
+(?<filter>parliament\.uk/documents/commons-governance-office)	Commons Governance Office
+
+(?<filter>parliament\.uk/documents/commons-chief-executive)	Commons Chief Executive/ Clerk of the House
+parliament\.uk/documents/commons-chief-executive/ExCoPapers	Executive Committee Paper
+parliament\.uk/documents/commons-chief-executive/MBPapers	Management Board Paper
+parliament\.uk/documents/commons-chief-executive/GE2015	General election 2015
+parliament\.uk/documents/commons-chief-executive/GE2017	General election 2017
+
+(?<filter>parliament\.uk/documents/commons-commission)	Commons Commission
+parliament\.uk/documents/commons-commission/Commons-Management-Board	Commons Management Board
+
+(?<filter>parliament\.uk/documents/commons-public-bill-office)	Commons Public Bill Office
+parliament\.uk/documents/commons-public-bill-office/([0-9-]*)/.+	Document from session {1}
+parliament\.uk/documents/commons-public-bill-office/.+/compared-bills	Compared Bills
+parliament\.uk/documents/commons-public-bill-office/.+/selection-of-amendments	Selection of Amendments
+parliament\.uk/documents/commons-public-bill-office/.+/legislative-consent-resolutions	Legislative Consent Resolutions
+parliament\.uk/documents/commons-public-bill-office/.+/delegated-powers-memoranda	Delegated Powers Memoranda
+parliament\.uk/documents/commons-public-bill-office/.+/English-votes-for-English-laws	English votes for English laws
+parliament\.uk/documents/commons-public-bill-office/.+/keeling-schedules	Keeling Schedules
+(?<filter>parliament\.uk/documents/lords-finance-office)	Lords Finance Office document
+
+# Documents - general
+(?<filter>parliament\.uk/documents/impact-assessments)	Impact Assessments
+(?<filter>parliament\.uk/documents/foi)	Freedom of Information
+parliament\.uk/documents/foi/Allowances	Members' allowances
+(?<filter>parliament\.uk/documents/banking-commission)	Banking Commission
+(?<filter>parliament\.uk/documents/heritage)	Heritage
+(?<filter>parliament\.uk/documents/education)	Education
+(?<filter>parliament\.uk/documents/commons-catering)	Commons catering
+(?<filter>parliament\.uk/documents/commons-resources)	Commons resource
+parliament\.uk/documents/commons-resources/Staff-handbook	Commons staff handbook
+(?<filter>parliament\.uk/documents/facilities)	Parliamentary facilities
+(?<filter>parliament\.uk/documents/hl-managementboard)	House of Lords Management Board
+(?<filter>parliament\.uk/documents/pcfs)	Office of the Parliamentary Commissioner for Standards
+(?<filter>parliament\.uk/documents/jobs)	Working at Parliament
+parliament\.uk/documents/jobs/pds-vacancies	Parliamentary Digital Service vacancies
+
+(?<filter>parliament\.uk/documents/lords-commissioner-for-standards)	Lords Commissioner for Standards
+(?<filter>parliament\.uk/documents/DPRR)	Delegated Powers and Regulatory Reform Committee
+parliament\.uk/documents/DPRR/(\d{4})-(\d{2})	Session: {1}-{2}
+parliament\.uk/documents/DPRR/.+/Bills	Bills
+parliament\.uk/documents/DPRR/GFD	Guidance for departments
+
+(?<filter>parliament\.uk/documents/commons-expenditure)	Commons expenditure
+parliament\.uk/documents/commons-expenditure/Admin%20Annual%20Accounts	Administration Annual Accounts
+parliament\.uk/documents/commons-expenditure/Member%20Annual%20Accounts	Member Annual Accounts
+parliament\.uk/documents/commons-expenditure/supply-estimates	Supply estimates
+
+(?<filter>parliament\.uk/documents/commons-committees)	Commons Committees document
+parliament\.uk/documents/commons-committees/administration	Administration Committee
+parliament\.uk/documents/commons-committees/admin-committee	Administration Committee
+parliament\.uk/documents/commons-committees/Armed-Forces-Bill	Armed Forces Bill Committee
+parliament\.uk/documents/commons-committees/backbench-business	Backbench Business Committee
+parliament\.uk/documents/commons-committees/business-innovation-and-skills	Business, Innovation and Skills Committee
+parliament\.uk/documents/commons-committees/communities-and-local-government	Communities and Local Government Committee
+parliament\.uk/documents/commons-committees/culture-media-and-sport	Digital, Culture, Media and Sport Committee
+parliament\.uk/documents/commons-committees/defence	Defence Committee
+parliament\.uk/documents/commons-committees/Education	Education Committee
+parliament\.uk/documents/commons-committees/european-scrutiny	European Scrutiny Committee
+parliament\.uk/documents/commons-committees/environment-food-rural-affairs	Environment, Food and Rural Affairs Committee
+parliament\.uk/documents/commons-committees/environmental-audit	Environmental Audit Committee
+parliament\.uk/documents/commons-committees/Exiting-the-European-Union	Exiting the European Union Committee
+parliament\.uk/documents/commons-committees/finance-and-services	Finance Committee
+parliament\.uk/documents/commons-committees/foreign-affairs	Foreign Affairs Committee
+parliament\.uk/documents/commons-committees/Health	Health Committee
+parliament\.uk/documents/commons-committees/home-affairs	Home Affairs Committee
+parliament\.uk/documents/commons-committees/hs2	High Speed Rail (London - West Midlands) Bill Select Committee 
+parliament\.uk/documents/commons-committees/international-development	International Development Committee
+parliament\.uk/documents/commons-committees/international-trade	International Trade Committee
+parliament\.uk/documents/commons-committees/Justice	Justice Committee
+parliament\.uk/documents/commons-committees/liaison	Liaison Committee
+parliament\.uk/documents/commons-committees/members-estimate-audit	Members Estimate Audit Committee
+parliament\.uk/documents/commons-committees/members-allowances	Members' Allowances Committee
+parliament\.uk/documents/commons-committees/northern-ireland-affairs	Northern Ireland Affairs Committee
+parliament\.uk/documents/commons-committees/PACAC	Public Administration and Constitutional Affairs Committee
+parliament\.uk/documents/commons-committees/petitions	Petitions Committee
+parliament\.uk/documents/commons-committees/public-accounts	Public Accounts Committee
+parliament\.uk/documents/commons-committees/public-administration	Public Administration Committee
+parliament\.uk/documents/commons-committees/procedure	Procedure Committee
+parliament\.uk/documents/commons-committees/Privileges-Committee	Privileges Commmittee
+parliament\.uk/documents/commons-committees/publicaccountscommission	Public Accounts Commission
+parliament\.uk/documents/commons-committees/regulatory-reform	Regulatory Reform Commitee
+parliament\.uk/documents/commons-committees/science-technology	Science and Technology Committee (Commons)
+parliament\.uk/documents/commons-committees/science-technology/evidence-tests	Evidence tests
+parliament\.uk/documents/commons-committees/scottish-affairs	Scottish Affairs Committee
+parliament\.uk/documents/commons-committees/Scrutiny-Unit	Scrutiny Unit
+parliament\.uk/documents/commons-committees/standards-and-privileges	Standards Committee
+parliament\.uk/documents/commons-committees/Standards-Committee	Standards Review Sub-Committee
+parliament\.uk/documents/commons-committees/standing-orders	Standing Orders Committee
+parliament\.uk/documents/commons-committees/transport	Transport Committee
+parliament\.uk/documents/commons-committees/treasury	Treasury Committee
+parliament\.uk/documents/commons-committees/welsh-affairs	Welsh Affairs Committee
+parliament\.uk/documents/commons-committees/women-and-equalities	Women and Equalities Committee
+parliament\.uk/documents/commons-committees/work-and-pensions	Work and Pensions Committee
+
+parliament\.uk/documents/commons-committees/SpeakersIPSA	Speaker's Committee for the Independent Parliamentary Standards Authority (IPSA)
+parliament\.uk/documents/commons-committees/works-of-art	Speaker's Advisory Committee on Works of Art
+parliament\.uk/documents/commons-committees/statutory-instruments	Joint Committee on Statutory Instruments
+
+parliament\.uk/documents/commons-committees/journal-office/	Journal office documents
+parliament\.uk/documents/commons-committees/journal-office/sessional-dairies/commons-sessional-diary-(\d{4})-(\d{2})	Sessional Diary {1}-{2}
+parliament\.uk/documents/commons-committees/journal-office/sessional-dairies/Sessional-Diary-(\d{4})-(\d{2})	Sessional Diary {1}-{2}
+
+(?<filter>parliament\.uk/documents/lords-committees)	Lords Committee document
+parliament\.uk/documents/lords-committees/committee-bulletin	Committee Bulletin
+
+parliament\.uk/documents/lords-committees/Artificial-Intelligence	Artificial Intelligence Committee
+parliament\.uk/documents/lords-committees/charities	Charities Committee
+parliament\.uk/documents/lords-committees/Citizenship-civic-engagement	Citizenship and Civic Engagement Committee
+parliament\.uk/documents/lords-committees/communications	Communications Committee
+parliament\.uk/documents/lords-committees/constitution	Constitution Committee
+parliament\.uk/documents/lords-committees/delegated-powers	Delegated Powers and Regulatory Reform Committee
+parliament\.uk/documents/lords-committees/economic-affairs	Economic Affairs Committee
+parliament\.uk/documents/lords-committees/economic-affairs-finance-bill	Economic Affairs Sub-Committee on the Finance Bill
+parliament\.uk/documents/lords-committees/eu-select	European Union Committee
+parliament\.uk/documents/lords-committees/eu-financial-affairs-subcommittee	EU Financial Affairs Sub-Committee
+parliament\.uk/documents/lords-committees/eu-energy-environment-subcommittee	EU Energy and Environment Sub-Committee
+parliament\.uk/documents/lords-committees/eu-home-affairs-subcommittee	EU Home Affairs Sub-Committee
+parliament\.uk/documents/lords-committees/eu-external-affairs-subcommittee	EU External Affairs Sub-Committee (C)
+parliament\.uk/documents/lords-committees/eu-sub-com-c	EU External Affairs Sub-Committee (C)
+parliament\.uk/documents/lords-committees/eu-sub-com-e	EU Justice and Institutions Sub-Committee (E)
+parliament\.uk/documents/lords-committees/eu-internal-market-subcommittee	EU Internal Market Sub-Committee
+parliament\.uk/documents/lords-committees/Finance-Lords	Finance Committee
+parliament\.uk/documents/lords-committees/financial-exclusion	Financial Exclusion Committee
+parliament\.uk/documents/lords-committees/High-Speed-Rail	High Speed Rail (London - West Midlands) Bill Select Committee 
+parliament\.uk/documents/lords-committees/house-of-lords-commission	House of Lords Commission
+parliament\.uk/documents/lords-committees/Intellectual%20Property	Special Public Bill Committee on the Intellectual Property (Unjustified Threats) Bill 
+parliament\.uk/documents/lords-committees/International-Relations-Committee	International Relations Committee
+parliament\.uk/documents/lords-committees/liaison	Liaison Committee
+parliament\.uk/documents/lords-committees/Licensing-Act-2003	Licensing Act 2003 Committee
+parliament\.uk/documents/lords-committees/NHS-Sustainability	Committee on the Long-term Sustainability of the NHS
+parliament\.uk/documents/lords-committees/privileges	Committee for Privileges and Conduct
+parliament\.uk/documents/lords-committees/built-environment	National Policy for the Built Environment Committee
+parliament\.uk/documents/lords-committees/NERC-Act-2006	NERC Act 2006 Committee
+parliament\.uk/documents/lords-committees/political-polling-digital-media	Political Polling and Digital Media Committee
+parliament\.uk/documents/lords-committees/procedure	Procedure Committee
+parliament\.uk/documents/lords-committees/science-technology	Science and Technology Committee (Lords)
+parliament\.uk/documents/lords-committees/Secondary-Legislation-Scrutiny-Committee	Secondary Legislation Scrutiny Committee
+parliament\.uk/documents/lords-committees/selection	Selection Committee
+parliament\.uk/documents/lords-committees/service	Services Committee
+parliament\.uk/documents/lords-committees/social-mobility	Social Mobility Committee 
+parliament\.uk/documents/lords-committees/Personal-Service-Companies	Personal Service Companies Committee
+parliament\.uk/documents/lords-committees/Demographicchange	Committee on Public Service and Demographic Change
+parliament\.uk/documents/lords-committees/admin-and-works	Administration and Works Committee
+parliament\.uk/documents/lords-committees/equality-act	Equality Act 2010 and Disability Committee
+parliament\.uk/documents/lords-committees/sexual-violence-in-conflict	Sexual Violence in Conflict Committee 
+parliament\.uk/documents/lords-committees/hivaids	HIV and AIDS in the UK Committee
+parliament\.uk/documents/lords-committees/house	House Committee
+parliament\.uk/documents/lords-committees/mental-capacity-act	Select Committee on the Mental Capacity Act 2005
+
+(?<filter>parliament\.uk/documents/joint-committees)	Joint Committee document
+parliament\.uk/documents/joint-committees/statutory-instruments	Select Committee on Statutory Instruments 
+parliament\.uk/documents/joint-committees/Palace%20of%20Westminster	Joint Committee on the Palace of Westminster
+parliament\.uk/documents/joint-committees/national-security-strategy	Joint Committee on the National Security Strategy
+parliament\.uk/documents/joint-committees/consolidation-bills	Joint Committee on Consolidation Bills
+parliament\.uk/documents/joint-committees/human-rights	Joint Committee on Human Rights 
+
+parliament\.uk/documents/joint-committees/Privacy-and-Injunctions	Joint Committee on Privacy and Injunctions
+parliament\.uk/documents/joint-committees/Parliamentary-Privilege	Joint Committee on Parliamentary Privilege
+parliament\.uk/documents/joint-committees/draft-investigatory-powers-bill	Joint Committee on the Draft Investigatory Powers Bill
+parliament\.uk/documents/joint-committees/Draft-Financial-Services-Bill	Joint Committee on the Draft Financial Services Bill
+parliament\.uk/documents/joint-committees/Draft-Modern-Slavery-Bill	Joint Committee on the Draft Modern Slavery Bill
+parliament\.uk/documents/joint-committees/Draft-Defamation-Bill	Joint Committee on the Draft Defamation Bill
+parliament\.uk/documents/joint-committees/draft-deregulation-bill	Draft Deregulation Bill
+parliament\.uk/documents/joint-committees/communications-data	Joint Committee on the Draft Communications Data Bill
+parliament\.uk/documents/joint-committees/Draft-Care-and-Support-Bill	Joint Committee on the Draft Care and Support Bill 
+parliament\.uk/documents/joint-committees/draft-mental-incapacity-bill	Joint Committee on the Draft Mental Incapacity Bill 
+parliament\.uk/documents/joint-committees/draft-house-lords-reform	Joint Committee on House of Lords Reform
+parliament\.uk/documents/joint-committees/draft-house-lords-reform-bill	Joint Committee on the Draft House of Lords Reform Bill 
+parliament\.uk/documents/joint-committees/draft-protection-of-charities	Joint Committee on the Draft Protection of Charities Bill 
+parliament\.uk/documents/joint-committees/detention-terrorists-suspects-bills	Joint Committee on the Draft Detention of Terrorist Suspects (Temporary Extension) Bills
+parliament\.uk/documents/joint-committees/Draft-ETPIMS-Bill	Joint Committee on the Draft Enhanced Terrorism Prevention and Investigation Measures Bill
+parliament\.uk/documents/joint-committees/Draft-Voting-Eligibility-Prisoners-Bill	Joint Committee on the Draft Voting Eligibility (Prisoners) Bill 
+parliament\.uk/documents/joint-committees/Banking-Standards	Parliamentary Commission on Banking Standards
+
+# Documents - publication-records
+parliament\.uk/documents/publications-records/House-of-Lords-Publications	House of Lords 
+parliament\.uk/documents/publications-records/House-of-Commons-Publications	House of Commons 
+parliament\.uk/documents/publications-records/House-of-Lords-Publications/Rules-guides-for-business	Rules and guides for business 
+parliament\.uk/documents/publications-records/House-of-Lords-Publications/Records-activities-and-membership/Register-of-Lords-Interests/Register(\d{2})(\d{2})(\d{2})	Register of Lords' Interest (as at {1}-{2}-{3})
+
+# Documents - POST
+# Look at researchbriefings.files.parliament.uk/documents/POST rules as well. They should play nice together.
+(?<filter>parliament\.uk/documents/post)	Parliamentary Office of Science and Technology
+parliament\.uk/documents/post/postpn	POSTnote 
+parliament\.uk/documents/post/pn	POSTnote 
+parliament\.uk/documents/post/pr	POST report
+parliament\.uk/documents/post/postpr	POST report
+
+# Documents - Library
+(?<filter>parliament\.uk/documents/lords-library)	Lords Library document
+parliament\.uk/documents/commons/lib	Library
+parliament\.uk/documents/commons/lib/research	Research
+
+# Annual reports everywhere! Potentiall problematic. Witness statements?
+[Aa]nnual(.*?)[Rr]eport	Annual report
+
+# data.parliament
+data\.parliament\.uk/DepositedPapers	Deposited papers 
+data\.parliament\.uk/writtenevidence	Written evidence
+data\.parliament\.uk/dataset	Dataset
+
+# Committee Archives
+# Shortname no longer in use
+(?<filter>parliament\.uk/business/committees/committees-archives/lfinbill)	Economic Affairs Sub-Committee on the Finance Bill (Lords) 
+
+# Find your MP
+(?<filter>findyourmp\.parliament\.uk)	Members of Parliament
+(?<filter>findyourmp\.parliament\.uk/constituencies)	Constituencies
+
+# Business - News
+(?<filter>parliament\.uk/business/news)	News
+parliament\.uk/business/news/(\d{4})/(\w+)	From {2}, {1}
+
+# PMQs
+parliament\.uk/business/news/.+/.+/prime-.+-questions-(\d{1,2})-(\w+)-(\d{4})	Prime Minister's Questions: {1} {2}, {3}
+parliament\.uk/business/news/.+/.+/pmqs-(\d{1,2})-(\w+)-(\d{4})	Prime Minister's Questions: {1} {2}, {3}
+parliament\.uk/PMQs-(\d{1,2})-(\w+)-(\d{4})	Prime Minister's Questions: {1} {2}, {3}
+parliament\.uk/business/news/parliament-government-and-politics/parliament/prime-ministers-questions	Prime Minister's Questions
+parliament\.uk/PMQs	Prime Minister's Questions
+
+# Business - This Week in the Commons
+parliament\.uk/business/news/.+/.+/this-week-in-the-commons-(\d{1,2})-(\w+)-(\d{4})	This Week in the Commons: {1} {2}, {3}
+parliament\.uk/business/news/.+/.+/this-week-in-the-commons-(\d{1,2})-(\d{1,2})-(\w+)-(\d{4})	This Week in the Commons: {1}-{2} {3}, {4}
+parliament\.uk/business/news/.+/.+/this-week-in-the-commons-(\d{1,2})---(\d{1,2})-(\w+)-(\d{4})	This Week in the Commons: {1}-{2} {3}, {4}
+
+# Business - Publications 
+# Note some are above the section for business/committees and publications hansard
+(?<filter>parliament\.uk/business/publications)	Parliamentary publications
+parliament\.uk/business/publications/lords	House of Lords
+parliament\.uk/business/publications/commons	House of Commons
+
+parliament\.uk/business/publications/house-of-lords-publications	House of Lords
+parliament\.uk/business/publications/house-of-lords-publications/rules-and-guides-for-business	Rules and Guides for business
+parliament\.uk/business/publications/house-of-lords-publications/rules-and-guides-for-business/companion-to-the-standing-orders	Companion to the Standing Orders
+
+parliament\.uk/business/publications/hansard/.+/historic-hansard	Historic Hansard
+parliament\.uk/business/publications/hansard/commons	Commons Hansard
+parliament\.uk/business/publications/hansard/commons/bill-committee-debates/	Bill Committee Debates
+parliament\.uk/business/publications/hansard/commons/gc-debates	General committee debates
+parliament\.uk/business/publications/hansard/lords	Lords Hansard
+
+# From search portal
+parliament\.uk/business/publications/written-questions-answers-statements/written-questions-answers	Written Questions and Answers
+parliament\.uk/business/publications/written-questions-answers-statements/written-statements	Written Statements
+
+# Actual instances
+parliament\.uk/business/publications/written-questions-answers-statements/written-question/(\w+)/(.+)/.+	Written Question and Answer asked in {1} on {2}
+parliament\.uk/business/publications/written-questions-answers-statements/written-question/Commons/.+/([0-9]+)\/?	Written QNA Id: {1}
+parliament\.uk/business/publications/written-questions-answers-statements/written-question/Lords/.+/HL([0-9]+)\/?	Written QNA Id: {1}
+parliament\.uk/business/publications/written-questions-answers-statements/written-statement/(\w+)/(.+)/.+	Written Statement made in {1} on {2}
+parliament\.uk/business/publications/written-questions-answers-statements/written-statement/\w+/.+/HCWS([0-9]+)\/?	Commons Written Statement Id: {1}
+parliament\.uk/business/publications/written-questions-answers-statements/written-statement/\w+/.+/HLWS([0-9]+)\/?	Lords Written Statement Id: {1}
+parliament\.uk/business/publications/written-questions-answers-statements/daily-reports	Daily reports
+# Actual daily reports are not indexed and should be.
+
+parliament\.uk/business/publications/business-papers/commons	Commons business papers
+parliament\.uk/business/publications/business-papers/commons/deposited-papers	Deposited papers
+parliament\.uk/business/publications/business-papers/commons/agenda-and-order-of-business	Agenda and Order of business
+parliament\.uk/business/publications/business-papers/lords	Lords business papers
+parliament\.uk/business/publications/business-papers/lords/lords-divisions	Division results 
+parliament\.uk/business/publications/business-papers/lords/lords-divisions/\?dd=(\d{4})-(\d{2})-(\d{2})&division=(\d)	Date: {3}-{2}-{1}
+parliament\.uk/business/publications/business-papers/lords/lords-divisions/[^&]+&division=(\d)	Division: {1}
+
+parliament\.uk/business/publications/research	Research publications
+parliament\.uk/business/publications/research/eu-referendum	Brexit
+parliament\.uk/business/publications/research/key-issues-for-the-new-parliament	Key Issues for the New Parliament publication
+
+# Business - Bills
+(?<filter>parliament\.uk/business/bills-and-legislation)	Bills and Legislqnation
+parliament\.uk/business/bills-and-legislation/current-bills/current-bills/	Bills before Parliament
+parliament\.uk/business/bills-and-legislation/current-bills/public-bill-list/	Public bill list
+parliament\.uk/business/bills-and-legislation/current-bills/hybrid-bills/	Hybrid bills
+parliament\.uk/business/bills-and-legislation/draft-bills/	Draft bills
+
+# Business - Commons
+parliament\.uk/business/commons	House of Commons
+parliament\.uk/business/commons/governance-of-the-house-of-commons-	Governance 
+parliament\.uk/business/commons/what-the-commons-does	Work of the House of Commons
+parliament\.uk/business/commons/members-of-the-house-of-commons-	Members of the House of Commons
+parliament\.uk/business/commons/about-the-house-of-commons	Working at the House of Commons
+parliament\.uk/business/commons/the-speaker	The Speaker
+parliament\.uk/business/commons/the-speaker/speeches/speakers-lecture-series/	Speaker Lecture Series
+parliament\.uk/business/commons/the-speaker/speeches/speeches	Commons Speaker speech
+
+# Business - Lords
+parliament\.uk/business/lords	House of Lords
+parliament\.uk/business/lords/work-of-the-house-of-lords	Work of the House of Lords
+parliament\.uk/business/lords/whos-in-the-house-of-lords	Who's in the House of Lords
+parliament\.uk/business/lords/house-lords-administration	How the Lords is run
+parliament\.uk/business/lords/get-involved-with-the-lords	Get involved with the Lords
+parliament\.uk/business/lords/media-centre	Press Office 
+parliament\.uk/business/lords/lords-history	History of the Lords
+parliament\.uk/business/lords/lord-speaker	Lords Speaker
+
+# Topics
+# Not great
+(?<filter>parliament\.uk/topics)	Topical issues 
+
+# MPs Lords and Offices
+(?<filter>parliament\.uk/mps-lords-and-offices/mps)	MPs
+parliament\.uk/mps-lords-and-offices/mps/current-state-of-the-parties	Current state of the parties
+parliament\.uk/mps-lords-and-offices/mps/select-committee-membership	Select committee membership
+parliament\.uk/mps-lords-and-offices/mps/find-your-mp-help	Help with Find Your MP
+(?<filter>parliament\.uk/mps-lords-and-offices/lords)	Lords
+parliament\.uk/mps-lords-and-offices/lords/composition-of-the-lords	Composition
+(?<filter>parliament\.uk/mps-lords-and-offices/government-and-opposition1)	Government and Opposition
+(?<filter>parliament\.uk/mps-lords-and-offices/offices)	Parliamentary offices
+parliament\.uk/mps-lords-and-offices/offices/commons	Commons
+parliament\.uk/mps-lords-and-offices/offices/lords	Lords
+parliament\.uk/mps-lords-and-offices/offices/delegations	Delegation to interparliamentary assemblies
+parliament\.uk/mps-lords-and-offices/offices/bicameral	Bicameral
+
+parliament\.uk/mps-lords-and-offices/offices/commons/governance-office	Governance Office
+parliament\.uk/mps-lords-and-offices/offices/commons/executive-committee	Executive Committee
+parliament\.uk/mps-lords-and-offices/offices/commons/the-board	The Board
+parliament\.uk/mps-lords-and-offices/offices/commons/speakers-office	Speaker's Office
+parliament\.uk/mps-lords-and-offices/offices/commons/teams	Teams
+parliament\.uk/mps-lords-and-offices/offices/commons/hcio	House of Commons Enquiry Service
+parliament\.uk/mps-lords-and-offices/offices/commons/commonslibrary	Library
+parliament\.uk/mps-lords-and-offices/offices/commons/committee-office	Committee Directorate
+parliament\.uk/mps-lords-and-offices/offices/commons/hansard	Hansard
+parliament\.uk/mps-lords-and-offices/offices/commons/scrutinyunit	Scrutiny Unit
+parliament\.uk/mps-lords-and-offices/offices/commons/serjeantatarms	Serjeant at Arms directorate
+parliament\.uk/mps-lords-and-offices/offices/commons/commonshro	Corporate Services
+parliament\.uk/mps-lords-and-offices/offices/commons/media-relations-group	Media Relations Team
+
+parliament\.uk/mps-lords-and-offices/offices/lords/house-of-lords-external-communications	External Communications
+parliament\.uk/mps-lords-and-offices/offices/lords/lordshro	Human Resources Office
+parliament\.uk/mps-lords-and-offices/offices/lords/freedom-of-information-in-the-house-of-lords	Freedom of Information
+parliament\.uk/mps-lords-and-offices/offices/lords/committee-work	Committee work
+
+parliament\.uk/mps-lords-and-offices/offices/bicameral/post	Parliamentary Office of Science and Technology
+parliament\.uk/mps-lords-and-offices/offices/bicameral/post/fellowships	POST fellowships
+parliament\.uk/mps-lords-and-offices/offices/bicameral/post/fellowships/parliamentary-academic-fellowship-scheme/	Parliamentary Academic Fellowship
+parliament\.uk/mps-lords-and-offices/offices/bicameral/cpa-home	Commonwealth Parliament Association
+parliament\.uk/mps-lords-and-offices/offices/bicameral/npo	UK National Parliament Office, Brussels
+parliament\.uk/mps-lords-and-offices/offices/bicameral/parliamentary-digital-service	Parliamentary Digital Service
+
+parliament\.uk/mps-lords-and-offices/offices/delegations/coe2	Parliamentary Assembly of the Council of Europe
+parliament\.uk/mps-lords-and-offices/offices/delegations/nato-pa	North Atlantic Treaty Organisation Parliamentary Assembly
+parliament\.uk/mps-lords-and-offices/offices/delegations/osce1	Organisation for the Security and Cooperation in Europe Parliamentary Assembly
+parliament\.uk/mps-lords-and-offices/offices/delegations/esda	European Security and Defence Assembly
+
+# Members allowances
+(?<filter>parliament\.uk/mps-lords-and-offices/members-allowances)	Member allowances
+parliament\.uk/mps-lords-and-offices/members-allowances/house-of-commons	Commons
+parliament\.uk/mps-lords-and-offices/members-allowances/house-of-commons/allowances-by-mp	By MP
+parliament\.uk/mps-lords-and-offices/members-allowances/house-of-lords	Lords
+(?<filter>parliament\.uk/mps-lords-and-offices/hocallowances)	Commons Members' allowances
+(?<filter>mpsallowancesdb\.parliament\.uk)	Members allowances
+
+# Standards and financial interests
+(?<filter>parliament\.uk/mps-lords-and-offices/standards-and-financial-interests)	Standards and financial interests
+parliament\.uk/mps-lords-and-offices/standards-and-financial-interests/parliamentary-commissioner-for-standards	Parliamentary Commissioner for Standards
+parliament\.uk/mps-lords-and-offices/standards-and-financial-interests/house-of-lords-commissioner-for-standards-	House of Lords Standards and Interests
+
+# About pages
+(?<filter>parliament\.uk/about/general-election-2017)	General Election 2017
+(?<filter>parliament\.uk/about/how)	How Parliament works
+parliament\.uk/about/how/committees/select	Select committees
+parliament\.uk/about/how/committees/joint	Joint committees
+parliament\.uk/about/how/committees/general	General committees
+parliament\.uk/about/how/committees/grandcommittees	Grand committees
+parliament\.uk/about/how/role	Parliament's role
+parliament\.uk/about/how/role/relations-with-other-institutions	Relations with other institutions
+parliament\.uk/about/how/laws	Laws
+parliament\.uk/about/how/elections-and-voting	Elections and voting
+parliament\.uk/about/how/elections-and-voting/general	General elections
+parliament\.uk/about/how/elections-and-voting/by-elections	By-elections
+parliament\.uk/about/how/elections-and-voting/constituencies	Constituencies
+parliament\.uk/about/how/elections-and-voting/swearing-in	Swearing in
+parliament\.uk/about/how/elections-and-voting/voting-systems	Voting systems
+parliament\.uk/about/how/occassions	Occassions
+parliament\.uk/about/how/publications1	Guides to Parliament
+(?<filter>parliament\.uk/about/mps-and-lords)	MPs and Lords
+(?<filter>parliament\.uk/about/living-heritage)	Living Heritage
+parliament\.uk/about/living-heritage/building/palace	The Place of Westminster
+parliament\.uk/about/living-heritage/building/northern-estate	Northern Estate
+parliament\.uk/about/living-heritage/building/cultural-collections	Cultural collections
+parliament\.uk/about/living-heritage/building/restoration-project	Restoration and Renewal
+parliament\.uk/about/living-heritage/building/archives-accommodation-programme	Archives Accommodation Programme
+parliament\.uk/about/living-heritage/evolutionofparliament/originsofparliament	Origins of Parliament
+parliament\.uk/about/living-heritage/evolutionofparliament/parliamentaryauthority	The development of parliamentary authority
+parliament\.uk/about/living-heritage/evolutionofparliament/legislativescrutiny	Changes in legislative authority
+parliament\.uk/about/living-heritage/evolutionofparliament/houseofcommons	House of Commons
+parliament\.uk/about/living-heritage/evolutionofparliament/houseoflords	House of Lords
+parliament\.uk/about/living-heritage/evolutionofparliament/parliamentwork	Parliament at work
+parliament\.uk/about/living-heritage/transformingsociety/	People and Parliament transforming society
+(?<filter>parliament\.uk/about/working)	Working at Parliament
+(?<filter>parliament\.uk/about/faqs)	FAQs
+(?<filter>parliament\.uk/about/podcasts)	Podcasts
+parliament\.uk/about/podcasts/parliament-explained-podcast	Parliament Explained
+parliament\.uk/about/podcasts/video-tours	Video tours
+parliament\.uk/about/podcasts/parliamentaryoutreach	Parliamentary Outreach
+parliament\.uk/about/podcasts/scienceinparliament	Science in Parliament
+parliament\.uk/about/podcasts/toursofparliament	History of Parliament
+parliament\.uk/about/podcasts/theworkofparliament	The Work of Parliament
+parliament\.uk/about/podcasts/videos-for-schools	Videos for Schools
+(?<filter>parliament\.uk/about/sustainability)	Sustainability
+(?<filter>parliament\.uk/about/parliament-and-women)	Parliament and Women
+
+# Get involved, visiting, education
+(?<filter>parliament\.uk/get-involved)	Get Involved with Parliament
+parliament\.uk/get-involved/contact-an-mp-or-lord	Contact an MP or Lord
+parliament\.uk/get-involved/elections	Vote in general elections and referendums
+parliament\.uk/get-involved/attend-an-event	Attend an event or workshop
+parliament\.uk/get-involved/committees	Submit evidence to a committee inquiry
+parliament\.uk/get-involved/education-programmes	Join a learning programme
+parliament\.uk/get-involved/watch-parliament-work	Watch Parliament at work
+parliament\.uk/get-involved/sign-a-petition	Create or sign a petititon
+parliament\.uk/get-involved/have-your-say-on-laws	Have your say: Laws and debates 
+parliament\.uk/get-involved/welsh	Y Gornel Gymraeg
+parliament\.uk/get-involved/vote-100	Vote 100 anniversaries programme
+
+(?<filter>parliament\.uk/education)	Parliament's Education Service
+parliament\.uk/education/teaching-resources-lesson-plans	Teaching resources - lesson plans
+parliament\.uk/education/teacher-training-cpd-opportunities	Continuing Professional Development opportunities
+parliament\.uk/education/outreach-in-your-school	Outreach in your school
+parliament\.uk/education/visit-parliament-with-your-school	School visits
+(?<filter>parliament\.uk/visiting)	Visiting Parliament
+parliament\.uk/visiting/visiting-and-tours/tours-of-parliament	Tours
+parliament\.uk/visiting/visiting-and-tours/watch-committees-and-debates	Watch debates and committees
+parliament\.uk/visiting/visiting-and-tours/events	Attending private events
+parliament\.uk/visiting/online-tours	Online tours
+parliament\.uk/visiting/virtualtour	Virtual tour
+parliament\.uk/visiting/venue-hire	Venue hire
+parliament\.uk/visiting/visiting-parliament-news	News
+
+# Works of Art
+(?<filter>parliament\.uk/about/art-in-parliament)	Art in Parliament
+(?<filter>parliament\.uk/worksofart)	Art in Parliament
+parliament\.uk/worksofart/artwork	Artwork
+parliament\.uk/worksofart/collection-highlights/portraits	Portraits
+parliament\.uk/worksofart/collection-highlights/buildings	Buildings
+parliament\.uk/worksofart/collection-highlights/events	Events
+parliament\.uk/worksofart/collection-highlights/british-history	British history
+parliament\.uk/worksofart/collection-highlights/political-satire	Political satire
+parliament\.uk/worksofart/collection-highlights/around-the-uk	Around the UK
+
+# QNA. These download automatically
+(?<filter>qna\.files\.parliament\.uk/qna-attachments)	Questions and Answers attachment
+(?<filter>qna\.files\.parliament\.uk/ws-attachments)	Written Statements attachment
+# Written QNA daily reports are under e.g. http://qnadailyreport.blob.core.windows.net/qnadailyreportxml/Written-Questions-Answers-Statements-Daily-Report-Commons-2017-xx-xx.pdf, not indexed AFAIK but should be
+
+# Site information
+(?<filter>parliament\.uk/site-information)	Site information
+(?<filter>parliament\.uk/site-information/glossary)	Glossary
+parliament\.uk/site-information/azindex	A-Z Index
+parliament\.uk/site-information/contact-us	Contact Parliament
+parliament\.uk/site-information/foi	Freedom of Information
+parliament\.uk/site-information/foi/publication-schemes	Publication schemes
+parliament\.uk/site-information/data-protection	Data Protection
+parliament\.uk/site-information/foi/publication-schemes	Publication schemes
+parliament\.uk/site-information/foi/foi-and-eir	Freedom of Information and Environmental Information Regulations
+parliament\.uk/site-information/foi/accessing-information	Accessing information
+parliament\.uk/site-information/foi/transparency-publications	Transparency publications
+parliament\.uk/site-information/job-opportunities	Working at Parliament
+parliament\.uk/site-information/using-this-website	Parliamentary Website
+parliament\.uk/site-information/copyright-parliament	Parliamentary Copyright
+parliament\.uk/site-information/accessibility	Website accessibility
+parliament\.uk/site-information/privacy	Privacy
+parliament\.uk/site-information/rss-feeds	RSS Feeds
+
+# Calendar
+(?<filter>calendar\.parliament\.uk)	Calendar
+(?<filter>calendar\.parliament\.uk/calendar/Commons)	Commons
+(?<filter>calendar\.parliament\.uk/calendar/Lords)	Lords
+calendar\.parliament\.uk/calendar/[^/]+/([^/]+)/(\d+)/(\d+)/(\d+)/	{1} events from {4}-{3}-{2}
+
+(?<filter>services\.parliament\.uk/calendar)	Calendar
+
+# Visiting
+(?<filter>parliament\.uk/visiting)	Visiting
+
+# Shop
+(?<filter>shop.parliament\.uk)	Parliament Shop
+
+# Lords publications
+(?<filter>lordspublications.parliament\.uk)	Downloading and Ordering Lords Publications 
+lordspublications.parliament\.uk/product/[^/]+/(.+)	Product code: {1}
+lordspublications.parliament\.uk/pdf/([^.]+).	Product code: {1}
+
+# Restoration and renewal
+(?<filter>restorationandrenewal.parliament\.uk)	Restoration and renewal
+
+# Parliamentary Archives
+(?<filter>archivesmapsearch\.lab\.parliament\.uk)	Archives Map Search
+webarchive\.parliament\.uk	Web Archive
+parliament\.uk/business/publications/parliamentary-archives	Parliamentary Archvies
+parliament\.uk/business/publications/parliamentary-archives/who-we-are	About us
+parliament\.uk/business/publications/parliamentary-archives/visiting-and-services	Visiting and services
+parliament\.uk/business/publications/parliamentary-archives/search-finding-aids-to-online-collections-	Searching aids to online collections
+parliament\.uk/business/publications/parliamentary-archives/explore-guides-to-documentary-archive-	Guides to documentary archive
+
+# Live Feed
+(?<filter>parliamentlive\.tv/)	ParliamentLive
+(?<filter>parliamentlive\.tv/Commons)	ParliamentLive Commons
+(?<filter>parliamentlive\.tv/Lords)	ParliamentLive Lords
+(?<filter>parliamentlive\.tv/Committees)	ParliamentLive Committees
+parliamentlive\.tv/Event/Index/(.+)	ParliamentLive Event ID: {1}
+
+# Recess dates
+parliament\.uk/about/faqs/.+/.+/recess-dates	Commons Recess dates
+parliament\.uk/about/faqs/.+/lords-recess-dates	Lords Recess dates
+
+# Emergency
+(?<filter>emergency\.parliament\.uk)	Emergency
+
+# Bye bye. Who cares about the environment
+(?<filter>fuellingthedebate\.parliament\.uk)	Energy and Climate Change Committee
+
+# Digital democracy
+(?<filter>digitaldemocracy\.parliament\.uk)	Speaker’s Commission on Digital Democracy
+
+# Emails
+subscriptions\.parliament\.uk	Subscribe to email updates
+
+# Portcullis
+# Unsure if this site is indexed. Seems not. Perhaps it should be.
+(?<filter>portcullis\.parliament\.uk)	Portcullis, Parliamentary Archives Catalogue
+
+# Similarly, these do not return search results but may have information that may be worth indexing
+# To be investigated: archives.parliament.uk, images.parliament.uk, docs.parliament.uk, autodiscover.parliament.uk, etabling.parliament.uk, lords-subscriptions.parliament.uk
+
+# Lords business papers
+# This has business papers from June 2017 onwards. 1998-2017 is captured in same way as Commons business papers
+(?<filter>lordsbusiness\.parliament\.uk)	House of Lords business
+lordsbusiness\.parliament\.uk/Documents	Document download
+lordsbusiness\.parliament\.uk/Documents/Download\?documentId=(\d+)	Document Id: {1}
+# Need to strip out %20 if show file name 
+lordsbusiness\.parliament\.uk/Documents/Download\?[^&]+&filename=([^.]+).	File name: {1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=38	Order Paper for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=40	Minutes for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=41	Bills in Progress for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=43	Committees for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=45	Motions for Balloted Debate for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=46	Select Committee Reports for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=47	Other Motion for Debate for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=48	Motions Relating to Delegated Legislation for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=49	Questions for Short Debate for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=50	Questions for Written Answer for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=51	Statutory Instruments in Progress for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=53	Retirements for {3}-{2}-{1}
+lordsbusiness\.parliament\.uk/\?businessPaperDate=(\d{4})-(\d{2})-(\d{2})&sectionId=54	Papers for {3}-{2}-{1}
+
+# Election results
+(?<filter>electionresults\.parliament\.uk)	Election Results
+(?<filter>electionresults\.parliament\.uk/election/2015-05-07)	2015 Election
+(?<filter>electionresults\.parliament\.uk/election/2017-06-08)	2017 Election
+# Need to search and replace %20 spaces
+electionresults\.parliament\.uk/election/(\d{4})-\d{2}-\d{2}/[Rr]esults/[Ll]ocation/.+/(.+)	{1} Election results for {2} 
+
+# Scots wha hey
+(?<filter>archive\.scottish\.parliament\.uk)	Archived Scottish Parliament materials
+
+archive\.scottish\.parliament\.uk/business/chamber	Minutes of Proceedings
+archive\.scottish\.parliament\.uk/business/journalMinutes	Journal of Parliamentary Proceedings
+archive\.scottish\.parliament\.uk/corporate/scpa	Scottish Commission for Public Audit
+archive\.scottish\.parliament\.uk/corporate/AnualReports	Annual Reports
+archive\.scottish\.parliament\.uk/corporate/AnualReports/SP_AnnualReports	Scottish Parliament Annual Report
+archive\.scottish\.parliament\.uk/corporate/AnualReports/Corp_AnnualReports	Corporate Body 
+archive\.scottish\.parliament\.uk/corporate/AnualReports/Env_AnnualReports	Environmental
+archive\.scottish\.parliament\.uk/corporate/AnualReports/Stats_AnnualReports	Statistics
+archive\.scottish\.parliament\.uk/corporate/AnualReports/Strat_AnnualReports	Strategic
+
+(?<filter>mspallowances\.scottish\.parliament\.uk)	Scottish Parliament MSP Allowances Search
+
+archive\.scottish\.parliament\.uk/s3/bills	Bills
+archive\.scottish\.parliament\.uk/s3/committees	Committees
+archive\.scottish\.parliament\.uk/business/committees	Committees 
+
+archive\.scottish\.parliament\.uk/s3/committees/audit	Audit
+archive\.scottish\.parliament\.uk/s3/committees/eet	Economy, Energy and Tourism
+archive\.scottish\.parliament\.uk/s3/committees/ellc	Education, Lifelong Learning and Culture
+archive\.scottish\.parliament\.uk/s3/committees/equal	Equal Opportunities
+archive\.scottish\.parliament\.uk/s3/committees/europe	European and External Relations
+archive\.scottish\.parliament\.uk/s3/committees/finance	Finance
+archive\.scottish\.parliament\.uk/s3/committees/hs	Health and Sport
+archive\.scottish\.parliament\.uk/s3/committees/justice	Justice
+archive\.scottish\.parliament\.uk/s3/committees/lgc	Local Government and Communities
+archive\.scottish\.parliament\.uk/s3/committees/procedures	Procedures
+archive\.scottish\.parliament\.uk/s3/committees/publicAudit	Public Audit 
+archive\.scottish\.parliament\.uk/s3/committees/petitions	Public Petitions
+archive\.scottish\.parliament\.uk/s3/committees/rae	Rural Affairs and Environment
+archive\.scottish\.parliament\.uk/s3/committees/standards	Standards and Public Appointments
+archive\.scottish\.parliament\.uk/s3/committees/stanproc	Standards, Procedures and Public Appointments
+archive\.scottish\.parliament\.uk/s3/committees/subleg	Subordinate Legislation
+archive\.scottish\.parliament\.uk/s3/committees/ticc	Transport, Infrastructure and Climate Change
+archive\.scottish\.parliament\.uk/s3/committees/endLifeAsstBill	End of Life Assistance (Scotland) Bill
+archive\.scottish\.parliament\.uk/s3/committees/forthXbill	Forth Crossing Bill 
+archive\.scottish\.parliament\.uk/s3/committees/rssb	Review of SPCB Supported Bodies
+archive\.scottish\.parliament\.uk/s3/committees/scotBill	Scotland Bill
+archive\.scottish\.parliament\.uk/s3/committees/scpa	Scottish Commission for Public Audit
+archive\.scottish\.parliament\.uk/s3/committees/sppb	Scottish Parliamentary Pension Bill 
+archive\.scottish\.parliament\.uk/s3/committees/spps	Scottish Parliamentary Pension Scheme
+archive\.scottish\.parliament\.uk/s3/committees/ureElderBill	Ure Elder Fund Transfer and Dissolution Bill
+archive\.scottish\.parliament\.uk/s3/committees/willSimpsonBill	William Simpson's Home (Transfer of Property Etc.) (Scotland) Bill
+archive\.scottish\.parliament\.uk/business/committees/adhocstandards	Adhoc Standards Committee
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/audit	Audit
+archive\.scottish\.parliament\.uk/business/committees/communities	Communities
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/education	Education
+archive\.scottish\.parliament\.uk/business/committees/enterprise	Enterprise and Culture
+archive\.scottish\.parliament\.uk/business/committees/environment	Environment and Rural Development
+archive\.scottish\.parliament\.uk/business/committees/historic/x-enterprise	Enterprise and Lifelong Learning
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/equal	Equal Opportunities
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/europe	European and External Relations
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/finance	Finance
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/health	Health
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/justice1	Justice 1
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/justice2	Justice 2
+archive\.scottish\.parliament\.uk/business/committees/justice2sub	Justice 2 Sub-Committee
+archive\.scottish\.parliament\.uk/business/committees/lg	Local Government and Transport
+archive\.scottish\.parliament\.uk/business/committees/historic/x-lg	Local Government and Transport
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/procedures	Procedures
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/petitions	Public Petitions
+archive\.scottish\.parliament\.uk/business/committees/historic/x-rural	Rural Affairs/ Rural Development
+archive\.scottish\.parliament\.uk/business/committees/historic/x-social	Social Inclusion, Housing and Voluntary Sector Committee/ Social Justice
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/standards	Standards (2003-2005), Standards and Public Appointments (2005-2007)
+archive\.scottish\.parliament\.uk/business/committees(\/.+)?/subleg	Subordinate Legislation
+archive\.scottish\.parliament\.uk/business/committees/airdrieBathgateRB	Airdrie-Bathgate Railway and Linked Improvements Bill
+archive\.scottish\.parliament\.uk/business/committees/historic/x-transport	Transport and the Environment
+archive\.scottish\.parliament\.uk/business/committees/bairdTrust	Baird Trust Reorganisation Bill 
+archive\.scottish\.parliament\.uk/business/committees/edinburghAirLinkBill	Edinburgh Airport Rail Link Bill
+archive\.scottish\.parliament\.uk/business/committees/tram-one-bill	Edinburgh Tram (Line One) Bill
+archive\.scottish\.parliament\.uk/business/committees/tram-two-bill	Edinburgh Tram (Line Two) Bill
+archive\.scottish\.parliament\.uk/business/committees/glasgowAirLinkBill	Glasgow Airport Rail Link Bill
+archive\.scottish\.parliament\.uk/business/committees/sak-rail-bill	Stirling-Alloa-Kincardine Railway and Linked Improvements Bill Committee
+archive\.scottish\.parliament\.uk/business/committees/waverlyRB/	Waverley Railway (Scotland) Bill
+archive\.scottish\.parliament\.uk/business/committees/membersinterests	Interests of Members of the Scottish Parliament Bill
+archive\.scottish\.parliament\.uk/business/committees/historic/ad-natgal	National Galleries of Scotland Bill Committee
+archive\.scottish\.parliament\.uk/business/committees/historic/ad-rorig	Robin Rigg Offshore Wind Farm (Navigation and Fishing) (Scotland) Bill Committee
+archive\.scottish\.parliament\.uk/business/committees/historic/ad-child	Commissioner for Children and Young People (Scotland) Bill
+archive\.scottish\.parliament\.uk/business/committees/historic/ad-fish	Salmon and Freshwater Fisheries (Consolidation) (Scotland) Bill Committee
+archive\.scottish\.parliament\.uk/business/committees/historic/adhoc1	Scottish Parliamentary Standards Commissioner Bill Committee
+
+# A comment from Robert
