@@ -37,11 +37,9 @@
                 return BadRequest("The count query string parameter must be > 1 and < 100");
             }
 
-            Feed responseFeed = null;
+            var responseFeed = engine.Search(searchTerms, startIndex, count);
 
-            responseFeed = engine.Search(searchTerms, startIndex, count);
-
-            SearchController.ProcessFeed(responseFeed);
+            responseFeed.Items = SearchController.AddHints(responseFeed);
 
             new TelemetryClient().TrackMetric("TotalResults", responseFeed.TotalResults, new Dictionary<string, string> {
                 { "searchTerms", searchTerms },
@@ -52,20 +50,22 @@
             return ResponseMessage(Request.CreateResponse(responseFeed));
         }
 
-        private static void ProcessFeed(Feed responseFeed)
+        private static IEnumerable<SyndicationItem> AddHints(Feed responseFeed)
         {
-            foreach (var item in responseFeed.Items)
-            {
-                SearchController.ProcessItem(item);
-            }
+            return responseFeed
+                .Items
+                .AsParallel()
+                .Select(SearchController.ProcessItem);
         }
 
-        private static void ProcessItem(SyndicationItem item)
+        private static SyndicationItem ProcessItem(SyndicationItem item)
         {
             var uri = item.Links.SingleOrDefault().Uri;
             var hintsExtension = SearchController.ProcessUri(uri);
 
             item.ElementExtensions.Add(hintsExtension);
+
+            return item;
         }
 
         private static HintsWrapper ProcessUri(Uri uri)
@@ -82,7 +82,6 @@
                 })
             );
         }
-
     }
 
     class HintsWrapper : SyndicationElementExtension
