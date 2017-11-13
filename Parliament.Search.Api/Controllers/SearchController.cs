@@ -39,22 +39,11 @@
 
             Feed responseFeed = null;
 
-            var telemetry = new TelemetryClient();
-            var timer = System.Diagnostics.Stopwatch.StartNew();
-            var startTime = DateTime.UtcNow;
-            try
-            {
-                responseFeed = engine.Search(searchTerms, startIndex, count);
-            }
-            finally
-            {
-                timer.Stop();
-                telemetry.TrackDependency(string.Format("Search Engine: {0}", engine.GetType().FullName), searchTerms, startTime, timer.Elapsed, responseFeed != null);
-            }
+            responseFeed = engine.Search(searchTerms, startIndex, count);
 
             SearchController.ProcessFeed(responseFeed);
 
-            telemetry.TrackMetric("TotalResults", responseFeed.TotalResults, new Dictionary<string, string> {
+            new TelemetryClient().TrackMetric("TotalResults", responseFeed.TotalResults, new Dictionary<string, string> {
                 { "searchTerms", searchTerms },
                 { "startIndex", startIndex.ToString() },
                 { "count", count.ToString() }
