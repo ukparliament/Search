@@ -1,16 +1,16 @@
 ﻿# File-types
-\.pdf$	Type: PDF
-\.xlsx?$	Type: Excel
-\.pptx?$	Type: PowerPoint
-\.docx?$	Type: Word
+\.pdf$	pdf
+\.xlsx?$	Excel
+\.pptx?$	PowerPoint
+\.docx?$	Word
 
 # Beta
 (?<filter>beta\.parliament\.uk)	Beta
 
 # Member pages
 (?<filter>www\.parliament\.uk/biographies)	Biography
-(?<filter>www\.parliament\.uk/biographies/lords)	Lords biography
-(?<filter>www\.parliament\.uk/biographies/commons)	Commons biography
+(?<filter>www\.parliament\.uk/biographies/lords)	Lords
+(?<filter>www\.parliament\.uk/biographies/commons)	Commons
 www\.parliament\.uk/biographies/.+/.+/(\d+)	PersonMnis: {1}
 
 # EDMs
