@@ -2,6 +2,7 @@
 {
     using Library;
     using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
     using Newtonsoft.Json;
     using OpenSearch;
     using System;
@@ -17,6 +18,8 @@
     {
         private readonly IEngine engine;
 
+        private TelemetryClient telemetryClient = new TelemetryClient();
+        
         public SearchController(IEngine engine)
         {
             this.engine = engine;
@@ -41,34 +44,41 @@
 
             responseFeed = engine.Search(searchTerms, startIndex, count);
 
-            SearchController.ProcessFeed(responseFeed);
+            ProcessFeed(responseFeed);
 
-            new TelemetryClient().TrackMetric("TotalResults", responseFeed.TotalResults, new Dictionary<string, string> {
-                { "searchTerms", searchTerms },
-                { "startIndex", startIndex.ToString() },
-                { "count", count.ToString() }
-            });
+            telemetryClient.Context.Properties["searchTerms"] = searchTerms;
+            telemetryClient.Context.Properties["startIndex"] = startIndex.ToString();
+            telemetryClient.Context.Properties["count"] = count.ToString();
+            telemetryClient.TrackMetric(new MetricTelemetry("TotalResults", responseFeed.TotalResults));
 
             return ResponseMessage(Request.CreateResponse(responseFeed));
         }
 
-        private static void ProcessFeed(Feed responseFeed)
+        private void ProcessFeed(Feed responseFeed)
         {
             foreach (var item in responseFeed.Items)
             {
-                SearchController.ProcessItem(item);
+                ProcessItem(item);
             }
         }
 
-        private static void ProcessItem(SyndicationItem item)
+        private void ProcessItem(SyndicationItem item)
         {
             var uri = item.Links.SingleOrDefault().Uri;
-            var hintsExtension = SearchController.ProcessUri(uri);
+            var hintsExtension = ProcessUri(uri);
 
             item.ElementExtensions.Add(hintsExtension);
-        }
 
-        private static HintsWrapper ProcessUri(Uri uri)
+            foreach (Hint hint in hintsExtension.Hints)
+            {
+                telemetryClient.TrackEvent("HintMatch", new Dictionary<string, string> {
+                { "Hints", hint.Label },
+                { "URL", uri.ToString() }
+            }, new Dictionary<string, double> { { "HintsMatchedPerItem", hintsExtension.Hints.Count() } });
+            }
+        }
+    
+        private HintsWrapper ProcessUri(Uri uri)
         {
             return new HintsWrapper(
                 Resources
