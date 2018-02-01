@@ -2,6 +2,7 @@
 {
     using Library;
     using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
     using Newtonsoft.Json;
     using OpenSearch;
     using System;
@@ -17,6 +18,8 @@
     {
         private readonly IEngine engine;
 
+        private TelemetryClient telemetryClient = new TelemetryClient();
+        
         public SearchController(IEngine engine)
         {
             this.engine = engine;
@@ -37,38 +40,45 @@
                 return BadRequest("The count query string parameter must be > 1 and < 100");
             }
 
-            var responseFeed = engine.Search(searchTerms, startIndex, count);
+            Feed responseFeed = null;
 
-            responseFeed.Items = SearchController.AddHints(responseFeed);
+            responseFeed = engine.Search(searchTerms, startIndex, count);
 
-            new TelemetryClient().TrackMetric("TotalResults", responseFeed.TotalResults, new Dictionary<string, string> {
-                { "searchTerms", searchTerms },
-                { "startIndex", startIndex.ToString() },
-                { "count", count.ToString() }
-            });
+            ProcessFeed(responseFeed);
+
+            telemetryClient.Context.Properties["searchTerms"] = searchTerms;
+            telemetryClient.Context.Properties["startIndex"] = startIndex.ToString();
+            telemetryClient.Context.Properties["count"] = count.ToString();
+            telemetryClient.TrackMetric(new MetricTelemetry("TotalResults", responseFeed.TotalResults));
 
             return ResponseMessage(Request.CreateResponse(responseFeed));
         }
 
-        private static IEnumerable<SyndicationItem> AddHints(Feed responseFeed)
+        private void ProcessFeed(Feed responseFeed)
         {
-            return responseFeed
-                .Items
-                .AsParallel()
-                .Select(SearchController.ProcessItem);
+            foreach (var item in responseFeed.Items)
+            {
+                ProcessItem(item);
+            }
         }
 
-        private static SyndicationItem ProcessItem(SyndicationItem item)
+        private void ProcessItem(SyndicationItem item)
         {
             var uri = item.Links.SingleOrDefault().Uri;
-            var hintsExtension = SearchController.ProcessUri(uri);
+            var hintsExtension = ProcessUri(uri);
 
             item.ElementExtensions.Add(hintsExtension);
 
-            return item;
+            foreach (Hint hint in hintsExtension.Hints)
+            {
+                telemetryClient.TrackEvent("HintMatch", new Dictionary<string, string> {
+                { "Hints", hint.Label },
+                { "URL", uri.ToString() }
+            }, new Dictionary<string, double> { { "HintsMatchedPerItem", hintsExtension.Hints.Count() } });
+            }
         }
-
-        private static HintsWrapper ProcessUri(Uri uri)
+    
+        private HintsWrapper ProcessUri(Uri uri)
         {
             return new HintsWrapper(
                 Resources
@@ -82,6 +92,7 @@
                 })
             );
         }
+
     }
 
     class HintsWrapper : SyndicationElementExtension
