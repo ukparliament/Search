@@ -145,10 +145,6 @@
       <Project>{440707d9-384e-497e-8c8a-20a9bd1ad728}</Project>
       <Name>BingProvider</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GoogleProvider\GoogleProvider.csproj">
-      <Project>{8fd7915d-ba91-42b0-9646-5a98b33f2f9d}</Project>
-      <Name>GoogleProvider</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Library\Library.csproj">
       <Project>{14a1a36c-961f-4748-8fce-7ac866c0a624}</Project>
       <Name>Library</Name>

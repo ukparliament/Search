@@ -1,7 +1,6 @@
 ﻿namespace Parliament.Search.Api
 {
     using BingProvider;
-    using GoogleProvider;
     using MockProvider;
     using Parliament.Search.Api.Controllers;
     using System;
@@ -31,8 +30,6 @@
                 {
                     return new SearchController(new BingEngine());
                 }
-
-                return new SearchController(new GoogleEngine());
             }
 
             return null;
