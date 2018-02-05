@@ -6,3 +6,24 @@
 
 # Beta
 (?<filter>beta\.parliament\.uk)	Beta
+
+# Research Briefings
+(?<filter>researchbriefings\.parliament\.uk)	Research Briefings
+(?<filter>researchbriefings\.files\.parliament\.uk)	Research Briefings
+(?<filter>researchbriefings\.files\.parliament\.uk/documents)	Research Briefings document
+researchbriefings\.files\.parliament\.uk/documents/(.+)/\1\.pdf	Document reference number: {1}
+researchbriefings\.files\.parliament\.uk/documents/(?i)(cdp.+)/\1.pdf	Commons Debate Pack
+researchbriefings\.files\.parliament\.uk/documents/(?i)(sn.+)/\1.pdf	Library Standard Note
+researchbriefings\.files\.parliament\.uk/documents/(?i)(cbp.+)/\1.pdf	Commons Briefing Paper
+researchbriefings\.files\.parliament\.uk/documents/(?i)(rp.+)/\1.pdf	Research Paper
+researchbriefings\.files\.parliament\.uk/documents/(?i)(post-pn.+)/\1.pdf	POSTnote
+researchbriefings\.files\.parliament\.uk/documents/(?i)(post-pb.+)/\1.pdf	POSTbrief
+researchbriefings\.files\.parliament\.uk/documents/(?i)(lif.+)/\1.pdf	Lords in Focus
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/(?i)cdp	Commons Debate Pack
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/(?i)sn	Library Standard Note
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/(?i)cbp	Commons Briefing Paper
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/(?i)rp	Research Paper
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/(?i)post	Parliamentary Office of Science and Technology
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/(?i)post-pn	POSTnote
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/(?i)post-pb	POSTbrief
+researchbriefings\.parliament\.uk/ResearchBriefing/Summary/(?i)lif	Lords in Focus
