@@ -1,6 +1,6 @@
 ﻿namespace Parliament.Search.OpenSearch
 {
-    using Parliament.Search.Properties;
+    using Parliament.OpenSearch.Properties;
     using System;
     using System.Globalization;
 
