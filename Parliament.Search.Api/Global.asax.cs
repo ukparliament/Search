@@ -24,6 +24,9 @@
             config.Services.Add(typeof(IExceptionLogger), new AIExceptionLogger());
 
             config.DependencyResolver = new DependencyResolver();
+
+            config.Filters.Add(new RequestIdHeaderFilter());
+            
         }
     }
 }
