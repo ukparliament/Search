@@ -1,4 +1,7 @@
-﻿# File-types
+﻿# Historic Hansard
+(?<filter>api\.parliament\.uk/historic-hansard)	Historic Hansard
+
+# File-types
 \.pdf$	pdf
 \.xlsx?$	Excel
 \.pptx?$	PowerPoint
