@@ -104,6 +104,7 @@
       <Link>CustomDictionary.xml</Link>
     </CodeAnalysisDictionary>
     <Content Include="Global.asax" />
+    <EmbeddedResource Include="OpenApiDefinition.json" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -133,6 +134,7 @@
     <Compile Include="AIExceptionLogger.cs" />
     <Compile Include="Controllers\AutodiscoveryController.cs" />
     <Compile Include="Controllers\DescriptionController.cs" />
+    <Compile Include="Controllers\OpenApiDefinitionController.cs" />
     <Compile Include="DependencyResolver.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Global.asax.cs">

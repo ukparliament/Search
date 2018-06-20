@@ -19,6 +19,7 @@
             config.Formatters.Add(new FeedFormatter());
             config.Formatters.Add(new DescriptionFormatter());
 
+            config.Routes.MapHttpRoute("OpenApiDefinition", "openapi.json", new { controller = "OpenApiDefinition" });
             config.Routes.MapHttpRoute("NamedController", "{controller}");
 
             config.Services.Add(typeof(IExceptionLogger), new AIExceptionLogger());
