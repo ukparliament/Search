@@ -2,6 +2,15 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Search API",
+    "description": "Performs search on parliament.uk domain. Implements OpenSearch specification [https://github.com/dewitt/opensearch].",
+    "contact": {
+      "name": "Data & Search team at UK Parliament",
+      "email": "data@parliament.uk"
+    },
+    "license": {
+      "name": "Open Parliament Licence",
+      "url": "https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence"
+    },
     "version": "Live"
   },
   "servers": [
@@ -10,223 +19,41 @@
     }
   ],
   "components": {
-    "schemas": {
-      "searchResponseModel": {
-        "type": "object",
-        "properties": {
-          "Queries": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "role": {
-                  "type": "string"
-                },
-                "searchTerms": {
-                  "type": "string"
-                },
-                "totalResults": {
-                  "type": "number"
-                },
-                "count": {
-                  "type": "number"
-                },
-                "startIndex": {
-                  "type": "number"
-                }
-              }
-            }
-          },
-          "TotalResults": {
-            "type": "number"
-          },
-          "StartIndex": {
-            "type": "number"
-          },
-          "ItemsPerPage": {
-            "type": "number"
-          },
-          "AttributeExtensions": {
-            "type": "object"
-          },
-          "Authors": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "AttributeExtensions": {
-                  "type": "object"
-                },
-                "Name": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "Items": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "AttributeExtensions": {
-                  "type": "object"
-                },
-                "Content": {
-                  "type": "object",
-                  "properties": {
-                    "Text": {
-                      "type": "string"
-                    },
-                    "Type": {
-                      "type": "string"
-                    },
-                    "AttributeExtensions": {
-                      "type": "object"
-                    }
-                  }
-                },
-                "ElementExtensions": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "OuterName": {
-                        "type": "string"
-                      },
-                      "OuterNamespace": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                },
-                "LastUpdatedTime": {
-                  "type": "string"
-                },
-                "Links": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "AttributeExtensions": {
-                        "type": "object"
-                      },
-                      "Length": {
-                        "type": "number"
-                      },
-                      "Title": {
-                        "type": "string"
-                      },
-                      "Uri": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                },
-                "PublishDate": {
-                  "type": "string"
-                },
-                "Title": {
-                  "type": "object",
-                  "properties": {
-                    "Text": {
-                      "type": "string"
-                    },
-                    "Type": {
-                      "type": "string"
-                    },
-                    "AttributeExtensions": {
-                      "type": "object"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "LastUpdatedTime": {
-            "type": "string"
-          },
-          "Title": {
-            "type": "object",
-            "properties": {
-              "Text": {
-                "type": "string"
-              },
-              "Type": {
-                "type": "string"
-              },
-              "AttributeExtensions": {
-                "type": "object"
-              }
-            }
-          }
-        }
-      }
-    },
     "responses": {
       "searchResponse": {
         "description": "Search results",
         "content": {
+          "application/atom+xml": {
+          },
+          "application/rss+xml": {
+          },
+          "text/xml": {
+          },
           "application/xml": {
-            "schema": {
-              "$ref": "#/components/schemas/searchResponseModel"
-            }
           },
           "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/searchResponseModel"
-            }
           }
         }
       }
     }
   },
+  "externalDocs": {
+    "description": "OpenSearch github repository",
+    "url": "https://github.com/dewitt/opensearch"
+  },
   "paths": {
     "/description": {
       "get": {
-        "summary": "Description",
+        "summary": "OpenSearch description document",
+        "externalDocs": {
+          "description": "OpenSearch github repository",
+          "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#opensearch-description-document"
+        },
         "responses": {
           "200": {
             "description": "Open Search Description",
             "content": {
               "application/opensearchdescription+xml": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "?xml": {
-                      "type": "object",
-                      "properties": {
-                        "@version": {
-                          "type": "string"
-                        }
-                      }
-                    },
-                    "OpenSearchDescription": {
-                      "type": "object",
-                      "properties": {
-                        "@xmlns": {
-                          "type": "string"
-                        },
-                        "ShortName": {
-                          "type": "string"
-                        },
-                        "Description": {
-                          "type": "string"
-                        },
-                        "Url": {
-                          "type": "object",
-                          "properties": {
-                            "@template": {
-                              "type": "string"
-                            },
-                            "@type": {
-                              "type": "string"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
               }
             }
           }
@@ -235,7 +62,11 @@
     },
     "/": {
       "get": {
-        "summary": "Search",
+        "summary": "Search results",
+        "externalDocs": {
+          "description": "OpenSearch github repository",
+          "url":"https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#opensearch-response-elements"
+        },
         "parameters": [
           {
             "name": "q",
