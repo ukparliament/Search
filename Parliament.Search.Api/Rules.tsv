@@ -3,11 +3,69 @@
 # Historic Hansard
 (?<filter>api\.parliament\.uk/historic-hansard)	Historic Hansard
 
-# File-types
-\.pdf$	pdf
+\.pdf$	PDF
 \.xlsx?$	Excel
 \.pptx?$	PowerPoint
 \.docx?$	Word
 
-# Beta
 (?<filter>beta\.parliament\.uk)	Beta
+
+parliament\.uk/afternoon-tea	Afternoon Tea
+parliament\.uk/worksofart	Art in Parliament
+parliament\.uk/about/art-in-parliament	Art in Parliament
+parliament\.uk/bigben	Big Ben
+services\.parliament\.uk/bills	Bills
+publications\.parliament\.uk/pa/bills	Bills
+parliament\.uk/business/bills-and-legislation	Bills and Legislation
+www\.parliament\.uk/biographies	Biography
+calendar\.parliament\.uk	Calendar
+parliament\.uk/business/committees	Committee
+parliament\.uk/documents/commons-committees	Commons Committees document
+publications\.parliament\.uk/pa/cm(\d{4})(\d{2})	Commons publication from session: {1}-{2}
+data\.parliament\.uk/dataset	Dataset
+data\.parliament\.uk/DepositedPapers	Deposited papers
+parliament\.uk/edm	Early Day Motion
+electionresults\.parliament\.uk	Election Results
+parliament\.uk/about/faqs	FAQs
+parliament\.uk/about/general-election-2017	General Election 2017
+parliament\.uk/get-involved	Get Involved with Parliament
+parliament\.uk/mps-lords-and-offices/government-and-opposition1	Government and Opposition
+hansard\.parliament\.uk	Hansard
+publications\.parliament\.uk/pa/cm/	House of Commons
+parliament\.uk/business/commons	House of Commons
+parliament\.uk/business/lords	House of Lords
+publications\.parliament\.uk/pa/ld/	House of Lords
+lordsbusiness\.parliament\.uk	House of Lords business
+parliament\.uk/about/how	How Parliament works
+publications\.parliament\.uk/.+/jtselect	Joint Select Committee
+secondreading\.parliament\.uk.*/key-issues	Key Issues
+parliament\.uk/about/living-heritage	Living Heritage
+parliament\.uk/mps-lords-and-offices/lords	Lords
+publications\.parliament\.uk/pa/ld(\d{4})(\d{2})	Lords publication from session: {1}-{2}
+parliament\.uk/mps-lords-and-offices/members-allowances	Member allowances
+findyourmp\.parliament\.uk	Members of Parliament
+parliament\.uk/mps-lords-and-offices/mps	MPs
+parliament\.uk/about/mps-and-lords	MPs and Lords
+parliament\.uk/business/news	News
+parliament\.uk/documents/pcfs	Office of the Parliamentary Commissioner for Standards
+parliament\.uk/about/parliament-and-women	Parliament and Women
+shop.parliament\.uk	Parliament Shop
+pds\.blog\.parliament\.uk	Parliamentary Digital Service Blog
+parliament\.uk/mps-lords-and-offices/offices	Parliamentary offices
+parliament\.uk/business/publications	Parliamentary publications
+parliament\.uk/education	Parliament's Education Service
+petition\.parliament\.uk	Petition
+parliament\.uk/about/podcasts	Podcasts
+publications\.parliament\.uk/.+/pabills	Public Bills
+researchbriefings\.parliament\.uk	Research Briefings
+restorationandrenewal.parliament\.uk	Restoration and Renewal
+parliament\.uk/site-information	Site information
+parliament\.uk/mps-lords-and-offices/standards-and-financial-interests	Standards and financial interests
+subscriptions\.parliament\.uk	Subscribe to email updates
+parliament\.uk/about/sustainability	Sustainability
+parliament\.uk/topics	Topical issues
+parliament\.uk/treascom	Treasury Committee
+parliament\.uk/visiting	Visiting
+webarchive\.parliament\.uk	Web Archive
+parliament\.uk/about/working	Working at Parliament
+parliament\.uk/writtenstatements	Written Statements
