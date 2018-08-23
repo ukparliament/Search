@@ -1,14 +1,15 @@
-﻿using System.Web;
-using System.Web.Http.Filters;
-
-namespace Parliament.Search.Api
+﻿namespace Parliament.Search.Api
 {
+    using System.Web;
+    using System.Web.Http.Filters;
+
     public class RequestIdHeaderFilter : ActionFilterAttribute
     {
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
-            string operationId = HttpContext.Current.GetRequestTelemetry().Context.Operation.ParentId;
-            if (string.IsNullOrWhiteSpace(operationId) == false)
+            var operationId = HttpContext.Current.GetRequestTelemetry().Context.Operation.ParentId;
+
+            if (!string.IsNullOrWhiteSpace(operationId))
             {
                 actionExecutedContext.Response.Headers.Add("Request-Id", operationId);
             }

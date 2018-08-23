@@ -5,10 +5,11 @@
     using System;
     using System.Linq;
     using System.ServiceModel.Syndication;
+    using System.Threading.Tasks;
 
     public class MockEngine : IEngine
     {
-        public Feed Search(string searchTerms, int startIndex, int count)
+        public async Task<Feed> Search(string searchTerms, int startIndex, int count)
         {
             var random = new Random();
 

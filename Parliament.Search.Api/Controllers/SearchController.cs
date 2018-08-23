@@ -1,31 +1,32 @@
 ﻿namespace Parliament.Search.Api.Controllers
 {
-    using Library;
-    using Microsoft.ApplicationInsights;
-    using Microsoft.ApplicationInsights.DataContracts;
-    using Newtonsoft.Json;
-    using OpenSearch;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
     using System.ServiceModel.Syndication;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
     using System.Web.Http;
     using System.Xml.Linq;
+    using Library;
+    using Microsoft.ApplicationInsights;
+    using Microsoft.ApplicationInsights.DataContracts;
+    using Newtonsoft.Json;
+    using OpenSearch;
 
     public class SearchController : ApiController
     {
         private readonly IEngine engine;
 
-        private TelemetryClient telemetryClient = new TelemetryClient();
-        
+        private readonly TelemetryClient telemetryClient = new TelemetryClient();
+
         public SearchController(IEngine engine)
         {
             this.engine = engine;
         }
 
-        public IHttpActionResult Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "count")]int count = 10)
+        public async Task<IHttpActionResult> Get([FromUri(Name = "q")]string searchTerms, [FromUri(Name = "start")]int startIndex = 1, [FromUri(Name = "count")]int count = 10)
         {
             if (string.IsNullOrWhiteSpace(searchTerms))
             {
@@ -33,51 +34,49 @@
             }
             if (startIndex < 1)
             {
-                return BadRequest("The startIndex query string parameter must be > 1");
+                return this.BadRequest("The startIndex query string parameter must be > 1");
             }
             if (count < 1 | count > 100)
             {
-                return BadRequest("The count query string parameter must be > 1 and < 100");
+                return this.BadRequest("The count query string parameter must be > 1 and < 100");
             }
 
-            Feed responseFeed = null;
+            var responseFeed = await this.engine.Search(searchTerms, startIndex, count);
 
-            responseFeed = engine.Search(searchTerms, startIndex, count);
+            this.ProcessFeed(responseFeed);
 
-            ProcessFeed(responseFeed);
+            this.telemetryClient.Context.Properties["searchTerms"] = searchTerms;
+            this.telemetryClient.Context.Properties["startIndex"] = startIndex.ToString();
+            this.telemetryClient.Context.Properties["count"] = count.ToString();
+            this.telemetryClient.TrackMetric(new MetricTelemetry("TotalResults", responseFeed.TotalResults));
 
-            telemetryClient.Context.Properties["searchTerms"] = searchTerms;
-            telemetryClient.Context.Properties["startIndex"] = startIndex.ToString();
-            telemetryClient.Context.Properties["count"] = count.ToString();
-            telemetryClient.TrackMetric(new MetricTelemetry("TotalResults", responseFeed.TotalResults));
-
-            return ResponseMessage(Request.CreateResponse(responseFeed));
+            return this.ResponseMessage(this.Request.CreateResponse(responseFeed));
         }
 
         private void ProcessFeed(Feed responseFeed)
         {
             foreach (var item in responseFeed.Items)
             {
-                ProcessItem(item);
+                this.ProcessItem(item);
             }
         }
 
         private void ProcessItem(SyndicationItem item)
         {
             var uri = item.Links.SingleOrDefault().Uri;
-            var hintsExtension = ProcessUri(uri);
+            var hintsExtension = this.ProcessUri(uri);
 
             item.ElementExtensions.Add(hintsExtension);
 
-            foreach (Hint hint in hintsExtension.Hints)
+            foreach (var hint in hintsExtension.Hints)
             {
-                telemetryClient.TrackEvent("HintMatch", new Dictionary<string, string> {
+                this.telemetryClient.TrackEvent("HintMatch", new Dictionary<string, string> {
                 { "Hints", hint.Label },
                 { "URL", uri.ToString() }
             }, new Dictionary<string, double> { { "HintsMatchedPerItem", hintsExtension.Hints.Count() } });
             }
         }
-    
+
         private HintsWrapper ProcessUri(Uri uri)
         {
             return new HintsWrapper(
@@ -95,7 +94,7 @@
 
     }
 
-    class HintsWrapper : SyndicationElementExtension
+    internal class HintsWrapper : SyndicationElementExtension
     {
         public HintsWrapper(IEnumerable<Hint> hints) : base(new XElement("hints"))
         {
@@ -125,13 +124,7 @@
             }
         }
 
-        private XElement XmlData
-        {
-            get
-            {
-                return this.GetObject<XElement>();
-            }
-        }
+        private XElement XmlData => this.GetObject<XElement>();
     }
 
     public class Hint

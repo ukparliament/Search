@@ -4,21 +4,18 @@
 
 namespace Parliament.ServiceModel.Syndication
 {
-    using Microsoft.ApplicationInsights;
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.IO;
-    using System.Net;
     using System.Net.Http;
     using System.Net.Http.Formatting;
     using System.Net.Http.Headers;
     using System.ServiceModel.Syndication;
     using System.Text;
-    using System.Threading.Tasks;
     using System.Xml;
+    using Microsoft.ApplicationInsights;
 
-    public class FeedFormatter : MediaTypeFormatter
+    public class FeedFormatter : BufferedMediaTypeFormatter
     {
         private const string atom = "application/atom+xml";
         private const string rss = "application/rss+xml";
@@ -43,12 +40,9 @@ namespace Parliament.ServiceModel.Syndication
             return typeof(SyndicationFeed).IsAssignableFrom(type);
         }
 
-        public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
+        public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                FeedFormatter.Write(value as SyndicationFeed, writeStream, content.Headers.ContentType.MediaType);
-            });
+            FeedFormatter.Write(value as SyndicationFeed, writeStream, content.Headers.ContentType.MediaType);
         }
 
         private static void Write(SyndicationFeed feed, Stream writeStream, string mediaType)
@@ -62,16 +56,13 @@ namespace Parliament.ServiceModel.Syndication
 
             var writeMethod = writeMethods[mediaType];
 
-            var timer = Stopwatch.StartNew();
-            var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(false) };
+            var settings = new XmlWriterSettings { Encoding = new UTF8Encoding(false) };
             using (var writer = XmlWriter.Create(writeStream, settings))
             {
                 writeMethod(writer);
             }
-            timer.Stop();
 
-            var telemetry = new TelemetryClient();
-            telemetry.TrackEvent("FeedFormatter.Write", new Dictionary<string, string> { { "content-type", mediaType } }, new Dictionary<string, double> { { "ElapsedMilliseconds", timer.ElapsedMilliseconds } });
+            new TelemetryClient().TrackEvent("FeedFormatter.Write", new Dictionary<string, string> { { "content-type", mediaType } });
         }
     }
 }

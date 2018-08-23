@@ -10,13 +10,12 @@
     using System.Configuration;
     using System.Linq;
     using System.ServiceModel.Syndication;
+    using System.Threading.Tasks;
 
     public class GoogleEngine : IEngine
     {
-        public Feed Search(string searchTerms, int startIndex, int count)
+        public async Task<Feed> Search(string searchTerms, int startIndex, int count)
         {
-            var openSearchResponse = new Response();
-
             var items = new List<SyndicationItem>();
 
             var GoogleMaxResultsPerQuery = 10;
@@ -25,7 +24,7 @@
 
             var totalResults = (int)result.SearchInformation.TotalResults;
 
-            items.AddRange(result.Items.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Title, item.Snippet, item.DisplayLink, new Uri(item.Link))));
+            items.AddRange(result.Items.Select(item => Response.ConvertToSyndicationItem(item.Title, item.Snippet, item.DisplayLink, new Uri(item.Link))));
 
             for (int nextIndex = startIndex + items.Count(); nextIndex <= totalResults && items.Count() < count; nextIndex += GoogleMaxResultsPerQuery)
             {
@@ -37,11 +36,11 @@
                 {
                     break;
                 }
-                items.AddRange(nextResult.Items.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Title, item.Snippet, item.DisplayLink, new Uri(item.Link))));
+                items.AddRange(nextResult.Items.Select(item => Response.ConvertToSyndicationItem(item.Title, item.Snippet, item.DisplayLink, new Uri(item.Link))));
 
             }
 
-            return openSearchResponse.ConvertToOpenSearchResponse(items, totalResults, searchTerms, startIndex, count);
+            return Response.ConvertToOpenSearchResponse(items, totalResults, searchTerms, startIndex, count);
         }
 
         private static Search QueryGoogle(string searchTerms, int startIndex, int count)

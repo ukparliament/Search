@@ -9,73 +9,15 @@
 
     public class Feed : SyndicationFeed
     {
-        private Collection<Url> urls;
-        private Collection<Query> queries;
-        private int totalResults;
-        private int startIndex;
-        private int itemsPerPage;
+        public Collection<Query> Queries { get; } = new Collection<Query>();
 
-        public Collection<Query> Queries
-        {
-            get
-            {
-                if (this.queries == null)
-                {
-                    this.queries = new Collection<Query>();
-                }
+        public Collection<Url> Urls { get; } = new Collection<Url>();
 
-                return this.queries;
-            }
-        }
+        public int TotalResults { get; set; }
 
-        public Collection<Url> Urls
-        {
-            get
-            {
-                if (this.urls == null)
-                {
-                    this.urls = new Collection<Url>();
-                }
+        public int StartIndex { get; set; }
 
-                return this.urls;
-            }
-        }
-
-        public int TotalResults
-        {
-            get
-            {
-                return this.totalResults;
-            }
-            set
-            {
-                this.totalResults = value;
-            }
-        }
-
-        public int StartIndex
-        {
-            get
-            {
-                return this.startIndex;
-            }
-            set
-            {
-                this.startIndex = value;
-            }
-        }
-
-        public int ItemsPerPage
-        {
-            get
-            {
-                return this.itemsPerPage;
-            }
-            set
-            {
-                this.itemsPerPage = value;
-            }
-        }
+        public int ItemsPerPage { get; set; }
 
         protected override bool TryParseElement(XmlReader reader, string version)
         {
@@ -84,9 +26,9 @@
                 var mappings = new Dictionary<string, Tuple<Type, Action<object>>>() {
                         { "Url", Tuple.Create<Type, Action<object>>(typeof(Url), item => this.Urls.Add(item as Url)) },
                         { "Query", Tuple.Create<Type, Action<object>>(typeof(Query), item => this.Queries.Add(item as Query)) },
-                        { "totalResults", Tuple.Create<Type, Action<object>>(typeof(TotalResults), item => this.totalResults = (item as TotalResults).Value) },
-                        { "startIndex", Tuple.Create<Type, Action<object>>(typeof(StartIndex), item => this.startIndex = (item as StartIndex).Value) },
-                        { "itemsPerPage", Tuple.Create<Type, Action<object>>(typeof(ItemsPerPage), item => this.itemsPerPage = (item as ItemsPerPage).Value) }
+                        { "totalResults", Tuple.Create<Type, Action<object>>(typeof(TotalResults), item => this.TotalResults = (item as TotalResults).Value) },
+                        { "startIndex", Tuple.Create<Type, Action<object>>(typeof(StartIndex), item => this.StartIndex = (item as StartIndex).Value) },
+                        { "itemsPerPage", Tuple.Create<Type, Action<object>>(typeof(ItemsPerPage), item => this.ItemsPerPage = (item as ItemsPerPage).Value) }
                     };
 
                 if (mappings.ContainsKey(reader.LocalName))
@@ -107,20 +49,17 @@
 
         protected override void WriteElementExtensions(XmlWriter writer, string version)
         {
-            var mappings = new List<Tuple<Type, Action<XmlSerializer>>>() {
-                    Tuple.Create<Type, Action<XmlSerializer>>(typeof(Url), serializer => { foreach (var url in this.Urls) {serializer.Serialize(writer, url,Constants.Namespaces);}}),
-                    Tuple.Create<Type, Action<XmlSerializer>>(typeof(Query), serializer => { foreach (var query in this.Queries) {serializer.Serialize(writer, query,Constants.Namespaces);}}),
-                    Tuple.Create<Type, Action<XmlSerializer>>(typeof(TotalResults), serializer => serializer.Serialize(writer, new TotalResults() {Value = this.TotalResults},Constants.Namespaces)),
-                    Tuple.Create<Type, Action<XmlSerializer>>(typeof(StartIndex), serializer => serializer.Serialize(writer, new StartIndex() {Value = this.StartIndex},Constants.Namespaces)),
-                    Tuple.Create<Type, Action<XmlSerializer>>(typeof(ItemsPerPage), serializer => serializer.Serialize(writer, new ItemsPerPage() {Value = this.ItemsPerPage},Constants.Namespaces))
+            var mappings = new (Type Type, Action<XmlSerializer> Action)[] {
+                    (typeof(Url), serializer => { foreach (var url in this.Urls) { serializer.Serialize(writer, url, Constants.Namespaces); } }),
+                    (typeof(Query), serializer => { foreach (var query in this.Queries) { serializer.Serialize(writer, query, Constants.Namespaces); } }),
+                    (typeof(TotalResults), serializer => serializer.Serialize(writer, new TotalResults { Value = this.TotalResults }, Constants.Namespaces)),
+                    (typeof(StartIndex), serializer => serializer.Serialize(writer, new StartIndex { Value = this.StartIndex }, Constants.Namespaces)),
+                    (typeof(ItemsPerPage), serializer => serializer.Serialize(writer, new ItemsPerPage { Value = this.ItemsPerPage }, Constants.Namespaces))
                 };
 
             foreach (var mapping in mappings)
             {
-                var type = mapping.Item1;
-                var serializer = new XmlSerializer(type);
-                var writeAction = mapping.Item2;
-                writeAction(serializer);
+                mapping.Action(new XmlSerializer(mapping.Type));
             }
 
             base.WriteElementExtensions(writer, version);

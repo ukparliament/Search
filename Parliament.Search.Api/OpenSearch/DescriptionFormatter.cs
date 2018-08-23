@@ -4,17 +4,15 @@
 
 namespace Parliament.OpenSearch
 {
-    using Net.Http.Formatting;
-    using Search.OpenSearch;
     using System;
     using System.IO;
-    using System.Net;
     using System.Net.Http;
     using System.Net.Http.Formatting;
-    using System.Threading.Tasks;
     using System.Xml.Serialization;
+    using Net.Http.Formatting;
+    using Search.OpenSearch;
 
-    public class DescriptionFormatter : MediaTypeFormatter
+    public class DescriptionFormatter : BufferedMediaTypeFormatter
     {
         public DescriptionFormatter() : base()
         {
@@ -31,13 +29,9 @@ namespace Parliament.OpenSearch
             return typeof(Description).IsAssignableFrom(type);
         }
 
-        public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, HttpContent content, TransportContext transportContext)
+        public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            return Task.Factory.StartNew(() =>
-            {
-                var serializer = new XmlSerializer(type);
-                serializer.Serialize(writeStream, value, Constants.Namespaces);
-            });
+            new XmlSerializer(type).Serialize(writeStream, value, Constants.Namespaces);
         }
     }
 }

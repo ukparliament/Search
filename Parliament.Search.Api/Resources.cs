@@ -1,33 +1,22 @@
 ﻿namespace Parliament.Search.Api
 {
-    using Microsoft.VisualBasic.FileIO;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
+    using Microsoft.VisualBasic.FileIO;
 
-    public class Resources
+    public static class Resources
     {
-        private static Dictionary<string, string> rules;
+        public static Dictionary<string, string> Rules { get; } = Resources.GetRules();
 
-        public static Dictionary<string, string> Rules
-        {
-            get
-            {
-                if (Resources.rules == null)
-                {
-                    Resources.rules = GetRules();
-                }
-
-                return Resources.rules;
-            }
-        }
+        public static string OpenApiDocument { get; } = Resources.GetString("Parliament.Search.Api.OpenApiDefinition.json");
 
         private static Dictionary<string, string> GetRules()
         {
             var rules = new Dictionary<string, string>();
 
-            using (var stream = GetStream("Parliament.Search.Api.Rules.tsv"))
+            using (var stream = Resources.GetStream("Parliament.Search.Api.Rules.tsv"))
             {
                 using (var parser = new TextFieldParser(stream) { Delimiters = new[] { "\t" }, CommentTokens = new[] { "#" } })
                 {
@@ -51,6 +40,17 @@
         private static Stream GetStream(string resourceName)
         {
             return Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
+        }
+
+        private static string GetString(string resourceName)
+        {
+            using (var resourceStream = Resources.GetStream(resourceName))
+            {
+                using (var reader = new StreamReader(resourceStream))
+                {
+                    return reader.ReadToEnd();
+                }
+            }
         }
     }
 }

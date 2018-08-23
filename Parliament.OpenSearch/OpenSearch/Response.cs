@@ -4,9 +4,9 @@
     using System.Linq;
     using System.ServiceModel.Syndication;
 
-    public class Response
+    public static class Response
     {
-        public SyndicationItem ConvertToSyndicationItem(string title, string content, string linkTitle, System.Uri linkUri)
+        public static SyndicationItem ConvertToSyndicationItem(string title, string content, string linkTitle, System.Uri linkUri)
         {
             var item = new SyndicationItem
             {
@@ -23,7 +23,7 @@
             return item;
         }
 
-        public Feed ConvertToOpenSearchResponse(IEnumerable<SyndicationItem> items, int totalResults, string searchTerms, int startIndex, int count)
+        public static Feed ConvertToOpenSearchResponse(IEnumerable<SyndicationItem> items, int totalResults, string searchTerms, int startIndex, int count)
         {
             var result = new Feed()
             {

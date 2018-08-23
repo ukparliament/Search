@@ -1,81 +1,41 @@
 ﻿namespace BingProvider
 {
-    using Library;
-    using Newtonsoft.Json;
-    using Parliament.Search.OpenSearch;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
-    using System.IO;
     using System.Linq;
-    using System.Net.Http;
-    using System.ServiceModel.Syndication;
+    using System.Threading.Tasks;
+    using Library;
+    using Microsoft.Azure.CognitiveServices.Search.WebSearch;
+    using Parliament.Search.OpenSearch;
+    using Bing = Microsoft.Azure.CognitiveServices.Search.WebSearch.Models;
 
     public class BingEngine : IEngine
     {
-        public Feed Search(string searchTerms, int startIndex, int count)
+        public async Task<Feed> Search(string searchTerms, int startIndex, int count)
         {
-            var openSearchResponse = new Response();
-
-            var items = new List<SyndicationItem>();
-
-            var BingMaxResultsPerQuery = 50;
-
-            var result = QueryBing(searchTerms, startIndex, Math.Min(BingMaxResultsPerQuery, count));
-
-            int totalResults = 0;
-
-            if (result.WebPages != null)
+            if (count > 50)
             {
-                totalResults = result.WebPages.TotalEstimatedMatches;
-
-                items.AddRange(result.WebPages.Values.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), item.Uri)));
-
-                for (int nextIndex = startIndex + items.Count(); nextIndex <= totalResults && items.Count() < count; nextIndex += BingMaxResultsPerQuery)
-                {
-                    var nextCount = Math.Min(BingMaxResultsPerQuery, count - items.Count());
-
-                    var nextResult = QueryBing(searchTerms, nextIndex, nextCount);
-
-                    if (nextResult.WebPages.Values.Count() == 0)
-                    {
-                        break;
-                    }
-                    items.AddRange(nextResult.WebPages.Values.Select(item => openSearchResponse.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), item.Uri)));
-
-                }
+                throw new ArgumentOutOfRangeException(nameof(count), count, "max 50");
             }
 
-            return openSearchResponse.ConvertToOpenSearchResponse(items, totalResults, searchTerms, startIndex, count);
+            var result = await QueryBing(searchTerms, startIndex, count);
+
+            var items = result.Value.Select(item => Response.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), new Uri(item.Url))).ToList();
+
+            return Response.ConvertToOpenSearchResponse(items, (int)result.TotalEstimatedMatches, searchTerms, startIndex, count);
         }
 
-        private static BingResponse QueryBing(string searchTerms, int startIndex, int count)
+        private static async Task<Bing.WebWebAnswer> QueryBing(string searchTerms, int startIndex, int count)
         {
-            var serializer = new JsonSerializer();
-            var query = new BingQuery
-            {
-                Site = "parliament.uk",
-                QueryString = searchTerms,
-                Offset = startIndex - 1,
-                Count = count
-            };
-
             var bingApiKey = ConfigurationManager.AppSettings["BingApiKey"];
+            var credentials = new ApiKeyServiceClientCredentials(bingApiKey);
+            var client = new WebSearchAPI(credentials);
+            var query = string.Format("site:parliament.uk {0}", searchTerms);
+            var filter = new List<string> { "Webpages" };
+            var response = await client.Web.SearchAsync(query, responseFilter: filter, offset: startIndex - 1, count: count, market: "en-GB");
 
-            using (var client = new HttpClient())
-            {
-                client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", bingApiKey);
-                using (var stream = client.GetStreamAsync(query).Result)
-                {
-                    using (var textReader = new StreamReader(stream))
-                    {
-                        using (var jsonReader = new JsonTextReader(textReader))
-                        {
-                            return serializer.Deserialize<BingResponse>(jsonReader);
-                        }
-                    }
-                }
-            }
+            return response.WebPages;
         }
     }
 }
