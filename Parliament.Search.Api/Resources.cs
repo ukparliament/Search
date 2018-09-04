@@ -6,11 +6,11 @@
     using System.Reflection;
     using Microsoft.VisualBasic.FileIO;
 
-    public static class Resources
+    internal static class Resources
     {
-        public static Dictionary<string, string> Rules { get; } = Resources.GetRules();
+        internal static Dictionary<string, string> Rules { get; } = Resources.GetRules();
 
-        public static string OpenApiDocument { get; } = Resources.GetString("Parliament.Search.Api.OpenApiDefinition.json");
+        internal static string OpenApiDocument { get; } = Resources.GetString("Parliament.Search.Api.OpenApiDefinition.json");
 
         private static Dictionary<string, string> GetRules()
         {
@@ -37,7 +37,7 @@
             return rules;
         }
 
-        private static Stream GetStream(string resourceName)
+        internal static Stream GetStream(string resourceName)
         {
             return Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName);
         }

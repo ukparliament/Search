@@ -24,4 +24,18 @@
             }
         }
     }
+
+    public class Relation
+    {
+        public const string Results = "results";
+        public const string Suggestions = "suggestions";
+        public const string Self = "self";
+        public const string Collection = "collection";
+    }
+
+    public class Roles
+    {
+        public const string Example = "example";
+        public const string Request = "request";
+    }
 }

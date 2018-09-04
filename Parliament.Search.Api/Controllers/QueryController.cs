@@ -15,13 +15,14 @@
     using Newtonsoft.Json;
     using OpenSearch;
 
-    public class SearchController : ApiController
+    [QueryControllerConfiguration]
+    public class QueryController : ApiController
     {
         private readonly IEngine engine;
 
         private readonly TelemetryClient telemetryClient = new TelemetryClient();
 
-        public SearchController(IEngine engine)
+        public QueryController(IEngine engine)
         {
             this.engine = engine;
         }
@@ -41,7 +42,7 @@
                 return this.BadRequest("The count query string parameter must be > 1 and < 100");
             }
 
-            var responseFeed = await this.engine.Search(searchTerms, startIndex, count);
+            var responseFeed = await this.engine.Query(searchTerms, startIndex, count);
 
             this.ProcessFeed(responseFeed);
 

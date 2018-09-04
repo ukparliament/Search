@@ -10,5 +10,8 @@
 
         [XmlAttribute("type")]
         public string TypeName { get; set; }
+
+        [XmlAttribute("rel")]
+        public string Relation { get; set; }
     }
 }

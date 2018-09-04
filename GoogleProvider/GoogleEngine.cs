@@ -14,7 +14,7 @@
 
     public class GoogleEngine : IEngine
     {
-        public async Task<Feed> Search(string searchTerms, int startIndex, int count)
+        public async Task<Feed> Query(string searchTerms, int startIndex, int count)
         {
             var items = new List<SyndicationItem>();
 

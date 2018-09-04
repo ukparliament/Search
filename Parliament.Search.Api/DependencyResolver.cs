@@ -17,18 +17,18 @@
 
         public object GetService(Type serviceType)
         {
-            if (serviceType == typeof(SearchController))
+            if (serviceType == typeof(QueryController))
             {
                 bool.TryParse(ConfigurationManager.AppSettings["UseMockEngine"], out bool useMockEngine);
                 if (useMockEngine)
                 {
-                    return new SearchController(new MockEngine());
+                    return new QueryController(new MockEngine());
                 }
 
                 bool.TryParse(ConfigurationManager.AppSettings["UseBingEngine"], out bool useBingEngine);
                 if (useBingEngine)
                 {
-                    return new SearchController(new BingEngine());
+                    return new QueryController(new BingEngine());
                 }
             }
 

@@ -9,30 +9,28 @@ namespace Parliament.ServiceModel.Syndication
     using System.IO;
     using System.Net.Http;
     using System.Net.Http.Formatting;
-    using System.Net.Http.Headers;
     using System.ServiceModel.Syndication;
     using System.Text;
     using System.Xml;
+    using System.Xml.Xsl;
     using Microsoft.ApplicationInsights;
+    using Newtonsoft.Json;
+    using Parliament.Search.Api;
 
     public class FeedFormatter : BufferedMediaTypeFormatter
     {
-        private const string atom = "application/atom+xml";
-        private const string rss = "application/rss+xml";
-        private const string textXml = "text/xml";
-        private const string applicationXml = "application/xml";
+        private readonly Action<SyndicationFeed, Stream> writeMethod;
 
-        public FeedFormatter() : base()
+        public FeedFormatter(MediaTypeMapping mapping, Action<SyndicationFeed, Stream> writeMethod) : base()
         {
-            this.MediaTypeMappings.Add(new RequestHeaderMapping("Accept", atom, StringComparison.Ordinal, false, new MediaTypeHeaderValue(atom)));
-            this.MediaTypeMappings.Add(new RequestHeaderMapping("Accept", rss, StringComparison.Ordinal, false, new MediaTypeHeaderValue(rss)));
-            this.MediaTypeMappings.Add(new RequestHeaderMapping("Accept", textXml, StringComparison.Ordinal, false, new MediaTypeHeaderValue(textXml)));
-            this.MediaTypeMappings.Add(new RequestHeaderMapping("Accept", applicationXml, StringComparison.Ordinal, false, new MediaTypeHeaderValue(applicationXml)));
+            this.SupportedMediaTypes.Add(mapping.MediaType);
+            this.MediaTypeMappings.Add(mapping);
+            this.writeMethod = writeMethod;
         }
 
         public override bool CanReadType(Type type)
         {
-            return this.CanWriteType(type);
+            return false;
         }
 
         public override bool CanWriteType(Type type)
@@ -42,27 +40,57 @@ namespace Parliament.ServiceModel.Syndication
 
         public override void WriteToStream(Type type, object value, Stream writeStream, HttpContent content)
         {
-            FeedFormatter.Write(value as SyndicationFeed, writeStream, content.Headers.ContentType.MediaType);
+            this.writeMethod.Invoke(value as SyndicationFeed, writeStream);
+
+            new TelemetryClient().TrackEvent("FeedFormatter.Write", new Dictionary<string, string> { { "content-type", content.Headers.ContentType.MediaType } });
         }
 
-        private static void Write(SyndicationFeed feed, Stream writeStream, string mediaType)
+        internal static void WriteAtom(SyndicationFeed feed, Stream stream)
         {
-            var writeMethods = new Dictionary<string, Action<XmlWriter>>() {
-                { FeedFormatter.atom, feed.SaveAsAtom10 },
-                { FeedFormatter.rss, feed.SaveAsRss20 },
-                { FeedFormatter.textXml, feed.SaveAsAtom10 },
-                { FeedFormatter.applicationXml, feed.SaveAsAtom10 }
-            };
+            FeedFormatter.Write(feed.SaveAsAtom10, stream);
+        }
 
-            var writeMethod = writeMethods[mediaType];
+        internal static void WriteRss(SyndicationFeed feed, Stream stream)
+        {
+            FeedFormatter.Write(feed.SaveAsRss20, stream);
+        }
 
-            var settings = new XmlWriterSettings { Encoding = new UTF8Encoding(false) };
-            using (var writer = XmlWriter.Create(writeStream, settings))
+        internal static void WriteHtml(SyndicationFeed feed, Stream stream)
+        {
+            using (var atomStream = new MemoryStream())
             {
-                writeMethod(writer);
+                WriteAtom(feed, atomStream);
+                atomStream.Seek(0, SeekOrigin.Begin);
+                using (var atomReader = XmlReader.Create(atomStream))
+                {
+                    var xslt = new XslCompiledTransform();
+                    using (var rendererStream = Resources.GetStream("Parliament.Search.Api.AtomHtmlRenderer.xslt"))
+                    {
+                        using (var stylesheet = XmlReader.Create(rendererStream))
+                        {
+                            xslt.Load(stylesheet);
+                            xslt.Transform(atomReader, null, stream);
+                        }
+                    }
+                }
             }
+        }
 
-            new TelemetryClient().TrackEvent("FeedFormatter.Write", new Dictionary<string, string> { { "content-type", mediaType } });
+        internal static void WriteJson(SyndicationFeed feed, Stream stream)
+        {
+            using (var writer = new StreamWriter(stream))
+            {
+                new JsonSerializer().Serialize(writer, feed);
+            }
+        }
+
+        private static void Write(Action<XmlWriter> write, Stream stream)
+        {
+            var settings = new XmlWriterSettings { Encoding = new UTF8Encoding(false) };
+            using (var writer = XmlWriter.Create(stream, settings))
+            {
+                write(writer);
+            }
         }
     }
 }

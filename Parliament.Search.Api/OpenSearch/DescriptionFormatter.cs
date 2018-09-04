@@ -8,15 +8,15 @@ namespace Parliament.OpenSearch
     using System.IO;
     using System.Net.Http;
     using System.Net.Http.Formatting;
+    using System.Net.Http.Headers;
     using System.Xml.Serialization;
-    using Net.Http.Formatting;
     using Search.OpenSearch;
 
     public class DescriptionFormatter : BufferedMediaTypeFormatter
     {
         public DescriptionFormatter() : base()
         {
-            this.MediaTypeMappings.Add(new StaticMediaTypeMapping(Constants.DescriptionMimeType));
+            this.SupportedMediaTypes.Add(new MediaTypeHeaderValue(Constants.DescriptionMimeType));
         }
 
         public override bool CanReadType(Type type)

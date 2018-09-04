@@ -9,7 +9,7 @@
 
     public class MockEngine : IEngine
     {
-        public async Task<Feed> Search(string searchTerms, int startIndex, int count)
+        public async Task<Feed> Query(string searchTerms, int startIndex, int count)
         {
             var random = new Random();
 
@@ -17,7 +17,6 @@
             {
                 TotalResults = random.Next(100, 100000),
                 StartIndex = startIndex,
-
             };
 
             result.Authors.Add(new SyndicationPerson

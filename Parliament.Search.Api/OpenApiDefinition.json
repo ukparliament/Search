@@ -27,11 +27,9 @@
           },
           "application/rss+xml": {
           },
-          "text/xml": {
-          },
-          "application/xml": {
-          },
           "application/json": {
+          },
+          "text/html": {
           }
         }
       }
@@ -60,7 +58,7 @@
         }
       }
     },
-    "/": {
+    "/query": {
       "get": {
         "summary": "Search results",
         "externalDocs": {

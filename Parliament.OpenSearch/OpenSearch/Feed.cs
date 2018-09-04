@@ -11,8 +11,6 @@
     {
         public Collection<Query> Queries { get; } = new Collection<Query>();
 
-        public Collection<Url> Urls { get; } = new Collection<Url>();
-
         public int TotalResults { get; set; }
 
         public int StartIndex { get; set; }
@@ -24,7 +22,6 @@
             if (reader.NamespaceURI == Constants.NamespaceUri)
             {
                 var mappings = new Dictionary<string, Tuple<Type, Action<object>>>() {
-                        { "Url", Tuple.Create<Type, Action<object>>(typeof(Url), item => this.Urls.Add(item as Url)) },
                         { "Query", Tuple.Create<Type, Action<object>>(typeof(Query), item => this.Queries.Add(item as Query)) },
                         { "totalResults", Tuple.Create<Type, Action<object>>(typeof(TotalResults), item => this.TotalResults = (item as TotalResults).Value) },
                         { "startIndex", Tuple.Create<Type, Action<object>>(typeof(StartIndex), item => this.StartIndex = (item as StartIndex).Value) },
@@ -50,7 +47,6 @@
         protected override void WriteElementExtensions(XmlWriter writer, string version)
         {
             var mappings = new (Type Type, Action<XmlSerializer> Action)[] {
-                    (typeof(Url), serializer => { foreach (var url in this.Urls) { serializer.Serialize(writer, url, Constants.Namespaces); } }),
                     (typeof(Query), serializer => { foreach (var query in this.Queries) { serializer.Serialize(writer, query, Constants.Namespaces); } }),
                     (typeof(TotalResults), serializer => serializer.Serialize(writer, new TotalResults { Value = this.TotalResults }, Constants.Namespaces)),
                     (typeof(StartIndex), serializer => serializer.Serialize(writer, new StartIndex { Value = this.StartIndex }, Constants.Namespaces)),

@@ -25,24 +25,30 @@
 
         public static Feed ConvertToOpenSearchResponse(IEnumerable<SyndicationItem> items, int totalResults, string searchTerms, int startIndex, int count)
         {
-            var result = new Feed()
+            var result = new Feed
             {
-                Title = new TextSyndicationContent(string.Format("Parliament.uk Search: {0}", searchTerms)),
+                Title = new TextSyndicationContent(string.Format("parliament.uk search: {0}", searchTerms)),
                 TotalResults = totalResults,
                 StartIndex = startIndex,
-                Items = items
             };
+
+            if (items != null)
+            {
+                result.Items = items;
+            }
 
             result.ItemsPerPage = result.Items.Count();
 
+            result.Generator = "https://github.com/ukparliament/Search";
+
             result.Authors.Add(new SyndicationPerson
             {
-                Name = "Parliament.uk"
+                Name = "parliament.uk"
             });
 
             result.Queries.Add(new Query
             {
-                Role = "request",
+                Role = Roles.Request,
                 SearchTerms = searchTerms,
                 StartIndex = startIndex,
                 Count = count,
