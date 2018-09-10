@@ -22,13 +22,13 @@
 
             var result = await QueryBing(searchTerms, startIndex, count);
 
-            var items = Enumerable.Empty<SyndicationItem>();
             if (result != null)
             {
-                items = result.Value.Select(item => Response.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), new Uri(item.Url))).ToList();
+                var items = result.Value.Select(item => Response.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), new Uri(item.Url))).ToList();
+                return Response.ConvertToOpenSearchResponse(items, (int)result.TotalEstimatedMatches, searchTerms, startIndex, count);
             }
 
-            return Response.ConvertToOpenSearchResponse(items, (int)result.TotalEstimatedMatches, searchTerms, startIndex, count);
+            return Response.ConvertToOpenSearchResponse(Enumerable.Empty<SyndicationItem>(), 0, searchTerms, startIndex, count);
         }
 
         private static async Task<Bing.WebWebAnswer> QueryBing(string searchTerms, int startIndex, int count)
