@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
+    using System.ServiceModel.Syndication;
     using System.Threading.Tasks;
     using Library;
     using Microsoft.Azure.CognitiveServices.Search.WebSearch;
