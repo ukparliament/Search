@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
+    using System.ServiceModel.Syndication;
     using System.Threading.Tasks;
     using Library;
     using Microsoft.Azure.CognitiveServices.Search.WebSearch;
@@ -21,7 +22,11 @@
 
             var result = await QueryBing(searchTerms, startIndex, count);
 
-            var items = result.Value.Select(item => Response.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), new Uri(item.Url))).ToList();
+            var items = Enumerable.Empty<SyndicationItem>();
+            if (result != null)
+            {
+                items = result.Value.Select(item => Response.ConvertToSyndicationItem(item.Name, item.Snippet, item.DisplayUrl.ToString(), new Uri(item.Url))).ToList();
+            }
 
             return Response.ConvertToOpenSearchResponse(items, (int)result.TotalEstimatedMatches, searchTerms, startIndex, count);
         }
