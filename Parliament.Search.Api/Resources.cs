@@ -6,9 +6,9 @@
     using System.Reflection;
     using Microsoft.VisualBasic.FileIO;
 
-    internal static class Resources
+    public static class Resources
     {
-        internal static Dictionary<string, string> Rules { get; } = Resources.GetRules();
+        public static Dictionary<string, string> Rules { get; } = Resources.GetRules();
 
         internal static string OpenApiDocument { get; } = Resources.GetString("Parliament.Search.Api.OpenApiDefinition.json");
 
