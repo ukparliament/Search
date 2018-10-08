@@ -44,12 +44,6 @@
         "description": "Choice to use mock search engine."
       }
     },
-    "bingSearchAccountName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the Bing search account."
-      }
-    },
     "apiManagementIP": {
       "type": "string",
       "metadata": {
