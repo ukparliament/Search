@@ -26,16 +26,10 @@
         "description": "Name of the Application Insights."
       }
     },
-    "googleApiKey": {
+    "bingApiKey": {
       "type": "string",
       "metadata": {
-        "description": "Value of the Google API key."
-      }
-    },
-    "googleEngineId": {
-      "type": "string",
-      "metadata": {
-        "description": "Value of the Google engine Id."
+        "description": "Value of the Bing API key."
       }
     },
     "useBingEngine": {
@@ -88,23 +82,6 @@
       "tags": {
         "ReleaseId": "[parameters('releaseId')]"
       },
-      "dependsOn": []
-    },
-    {
-      "comments": "Bing search account",
-      "type": "Microsoft.CognitiveServices/accounts",
-      "sku": {
-        "name": "S2"
-      },
-      "kind": "Bing.Search",
-      "name": "[parameters('bingSearchAccountName')]",
-      "apiVersion": "2016-02-01-preview",
-      "location": "global",
-      "tags": {
-        "ReleaseId": "[parameters('releaseId')]"
-      },
-      "scale": null,
-      "properties": {},
       "dependsOn": []
     },
     {
@@ -161,9 +138,7 @@
           "properties": {
             "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
             "ApplicationInsightsInstrumentationKey": "[reference(resourceId(subscription().subscriptionId,parameters('operationsResourceGroupName'),'Microsoft.Insights/Components',parameters('applicationInsightsName')),'2014-04-01').InstrumentationKey]",
-            "GoogleApiKey": "[parameters('googleApiKey')]",
-            "GoogleEngineId": "[parameters('googleEngineId')]",
-            "BingApiKey": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('bingSearchAccountName')),'2016-02-01-preview').key1]",
+            "BingApiKey": "[parameters('bingApiKey')]",
             "UseBingEngine": "[parameters('useBingEngine')]",
             "UseMockEngine": "[parameters('useMockEngine')]",
             "ApiManagementServiceUrl": "https://api.parliament.uk/"
@@ -171,8 +146,7 @@
         }
       ],
       "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]",
-        "[resourceId('Microsoft.CognitiveServices/accounts', parameters('bingSearchAccountName'))]"
+        "[resourceId('Microsoft.Web/serverfarms', parameters('applicationPlanName'))]"
       ]
     }
   ]
