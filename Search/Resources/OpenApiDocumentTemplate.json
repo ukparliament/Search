@@ -1,0 +1,121 @@
+﻿{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "UK Parliament Search Service",
+    "description": "Performs search on parliament.uk domain. Implements [OpenSearch specification](https://github.com/dewitt/opensearch). Throttled at 10 requests per second per IP address.",
+    "contact": {
+      "name": "Data & Search team at UK Parliament",
+      "email": "data@parliament.uk",
+      "url": "https://twitter.com/UKParliData"
+    },
+    "license": {
+      "name": "Open Parliament Licence",
+      "url": "https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence"
+    },
+    "version": "Live",
+    "x-TODO-termsOfService": null
+  },
+  "components": {
+    "responses": {
+      "searchResponse": {
+        "description": "Search results",
+        "content": null
+      }
+    },
+    "parameters": {
+      "q": {
+        "name": "q",
+        "in": "query",
+        "required": true,
+        "schema": {
+          "type": "string"
+        }
+      },
+      "start": {
+        "name": "start",
+        "in": "query",
+        "schema": {
+          "type": "number"
+        }
+      },
+      "count": {
+        "name": "count",
+        "in": "query",
+        "schema": {
+          "type": "number"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "OpenSearch github repository",
+    "url": "https://github.com/dewitt/opensearch"
+  },
+  "paths": {
+    "/description": {
+      "get": {
+        "tags": [ "Description" ],
+        "summary": "OpenSearch description document",
+        "externalDocs": {
+          "description": "OpenSearch github repository",
+          "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#opensearch-description-document"
+        },
+        "responses": {
+          "200": {
+            "description": "Open Search Description",
+            "content": {
+              "application/opensearchdescription+xml": {
+              }
+            }
+          }
+        }
+      }
+    },
+    "/query": {
+      "get": {
+        "tags": [ "Query" ],
+        "summary": "Search results",
+        "externalDocs": {
+          "description": "OpenSearch github repository",
+          "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#opensearch-response-elements"
+        },
+        "parameters": [
+          { "$ref": "#/components/parameters/q" },
+          { "$ref": "#/components/parameters/start" },
+          { "$ref": "#/components/parameters/count" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/searchResponse" }
+        }
+      }
+    },
+    "/query.{extension}": {
+      "get": {
+        "tags": [ "Query" ],
+        "summary": "Search results",
+        "externalDocs": {
+          "description": "OpenSearch github repository",
+          "url": "https://github.com/dewitt/opensearch/blob/master/opensearch-1-1-draft-6.md#opensearch-response-elements"
+        },
+        "parameters": [
+          {
+            "name": "extension",
+            "description": "extension",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": null
+            }
+          },
+          { "$ref": "#/components/parameters/q" },
+          { "$ref": "#/components/parameters/start" },
+          { "$ref": "#/components/parameters/count" }
+        ],
+        "responses": {
+          "200": { "$ref": "#/components/responses/searchResponse" }
+        }
+      }
+    }
+  }
+}

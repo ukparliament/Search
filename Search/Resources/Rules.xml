@@ -1,0 +1,258 @@
+<Rules>
+    <Rule>
+        <Pattern>parliament\.uk/afternoon-tea</Pattern>
+        <Label>afternoon tea</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/worksofart</Pattern>
+        <Label>art collection</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/about/art-in-parliament</Pattern>
+        <Label>art collection</Label>
+    </Rule>
+    <Rule>
+        <Pattern>(?&lt;filter&gt;beta\.parliament\.uk)</Pattern>
+        <Label>beta</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/bigben</Pattern>
+        <Label>Big Ben</Label>
+    </Rule>
+    <Rule>
+        <Pattern>services\.parliament\.uk/bills</Pattern>
+        <Label>bills</Label>
+    </Rule>
+    <Rule>
+        <Pattern>publications\.parliament\.uk/pa/bills</Pattern>
+        <Label>bills</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/business/bills-and-legislation</Pattern>
+        <Label>bills and legislation</Label>
+    </Rule>
+    <Rule>
+        <Pattern>www\.parliament\.uk/biographies</Pattern>
+        <Label>biography</Label>
+    </Rule>
+    <Rule>
+        <Pattern>calendar\.parliament\.uk</Pattern>
+        <Label>calendar</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/business/committees</Pattern>
+        <Label>committee</Label>
+    </Rule>
+    <Rule>
+        <Pattern>publications\.parliament\.uk/.+/jtselect</Pattern>
+        <Label>Committee</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/documents/commons-committees</Pattern>
+        <Label>Commons committee document</Label>
+    </Rule>
+    <Rule>
+        <Pattern>publications\.parliament\.uk/pa/cm(\d{4})(\d{2})</Pattern>
+        <Label>Commons publication from session: {1}-{2}</Label>
+    </Rule>
+    <Rule>
+        <Pattern>publications\.parliament\.uk/pa/cm/</Pattern>
+        <Label>Commons publications</Label>
+    </Rule>
+    <Rule>
+        <Pattern>data\.parliament\.uk/dataset</Pattern>
+        <Label>dataset</Label>
+    </Rule>
+    <Rule>
+        <Pattern>data\.parliament\.uk/depositedpapers</Pattern>
+        <Label>deposited papers</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/edm</Pattern>
+        <Label>early day motion</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/education</Pattern>
+        <Label>education</Label>
+    </Rule>
+    <Rule>
+        <Pattern>electionresults\.parliament\.uk</Pattern>
+        <Label>election results</Label>
+    </Rule>
+    <Rule>
+        <Pattern>\.xlsx?$</Pattern>
+        <Label>Excel</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/about/general-election-2017</Pattern>
+        <Label>general election 2017</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/get-involved</Pattern>
+        <Label>get involved</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/mps-lords-and-offices/government-and-opposition1</Pattern>
+        <Label>Government and Opposition</Label>
+    </Rule>
+    <Rule>
+        <Pattern>hansard\.parliament\.uk</Pattern>
+        <Label>Hansard</Label>
+    </Rule>
+    <Rule>
+        <Pattern>(?&lt;filter&gt;api\.parliament\.uk/historic-hansard)</Pattern>
+        <Label>Hansard</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/business/commons</Pattern>
+        <Label>House of Commons</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/business/lords</Pattern>
+        <Label>House of Lords</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/about/how</Pattern>
+        <Label>how Parliament works</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/about/working</Pattern>
+        <Label>jobs</Label>
+    </Rule>
+    <Rule>
+        <Pattern>secondreading\.parliament\.uk.*/key-issues</Pattern>
+        <Label>key issues</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/about/living-heritage</Pattern>
+        <Label>Living Heritage</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/mps-lords-and-offices/lords</Pattern>
+        <Label>Lords</Label>
+    </Rule>
+    <Rule>
+        <Pattern>lordsbusiness\.parliament\.uk</Pattern>
+        <Label>Lords business</Label>
+    </Rule>
+    <Rule>
+        <Pattern>publications\.parliament\.uk/pa/ld(\d{4})(\d{2})</Pattern>
+        <Label>Lords publication from session: {1}-{2}</Label>
+    </Rule>
+    <Rule>
+        <Pattern>publications\.parliament\.uk/pa/ld/</Pattern>
+        <Label>Lords publications</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/mps-lords-and-offices/members-allowances</Pattern>
+        <Label>MP and Lord allowances</Label>
+    </Rule>
+    <Rule>
+        <Pattern>findyourmp\.parliament\.uk</Pattern>
+        <Label>MPs</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/mps-lords-and-offices/mps</Pattern>
+        <Label>MPs</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/about/mps-and-lords</Pattern>
+        <Label>MPs and Lords</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/business/news</Pattern>
+        <Label>news</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/documents/pcfs</Pattern>
+        <Label>office of the parliamentary commissioner for standards</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/mps-lords-and-offices/offices</Pattern>
+        <Label>offices</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/about/parliament-and-women</Pattern>
+        <Label>Parliament and women</Label>
+    </Rule>
+    <Rule>
+        <Pattern>pds\.Blog\.parliament\.uk</Pattern>
+        <Label>Parliamentary Digital Service Blog</Label>
+    </Rule>
+    <Rule>
+        <Pattern>\.pdf$</Pattern>
+        <Label>pdf</Label>
+    </Rule>
+    <Rule>
+        <Pattern>petition\.parliament\.uk</Pattern>
+        <Label>petition</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/about/podcasts</Pattern>
+        <Label>podcasts</Label>
+    </Rule>
+    <Rule>
+        <Pattern>\.pptx?$</Pattern>
+        <Label>Powerpoint</Label>
+    </Rule>
+    <Rule>
+        <Pattern>publications\.parliament\.uk/.+/pabills</Pattern>
+        <Label>public bills</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/business/publications</Pattern>
+        <Label>publications and records</Label>
+    </Rule>
+    <Rule>
+        <Pattern>researchbriefings\.parliament\.uk</Pattern>
+        <Label>research briefings</Label>
+    </Rule>
+    <Rule>
+        <Pattern>restorationandrenewal.parliament\.uk</Pattern>
+        <Label>Restoration and Renewal</Label>
+    </Rule>
+    <Rule>
+        <Pattern>shop.parliament\.uk</Pattern>
+        <Label>shop</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/site-information</Pattern>
+        <Label>site information</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/mps-lords-and-offices/standards-and-financial-interests</Pattern>
+        <Label>standards and financial interests</Label>
+    </Rule>
+    <Rule>
+        <Pattern>subscriptions\.parliament\.uk</Pattern>
+        <Label>subscribe to email updates</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/about/sustainability</Pattern>
+        <Label>sustainability</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/topics</Pattern>
+        <Label>topics</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/treascom</Pattern>
+        <Label>Treasury Committee</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/visiting</Pattern>
+        <Label>visiting</Label>
+    </Rule>
+    <Rule>
+        <Pattern>webarchive\.parliament\.uk</Pattern>
+        <Label>web archive</Label>
+    </Rule>
+    <Rule>
+        <Pattern>\.docx?$</Pattern>
+        <Label>Word</Label>
+    </Rule>
+    <Rule>
+        <Pattern>parliament\.uk/writtenstatements</Pattern>
+        <Label>written statements</Label>
+    </Rule>
+</Rules>
