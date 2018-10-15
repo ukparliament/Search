@@ -11,7 +11,7 @@ namespace SearchTests
     [TestClass]
     public class RulesTests
     {
-        public static IEnumerable<object[]> Rules => Resources.Rules.Select(rule => new[] { rule.Key });
+        public static IEnumerable<object[]> Patterns => Resources.Rules.Select(rule => new[] { rule.Key });
 
         [TestMethod]
         public void Rules_file_is_valid()
@@ -38,10 +38,10 @@ namespace SearchTests
         }
 
         [TestMethod]
-        [DynamicData(nameof(Rules))]
-        public void Rule_pattern_is_valid_regex(string rule)
+        [DynamicData(nameof(Patterns))]
+        public void Rule_pattern_is_valid_regex(string pattern)
         {
-            var regex = new Regex(rule);
+            new Regex(pattern);
         }
     }
 }

@@ -36,7 +36,7 @@
 
             this.ProcessFeed(responseFeed);
 
-            switch (this.GetParameters(parameters))
+            switch (this.GetResponseContentType(parameters))
             {
                 case "text/html":
                     return this.View(responseFeed);
@@ -46,7 +46,7 @@
             }
         }
 
-        private string GetParameters(QueryParameters parameters)
+        private string GetResponseContentType(QueryParameters parameters)
         {
             var mediaTypes = new MediaTypeCollection();
             if (!(parameters.Format is null))

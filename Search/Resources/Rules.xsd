@@ -13,6 +13,10 @@
         </xs:element>
       </xs:sequence>
     </xs:complexType>
+    <xs:key name="patternKey">
+      <xs:selector xpath="Rule/Pattern"/>
+      <xs:field xpath="."/>
+    </xs:key>
   </xs:element>
   <xs:simpleType name="NonEmptyString">
     <xs:restriction base="xs:string">
