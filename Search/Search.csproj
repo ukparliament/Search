@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>977b119a-5a57-49c3-8d36-8242ee93f382</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\OpenApiDocumentTemplate.json" />
+    <EmbeddedResource Include="Resources\Rules.xml" />
+    <EmbeddedResource Include="Resources\Rules.xsd" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.WebSearch" Version="1.2.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="3.0.0" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="4.5.0" />
+  </ItemGroup>
+
+</Project>

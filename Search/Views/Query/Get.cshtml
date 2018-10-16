@@ -1,0 +1,102 @@
+﻿@using Search
+@using System.ServiceModel.Syndication
+@model OpenSearch.Feed
+<html>
+<head>
+    <title>@Model.Title.Text</title>
+    <style>
+        * {
+            font-style: normal;
+            font-family: sans-serif;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            max-width: 600px;
+            padding: 20px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        ol li {
+            margin-top: 20px;
+            list-style: none;
+        }
+
+        h2 {
+            font-weight: normal;
+        }
+
+        a {
+            color: #1a0dab;
+        }
+
+        p {
+            margin-top: 10px;
+        }
+
+        cite {
+            display: block;
+            margin-top: 10px;
+            color: #006621;
+            font-size: small;
+        }
+
+        ul {
+            margin-top: 10px;
+        }
+
+            ul li {
+                display: inline;
+                padding: 2px 4px;
+                background: silver;
+            }
+    </style>
+    <script>
+        window.addEventListener("load", function () {
+            document.getElementById("q").value = window.location.search.split("?")[1].split("=")[1];
+        });
+    </script>
+</head>
+<body>
+    <h1>@Model.Title.Text</h1>
+    <form method="get">
+        <label for="q">search term</label>
+        <input id="q" name="q" />
+        <input type="submit" />
+    </form>
+    @if (Model.Items.Any())
+    {
+        <ol>
+            @foreach (var item in Model.Items)
+            {
+                var link = item.Links.Single();
+                var hints = item.ElementExtensions.OfType<HintsExtension>().SingleOrDefault()?.Hints;
+                <li>
+                    <h2>
+                        <a href="@link.Uri">@Html.Raw(item.Title.Text)</a>
+                    </h2>
+                    @if (!(hints is null))
+                    {
+                        <ul>
+                            @foreach (var hint in hints)
+                            {
+                                <li>@hint.Label</li>
+                            }
+                        </ul>
+                    }
+                    <cite>@Html.Raw(link.Title)</cite>
+                    <p>@Html.Raw(((TextSyndicationContent)item.Content).Text)</p>
+                </li>
+            }
+        </ol>
+    }
+    else
+    {
+        <p>No results</p>
+    }
+</body>
+</html>
