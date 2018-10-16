@@ -6,8 +6,7 @@
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc.Testing;
-    using Microsoft.AspNetCore.TestHost;
-    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.OpenApi.Readers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Search;
@@ -27,8 +26,10 @@
         {
             factory = new WebApplicationFactory<Startup>()
                 .WithWebHostBuilder(
-                     builder => builder.ConfigureTestServices(
-                         services => services.AddSingleton<IEngine>(new MockEngine())));
+                    hostBuilder => hostBuilder.ConfigureAppConfiguration(
+                        (builderContext, configurationBuiolder) => configurationBuiolder.AddInMemoryCollection(
+                            new Dictionary<string, string> {
+                                { "Engine", "Search.MockEngine" }})));
 
             client = factory.CreateClient();
         }
