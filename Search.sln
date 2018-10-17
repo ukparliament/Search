@@ -12,7 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 	ProjectSection(SolutionItems) = preProject
 		Deployment\ApplicationSettingRetrieval.ps1 = Deployment\ApplicationSettingRetrieval.ps1
 		Deployment\AppService.json = Deployment\AppService.json
-		Deployment\SearchAPISettings.ps1 = Deployment\SearchAPISettings.ps1
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Search", "Search\Search.csproj", "{1ADA39AC-2A09-4AB5-A960-8B37E71AE12B}"
