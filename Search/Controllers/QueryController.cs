@@ -1,12 +1,12 @@
 ﻿namespace Search
 {
     using System;
-    using System.IO;
+    using System.Collections.Generic;
     using System.Linq;
     using System.ServiceModel.Syndication;
-    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
+    using Microsoft.ApplicationInsights;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Formatters;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -19,12 +19,14 @@
         private readonly IEngine engine;
         private readonly MvcOptions options;
         private readonly OutputFormatterSelector selector;
+        private readonly TelemetryClient telemetry;
 
-        public QueryController(IEngine engine, IOptions<MvcOptions> options, OutputFormatterSelector selector)
+        public QueryController(IEngine engine, IOptions<MvcOptions> options, OutputFormatterSelector selector, TelemetryClient telemetry)
         {
             this.engine = engine;
             this.options = options.Value;
             this.selector = selector;
+            this.telemetry = telemetry;
         }
 
         [HttpGet("query")]
@@ -84,13 +86,19 @@
 
             item.ElementExtensions.Add(hintsExtension);
 
-            //foreach (var hint in hintsExtension.Hints)
-            //{
-            //this.telemetryClient.TrackEvent("HintMatch", new Dictionary<string, string> {
-            //    { "Hints", hint.Label },
-            //    { "URL", uri.ToString() }
-            //}, new Dictionary<string, double> { { "HintsMatchedPerItem", hintsExtension.Hints.Count() } });
-            //}
+            foreach (var hint in hintsExtension.Hints)
+            {
+                this.telemetry.TrackEvent(
+                    "HintMatch",
+                    new Dictionary<string, string> {
+                        { "Hints", hint.Label },
+                        { "URL", uri.ToString() }
+                    },
+                    new Dictionary<string, double> {
+                        { "HintsMatchedPerItem", hintsExtension.Hints.Count() }
+                    }
+                );
+            }
         }
 
         private HintsExtension ProcessUri(Uri uri)
