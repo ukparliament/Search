@@ -32,16 +32,10 @@
         "description": "Value of the Bing API key."
       }
     },
-    "useBingEngine": {
-      "type": "bool",
+    "engineName": {
+      "type": "string",
       "metadata": {
-        "description": "Choice to use Bing search engine."
-      }
-    },
-    "useMockEngine": {
-      "type": "bool",
-      "metadata": {
-        "description": "Choice to use mock search engine."
+        "description": "Name of the search engine."
       }
     },
     "apiManagementIP": {
@@ -131,11 +125,8 @@
           ],
           "properties": {
             "WEBSITE_NODE_DEFAULT_VERSION": "6.9.1",
-            "ApplicationInsightsInstrumentationKey": "[reference(resourceId(subscription().subscriptionId,parameters('operationsResourceGroupName'),'Microsoft.Insights/Components',parameters('applicationInsightsName')),'2014-04-01').InstrumentationKey]",
-            "BingApiKey": "[parameters('bingApiKey')]",
-            "UseBingEngine": "[parameters('useBingEngine')]",
-            "UseMockEngine": "[parameters('useMockEngine')]",
-            "ApiManagementServiceUrl": "https://api.parliament.uk/"
+            "Engine": "[parameters('engineName')]",
+            "BingEngine__SubscriptionKey": "[parameters('bingApiKey')]"
           }
         }
       ],
