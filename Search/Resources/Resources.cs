@@ -5,8 +5,10 @@
     using System.Linq;
     using System.Reflection;
     using System.Xml.Linq;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
+    using Microsoft.OpenApi.Any;
+    using Microsoft.OpenApi.Exceptions;
+    using Microsoft.OpenApi.Models;
+    using Microsoft.OpenApi.Readers;
 
     public static class Resources
     {
@@ -21,23 +23,24 @@
             }
         }
 
-        public static JObject OpenApiDocument
+        public static OpenApiDocument OpenApiDocument
         {
             get
             {
                 using (var stream = Resources.GetStream("Search.Resources.OpenApiDocumentTemplate.json"))
                 {
-                    using (var reader = new StreamReader(stream))
-                    {
-                        using (var jsonReader = new JsonTextReader(reader))
-                        {
-                            dynamic document = JObject.Load(jsonReader);
-                            document.components.responses.searchResponse.content = new JObject(Configuration.Mappings.Select(m => new JProperty(m.MediaType, new JObject())));
-                            document.paths["/query.{extension}"].get.parameters[0].schema["enum"] = new JArray(Configuration.Mappings.Select(m => m.Extension));
+                    var reader = new OpenApiStreamReader();
+                    var document = reader.Read(stream, out var diagnostic);
 
-                            return document;
-                        }
+                    if (diagnostic.Errors.Any())
+                    {
+                        throw new OpenApiException(diagnostic.Errors.First().Message);
                     }
+
+                    document.Components.Responses["searchResponse"].Content = Configuration.QueryMappings.ToDictionary(m => m.MediaType, m => new OpenApiMediaType());
+                    document.Paths["/query.{extension}"].Operations[OperationType.Get].Parameters[0].Schema.Enum = Configuration.QueryMappings.Select(m => new OpenApiString(m.Extension) as IOpenApiAny).ToList();
+
+                    return document;
                 }
             }
         }

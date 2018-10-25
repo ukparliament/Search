@@ -1,5 +1,6 @@
 ﻿namespace SearchTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net.Http;
@@ -7,6 +8,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc.Testing;
     using Microsoft.Extensions.Configuration;
+    using Microsoft.OpenApi;
     using Microsoft.OpenApi.Readers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Search;
@@ -17,9 +19,20 @@
         private static WebApplicationFactory<Startup> factory;
         private static HttpClient client;
 
-        public static IEnumerable<object[]> ExtensionMappings => Configuration.Mappings.Select(m => new[] { m.Extension, m.MediaType });
+        public static IEnumerable<object[]> ExtensionMappings => Configuration.QueryMappings.Select(m => new[] { m.Extension, m.MediaType });
 
-        public static IEnumerable<object[]> MediaTypes => Configuration.Mappings.Select(m => new[] { m.MediaType });
+        public static IEnumerable<object[]> MediaTypes => Configuration.QueryMappings.Select(m => new[] { m.MediaType });
+
+        public static IEnumerable<object[]> OpenApiExtensions
+        {
+            get
+            {
+                var noExtension = new[] { string.Empty };
+                var allowedExtensions = Enum.GetNames(typeof(OpenApiFormat)).Select(name => $".{name.ToLower()}");
+
+                return noExtension.Union(allowedExtensions).Select(e => (new[] { e }));
+            }
+        }
 
         [ClassInitialize]
         public static void Initialize(TestContext context)
@@ -42,9 +55,10 @@
         }
 
         [TestMethod]
-        public async Task OpenApi_endpoint_works()
+        [DynamicData(nameof(OpenApiExtensions))]
+        public async Task OpenApi_endpoint_works(string extension)
         {
-            using (var response = await client.GetAsync("/openapi.json"))
+            using (var response = await client.GetAsync($"/openapi{extension}"))
             {
                 var reader = new OpenApiStreamReader();
 

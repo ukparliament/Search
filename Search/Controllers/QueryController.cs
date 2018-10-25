@@ -1,10 +1,8 @@
 ﻿namespace Search
 {
     using System;
-    using System.IO;
     using System.Linq;
     using System.ServiceModel.Syndication;
-    using System.Text;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
@@ -28,7 +26,7 @@
         }
 
         [HttpGet("query")]
-        [HttpGet("query.{format:extension}", Name = "QueryWithExtension")]
+        [HttpGet("query.{format:query}", Name = "QueryWithExtension")]
         [FormatFilter]
         public async Task<ActionResult> Get(QueryParameters parameters)
         {

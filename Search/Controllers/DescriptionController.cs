@@ -31,7 +31,7 @@
                 Template = this.Url.Link("Description", null)
             });
 
-            foreach (var mapping in Configuration.Mappings)
+            foreach (var mapping in Configuration.QueryMappings)
             {
                 description.Urls.Add(new Url
                 {
