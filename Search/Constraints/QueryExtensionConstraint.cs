@@ -4,13 +4,13 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Routing;
 
-    internal class ExtensionConstraint : IRouteConstraint
+    internal class QueryExtensionConstraint : IRouteConstraint
     {
         public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
             var extension = values[routeKey] as string;
 
-            return Configuration.Mappings.Any(mapping => mapping.Extension == extension);
+            return Configuration.QueryMappings.Any(mapping => mapping.Extension == extension);
         }
     }
 }

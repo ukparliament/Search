@@ -19,7 +19,7 @@
     "responses": {
       "searchResponse": {
         "description": "Search results",
-        "content": null
+        "content": {}
       }
     },
     "parameters": {
@@ -105,7 +105,7 @@
             "required": true,
             "schema": {
               "type": "string",
-              "enum": null
+              "enum": []
             }
           },
           { "$ref": "#/components/parameters/q" },
