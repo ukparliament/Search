@@ -14,8 +14,7 @@
         {
             return WebHost
                 .CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .UseApplicationInsights();
+                .UseStartup<Startup>();
         }
     }
 }
