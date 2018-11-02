@@ -54,10 +54,14 @@
                 padding: 2px 4px;
                 background: silver;
             }
+
+        #q {
+            width: 1000px;
+        }
     </style>
     <script>
         window.addEventListener("load", function () {
-            document.getElementById("q").value = window.location.search.split("?")[1].split("=")[1];
+            document.getElementById("q").value = decodeURIComponent(window.location.search.split("?")[1].split("=")[1]).replace(/\+/g, " ");
         });
     </script>
 </head>

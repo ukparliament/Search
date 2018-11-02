@@ -102,14 +102,19 @@
             return new HintsExtension(
                 Resources
                     .Rules
-                    .Select(rule => new { Rule = rule, Match = Regex.Match(uri.AbsoluteUri, rule.Key) })
+                    .SelectMany(rule =>
+                        rule.Value.Select(pattern => new
+                        {
+                            Label = rule.Key,
+                            Match = Regex.Match(uri.AbsoluteUri, pattern)
+                        }))
                     .Where(result => result.Match.Success)
                     .Select(result => new Hint
                     {
-                        Label = string.Format(result.Rule.Value, result.Match.Groups.Cast<Group>().Select(group => group.Value).ToArray()),
+                        Label = string.Format(result.Label, result.Match.Groups.Cast<Group>().Select(group => group.Value).ToArray()),
                         Filter = result.Match.Groups["filter"].Value
                     })
-            );
+                );
         }
     }
 }

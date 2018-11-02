@@ -12,13 +12,13 @@
 
     public static class Resources
     {
-        public static Dictionary<string, string> Rules
+        public static Dictionary<string, IEnumerable<string>> Rules
         {
             get
             {
                 using (var stream = Resources.GetStream("Search.Resources.Rules.xml"))
                 {
-                    return XDocument.Load(stream).Descendants("Rule").ToDictionary(el => el.Element("Pattern").Value, el => el.Element("Label").Value);
+                    return XDocument.Load(stream).Descendants("Rule").ToDictionary(el => el.Element("Label").Value, el => el.Elements("Pattern").Select(pattern => pattern.Value));
                 }
             }
         }

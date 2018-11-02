@@ -6,8 +6,8 @@
         <xs:element name="Rule" maxOccurs="unbounded" minOccurs="0">
           <xs:complexType>
             <xs:sequence>
-              <xs:element name="Pattern" type="NonEmptyString"/>
               <xs:element name="Label" type="NonEmptyString"/>
+              <xs:element name="Pattern" type="NonEmptyString" maxOccurs="unbounded"/>
             </xs:sequence>
           </xs:complexType>
         </xs:element>

@@ -11,7 +11,7 @@ namespace SearchTests
     [TestClass]
     public class RulesTests
     {
-        public static IEnumerable<object[]> Patterns => Resources.Rules.Select(rule => new[] { rule.Key });
+        public static IEnumerable<object[]> Patterns => Resources.Rules.SelectMany(rule => rule.Value).Select(pattern => new[] { pattern });
 
         [TestMethod]
         public void Rules_file_is_valid()
