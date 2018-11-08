@@ -38,7 +38,7 @@
   </Rule>
   <Rule>
     <Label>bills</Label>
-    <Pattern>services\.parliament\.uk/bills</Pattern>
+    <Pattern>services\.parliament\.uk/[Bb]ills</Pattern>
     <Pattern>publications\.parliament\.uk/pa/bills</Pattern>
   </Rule>
   <Rule>
@@ -57,6 +57,8 @@
     <Label>committee</Label>
     <Pattern>parliament\.uk/business/committees</Pattern>
     <Pattern>publications\.parliament\.uk/.+/jtselect</Pattern>
+    <Pattern>parliament\.uk/homeaffairscom</Pattern>
+    <Pattern>parliament\.uk/workpencom</Pattern>
   </Rule>
   <Rule>
     <Label>Commons committee document</Label>
@@ -66,6 +68,7 @@
     <Label>Commons publication</Label>
     <Pattern>publications\.parliament\.uk/pa/cm(\d{4})(\d{2})</Pattern>
     <Pattern>publications\.parliament\.uk/pa/cm/</Pattern>
+    <Pattern>publications\.parliament\.uk/pa/spconf/</Pattern>
   </Rule>
   <Rule>
     <Label>dataset</Label>
@@ -74,6 +77,7 @@
   <Rule>
     <Label>deposited papers</Label>
     <Pattern>data\.parliament\.uk/depositedpapers</Pattern>
+    <Pattern>(?i)parliament\.uk/depositedpapers</Pattern>
   </Rule>
   <Rule>
     <Label>early day motion</Label>
@@ -115,6 +119,7 @@
   <Rule>
     <Label>how Parliament works</Label>
     <Pattern>parliament\.uk/about/how</Pattern>
+    <Pattern>parliament\.uk/about/faqs</Pattern>
   </Rule>
   <Rule>
     <Label>jobs</Label>
@@ -127,6 +132,7 @@
   <Rule>
     <Label>Living Heritage</Label>
     <Pattern>parliament\.uk/about/living-heritage</Pattern>
+    <Pattern>parliament\.uk/slavetrade</Pattern>
   </Rule>
   <Rule>
     <Label>Lords</Label>
@@ -172,7 +178,7 @@
   </Rule>
   <Rule>
     <Label>Parliamentary Digital Service Blog</Label>
-    <Pattern>pds\.Blog\.parliament\.uk</Pattern>
+    <Pattern>pds\.[Bb]log\.parliament\.uk</Pattern>
   </Rule>
   <Rule>
     <Label>petition</Label>
