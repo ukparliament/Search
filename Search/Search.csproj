@@ -13,19 +13,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.WebSearch" Version="1.2.0" />
-    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.1.1" />
-    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.WebSearch" Version="2.0.0" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.1.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="4.0.1" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="4.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Views\_ViewStart.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Shared\Layout.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
   </ItemGroup>
 
 </Project>

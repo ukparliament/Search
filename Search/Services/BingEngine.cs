@@ -39,7 +39,7 @@
 
         private async Task<Bing.WebWebAnswer> QueryBing(string searchTerms, int startIndex, int count)
         {
-            using (var client = new WebSearchAPI(new ApiKeyServiceClientCredentials(this.configuration.SubscriptionKey)))
+            using (var client = new WebSearchClient(new ApiKeyServiceClientCredentials(this.configuration.SubscriptionKey)))
             {
                 var query = string.Format("site:parliament.uk {0}", searchTerms);
                 var filter = new List<string> { "Webpages" };
