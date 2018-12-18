@@ -1,106 +1,72 @@
 ﻿@using Search
 @using System.ServiceModel.Syndication
 @model OpenSearch.Feed
-<html>
-<head>
-    <title>@Model.Title.Text</title>
-    <style>
-        * {
-            font-style: normal;
-            font-family: sans-serif;
-            padding: 0;
-            margin: 0;
-        }
 
-        body {
-            max-width: 600px;
-            padding: 20px;
-        }
+@{
+    ViewBag.Title = Model.Title.Text;
+    ViewBag.Query = Model.Queries[0].SearchTerms;
+}
 
-        form {
-            margin-top: 20px;
-        }
+<div class="section--primary">
+    <div class="container">
+        <small>api.parliament.uk</small>
+        <h1>Search results for</h1>
+        <form>
+            <div class="input-group">
+                <label class="sr-only" for="search_box">Enter a keyword</label>
+                <input value="@ViewBag.Query" id="search_box" maxlength="1000" name="q" pattern="^(?!.*<script|<Script).*$" aria-label="enter a search term" autocomplete="off" required="" type="search">
+                <button aria-label="submit search" class="btn--white" type="submit">
+                    <svg aria-hidden="true" data-icon="search" height="20" viewBox="0 0 20 20" width="20" xmlns="http://www.w3.org/2000/svg"><title>Search icon</title><g fill="#fff"><path d="M7.5 15C3.4 15 0 11.6 0 7.5 0 3.4 3.4 0 7.5 0 11.6 0 15 3.4 15 7.5 15 11.6 11.6 15 7.5 15ZM7.5 13C10.5 13 13 10.5 13 7.5 13 4.5 10.5 2 7.5 2 4.5 2 2 4.5 2 7.5 2 10.5 4.5 13 7.5 13Z"></path><polygon points="14.8 10.8 16.8 10.8 16.8 20.8 14.8 20.8" transform="translate(15.778175 15.778175)rotate(-45)translate(-15.778175 -15.778175)"></polygon></g></svg>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<section id="content">
+    <div class="container">
+        @if (Model.Items.Any())
+        {
+            <h2>
+                <span>About @Model.TotalResults results</span>
+            </h2>
+            <ol class="list--block">
+                @foreach (var item in Model.Items)
+                {
+                    var link = item.Links.Single();
+                    var hints = item.ElementExtensions.OfType<HintsExtension>().SingleOrDefault()?.Hints;
 
-        ol li {
-            margin-top: 20px;
-            list-style: none;
-        }
+                    <li>
+                        <div class="card">
+                            <div class="card__details">
+                                <h2>
+                                    <a href="@link.Uri">@Html.Raw(item.Title.Text)</a>
+                                </h2>
 
-        h2 {
-            font-weight: normal;
-        }
+                                <ul class="list--inline">
+                                    @if (!(hints is null))
+                                    {
+                                        @foreach (var hint in hints)
+                                        {
+                                            <li>
+                                                <span class="hint theme--grey-4 ">@hint.Label</span>
+                                            </li>
+                                        }
+                                    }
+                                    <li>
+                                        <span class="url">@Html.Raw(link.Title)</span>
+                                    </li>
+                                </ul>
+                                <p>@Html.Raw(((TextSyndicationContent)item.Content).Text)</p>
 
-        a {
-            color: #1a0dab;
+                            </div>
+                        </div>
+                    </li>
+                }
+            </ol>
         }
-
-        p {
-            margin-top: 10px;
+        else
+        {
+            <h2>There are no results for your search</h2>
         }
-
-        cite {
-            display: block;
-            margin-top: 10px;
-            color: #006621;
-            font-size: small;
-        }
-
-        ul {
-            margin-top: 10px;
-        }
-
-            ul li {
-                display: inline;
-                padding: 2px 4px;
-                background: silver;
-            }
-
-        #q {
-            width: 1000px;
-        }
-    </style>
-    <script>
-        window.addEventListener("load", function () {
-            document.getElementById("q").value = decodeURIComponent(window.location.search.split("?")[1].split("=")[1]).replace(/\+/g, " ");
-        });
-    </script>
-</head>
-<body>
-    <h1>@Model.Title.Text</h1>
-    <form method="get">
-        <label for="q">search term</label>
-        <input id="q" name="q" />
-        <input type="submit" />
-    </form>
-    @if (Model.Items.Any())
-    {
-        <ol>
-            @foreach (var item in Model.Items)
-            {
-                var link = item.Links.Single();
-                var hints = item.ElementExtensions.OfType<HintsExtension>().SingleOrDefault()?.Hints;
-                <li>
-                    <h2>
-                        <a href="@link.Uri">@Html.Raw(item.Title.Text)</a>
-                    </h2>
-                    @if (!(hints is null))
-                    {
-                        <ul>
-                            @foreach (var hint in hints)
-                            {
-                                <li>@hint.Label</li>
-                            }
-                        </ul>
-                    }
-                    <cite>@Html.Raw(link.Title)</cite>
-                    <p>@Html.Raw(((TextSyndicationContent)item.Content).Text)</p>
-                </li>
-            }
-        </ol>
-    }
-    else
-    {
-        <p>No results</p>
-    }
-</body>
-</html>
+    </div>
+</section>
