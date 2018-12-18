@@ -15,6 +15,11 @@
     "version": "Live",
     "x-TODO-termsOfService": null
   },
+  "servers": [
+    {
+      "url": "https://api.parliament.uk/search"
+    }
+  ],
   "components": {
     "responses": {
       "searchResponse": {
