@@ -70,7 +70,3 @@ Authors/contributors to this project in alphabetical order:
 * Robert Brook
 * Samu Lang
 * Wojciech Starwiarski
-
-## Licence
-
-This project is licenced under the [Open Parliament Licence](https://www.parliament.uk/site-information/copyright-parliament/open-parliament-licence/).
