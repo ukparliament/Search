@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AdditionalFiles Include="stylecop.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="Resources\OpenApiDocumentTemplate.json" />
     <EmbeddedResource Include="Resources\Rules.xml" />
     <EmbeddedResource Include="Resources\Rules.xsd" />
@@ -15,6 +19,10 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Azure.CognitiveServices.Search.WebSearch" Version="2.0.0" />
     <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.1.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="4.0.1" />
     <PackageReference Include="System.ServiceModel.Syndication" Version="4.5.0" />
   </ItemGroup>
