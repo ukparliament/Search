@@ -49,6 +49,13 @@
         "schema": {
           "type": "number"
         }
+      },
+      "subdomains": {
+        "name": "subdomains",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
       }
     }
   },
@@ -88,7 +95,8 @@
         "parameters": [
           { "$ref": "#/components/parameters/q" },
           { "$ref": "#/components/parameters/start" },
-          { "$ref": "#/components/parameters/count" }
+          { "$ref": "#/components/parameters/count" },
+          { "$ref": "#/components/parameters/subdomains" }
         ],
         "responses": {
           "200": { "$ref": "#/components/responses/searchResponse" }
@@ -116,7 +124,8 @@
           },
           { "$ref": "#/components/parameters/q" },
           { "$ref": "#/components/parameters/start" },
-          { "$ref": "#/components/parameters/count" }
+          { "$ref": "#/components/parameters/count" },
+          { "$ref": "#/components/parameters/subdomains" }
         ],
         "responses": {
           "200": { "$ref": "#/components/responses/searchResponse" }

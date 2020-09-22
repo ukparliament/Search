@@ -28,14 +28,14 @@ namespace Search
             this.configuration = configuration.GetSection("BingEngine").Get<BingConfiguration>();
         }
 
-        public async Task<Feed> Query(string searchTerms, int startIndex, int count)
+        public async Task<Feed> Query(string searchTerms, int startIndex, int count, string subdomains)
         {
             if (count > 50)
             {
                 throw new ArgumentOutOfRangeException(nameof(count), count, "max 50");
             }
 
-            var result = await this.QueryBing(searchTerms, startIndex, count);
+            var result = await this.QueryBing(searchTerms, startIndex, count, subdomains);
 
             if (result == null)
             {
@@ -47,11 +47,49 @@ namespace Search
             return Response.ConvertToOpenSearchResponse(items, (int)result.TotalEstimatedMatches, searchTerms, startIndex, count);
         }
 
-        private async Task<Bing.WebWebAnswer> QueryBing(string searchTerms, int startIndex, int count)
+        private async Task<Bing.WebWebAnswer> QueryBing(string searchTerms, int startIndex, int count, string subdomains)
         {
             using (var client = new WebSearchClient(new ApiKeyServiceClientCredentials(this.configuration.SubscriptionKey)))
             {
-                var query = string.Format("site:parliament.uk {0}", searchTerms);
+                string query = null;
+                if (subdomains == null)
+                {
+                    query = string.Format("site:parliament.uk {0}", searchTerms);
+                }
+                else
+                {
+                    string[] sites = subdomains.Trim().Split(',');
+                    query = searchTerms;
+                    int index = 0;
+                    foreach (var site in sites)
+                    {
+                        if (!site.ToLower().EndsWith("parliament.uk"))
+                        {
+                            if (index == (sites.Length - 1))
+                            {
+                                query += string.Format(" site:{0}.parliament.uk", site);
+                            }
+                            else
+                            {
+                                query += string.Format(" site:{0}.parliament.uk OR ", site);
+                            }
+                        }
+                        else
+                        {
+                            if (index == (sites.Length - 1))
+                            {
+                                query += string.Format(" site:{0}", site);
+                            }
+                            else
+                            {
+                                query += string.Format(" site:{0} OR ", site);
+                            }
+                        }
+
+                        index++;
+                    }
+                }
+
                 var filter = new List<string> { "Webpages" };
                 var response = await client.Web.SearchAsync(
                     query,

@@ -15,6 +15,6 @@ namespace Search
 
     public interface IEngine
     {
-        Task<Feed> Query(string searchTerms, int startIndex, int count);
+        Task<Feed> Query(string searchTerms, int startIndex, int count, string subdomains);
     }
 }

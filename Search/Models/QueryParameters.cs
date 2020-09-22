@@ -24,5 +24,7 @@ namespace Search
         public int Count { get; set; } = 10;
 
         public string Format { get; set; }
+        [FromQuery(Name = "subdomains")]
+        public string subdomains { get; set; }
     }
 }
