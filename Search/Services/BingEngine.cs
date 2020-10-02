@@ -28,14 +28,14 @@ namespace Search
             this.configuration = configuration.GetSection("BingEngine").Get<BingConfiguration>();
         }
 
-        public async Task<Feed> Query(string searchTerms, int startIndex, int count, string subdomains)
+        public async Task<Feed> Query(string searchTerms, int startIndex, int count, string subdomains, string inUrlPrefixes)
         {
             if (count > 50)
             {
                 throw new ArgumentOutOfRangeException(nameof(count), count, "max 50");
             }
 
-            var result = await this.QueryBing(searchTerms, startIndex, count, subdomains);
+            var result = await this.QueryBing(searchTerms, startIndex, count, subdomains, inUrlPrefixes);
 
             if (result == null)
             {
@@ -47,7 +47,7 @@ namespace Search
             return Response.ConvertToOpenSearchResponse(items, (int)result.TotalEstimatedMatches, searchTerms, startIndex, count);
         }
 
-        private async Task<Bing.WebWebAnswer> QueryBing(string searchTerms, int startIndex, int count, string subdomains)
+        private async Task<Bing.WebWebAnswer> QueryBing(string searchTerms, int startIndex, int count, string subdomains, string inUrlPrefixes)
         {
             using (var client = new WebSearchClient(new ApiKeyServiceClientCredentials(this.configuration.SubscriptionKey)))
             {
@@ -58,14 +58,14 @@ namespace Search
                 }
                 else
                 {
-                    string[] sites = subdomains.Trim().Split(',');
+                    var sites = subdomains.Trim().Split(',').Select(site => site.Trim());
                     query = searchTerms;
                     int index = 0;
                     foreach (var site in sites)
                     {
-                        if (!site.ToLower().EndsWith("parliament.uk"))
+                        if (!site.ToLower().Contains("parliament.uk"))
                         {
-                            if (index == (sites.Length - 1))
+                            if (index == (sites.Count() - 1))
                             {
                                 query += string.Format(" site:{0}.parliament.uk", site);
                             }
@@ -76,7 +76,7 @@ namespace Search
                         }
                         else
                         {
-                            if (index == (sites.Length - 1))
+                            if (index == (sites.Count() - 1))
                             {
                                 query += string.Format(" site:{0}", site);
                             }
@@ -87,6 +87,35 @@ namespace Search
                         }
 
                         index++;
+                    }
+                }
+
+                if (inUrlPrefixes != null)
+                {
+                    var prefixes = inUrlPrefixes.Trim().Split(",").Select(prefix => prefix.Trim());
+                    if (prefixes.Count() == 1)
+                    {
+                        query += string.Format(" instreamset:url:{0})", prefixes.First());
+                    }
+                    else
+                    {
+                        int index = 0;
+                        string subQuery = " (";
+                        foreach (var prefix in prefixes)
+                        {
+                            if (index == (prefixes.Count() - 1))
+                            {
+                                subQuery += string.Format(" instreamset:url:{0})", prefix);
+                            }
+                            else
+                            {
+                                subQuery += string.Format(" instreamset:url:{0} OR ", prefix);
+                            }
+
+                            index++;
+                        }
+
+                        query += subQuery;
                     }
                 }
 

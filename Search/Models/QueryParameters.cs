@@ -26,5 +26,7 @@ namespace Search
         public string Format { get; set; }
         [FromQuery(Name = "subdomains")]
         public string subdomains { get; set; }
+        [FromQuery(Name = "inUrlPrefixes")]
+        public string inUrlPrefixes { get; set; }
     }
 }

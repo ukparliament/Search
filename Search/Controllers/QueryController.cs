@@ -40,7 +40,7 @@ namespace Search
         [FormatFilter]
         public async Task<ActionResult> Get(QueryParameters parameters)
         {
-            var responseFeed = await this.engine.Query(parameters.SearchTerms, parameters.StartIndex, parameters.Count, parameters.subdomains);
+            var responseFeed = await this.engine.Query(parameters.SearchTerms, parameters.StartIndex, parameters.Count, parameters.subdomains, parameters.inUrlPrefixes);
 
             this.ProcessFeed(responseFeed);
 

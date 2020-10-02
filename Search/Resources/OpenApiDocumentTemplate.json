@@ -56,6 +56,13 @@
         "schema": {
           "type": "string"
         }
+      },
+      "inUrlPrefixes": {
+        "name": "inUrlPrefixes",
+        "in": "query",
+        "schema": {
+          "type": "string"
+        }
       }
     }
   },
@@ -96,7 +103,8 @@
           { "$ref": "#/components/parameters/q" },
           { "$ref": "#/components/parameters/start" },
           { "$ref": "#/components/parameters/count" },
-          { "$ref": "#/components/parameters/subdomains" }
+          { "$ref": "#/components/parameters/subdomains" },
+          { "$ref": "#/components/parameters/inUrlPrefixes" }
         ],
         "responses": {
           "200": { "$ref": "#/components/responses/searchResponse" }
@@ -125,7 +133,8 @@
           { "$ref": "#/components/parameters/q" },
           { "$ref": "#/components/parameters/start" },
           { "$ref": "#/components/parameters/count" },
-          { "$ref": "#/components/parameters/subdomains" }
+          { "$ref": "#/components/parameters/subdomains" },
+          { "$ref": "#/components/parameters/inUrlPrefixes" }
         ],
         "responses": {
           "200": { "$ref": "#/components/responses/searchResponse" }

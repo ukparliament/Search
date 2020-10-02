@@ -18,7 +18,7 @@ namespace Search
 
     public class MockEngine : IEngine
     {
-        public async Task<Feed> Query(string searchTerms, int startIndex, int count, string subdomains)
+        public async Task<Feed> Query(string searchTerms, int startIndex, int count, string subdomains, string inUrlPrefixes)
         {
             var random = new Random();
 
